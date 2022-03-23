@@ -1,0 +1,124 @@
+import React, { useState } from 'react'
+import TextField from '@mui/material/TextField';
+import { useStylesAuth } from '../../pages/Auth/theme';
+import DialogActions from '@mui/material/DialogActions';
+import { ModalBlock } from '../../components/Modal';
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { FetchSignIn, setUserLoadingState } from '../../store/ducks/user/actions';
+import { selectData, selectLoadingState } from '../../store/ducks/user/selectors';
+import { LoadingState } from '../../store/ducks/user/contracts/state';
+import { useNavigate } from 'react-router-dom';
+
+interface SigninProps {
+    open: boolean;
+    onClose: () => void;
+}
+
+export interface LoginFormProps {
+    username: string
+    password: string
+}
+
+
+const LoginFormSchema = yup.object({
+    username: yup.string().required('Введите имя'),
+    password: yup.string().min(6).required(),
+}).required();
+
+const Signin = ({ open, onClose }: SigninProps) => {
+    const classes = useStylesAuth()
+    const dispatch = useDispatch()
+    let navigate = useNavigate();
+    const data = useSelector(selectData)
+    const loadingData = useSelector(selectLoadingState)
+
+
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormProps>({
+        resolver: yupResolver(LoginFormSchema)
+    });
+
+    const [snackbarState, setSnackbarState] = useState<{ text: string, type: 'error' | 'success' }>()
+
+    const onSubmit = (data: LoginFormProps) => {
+        dispatch(FetchSignIn({ username: data.username, password: data.password }))
+    };
+
+    const handleClose = () => {
+        dispatch(setUserLoadingState(LoadingState.NEVER))
+    }
+
+
+
+    React.useEffect(() => {
+        if (loadingData === LoadingState.SUCCESS) {
+            setSnackbarState({ text: 'авторизация успешно пройдена', type: 'success' })
+        }
+        else if (loadingData === LoadingState.ERROR) {
+            setSnackbarState({ text: 'авторизация неуспешна', type: 'error' })
+        }
+       
+    }, [loadingData])
+
+    React.useEffect(() => {
+        return () => {
+            dispatch(setUserLoadingState(LoadingState.NEVER))
+        }
+    }, [])
+
+
+    return (
+        <ModalBlock title="Вход в Твиттер" onClose={onClose} visible={open}>
+            <Snackbar open={loadingData === LoadingState.ERROR || loadingData === LoadingState.SUCCESS} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                <Alert onClose={handleClose} severity={snackbarState?.type} sx={{ width: '100%' }}>
+                    {snackbarState?.text}
+                </Alert>
+            </Snackbar>
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Email Address"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    error={!!errors.username}
+                    {...register("username")}
+                />
+                <p>{errors.username?.message}</p>
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="password"
+                    label="password"
+                    type="password"
+                    fullWidth
+                    variant="outlined"
+                    error={!!errors.password}
+                    {...register("password")}
+                />
+                <p>{errors.password?.message}</p>
+                <DialogActions>
+                    <LoadingButton
+                        loading={loadingData === LoadingState.LOADING}
+                        type="submit"
+                        size="small"
+                        variant="contained"
+                        fullWidth
+                    >
+                        Войти
+                              </LoadingButton>
+                </DialogActions>
+            </form>
+        </ModalBlock>
+    )
+}
+
+export default Signin
