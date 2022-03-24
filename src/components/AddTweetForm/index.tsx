@@ -20,6 +20,7 @@ import { useStylesAddForm } from './theme'
 import CloseIcon from '@mui/icons-material/Close';
 import { uploadImage } from '../../utils/uploadImage';
 import Picker from 'emoji-picker-react';
+import ImgList from '../imgList';
 
 
 interface AddTweetFormProps {
@@ -61,17 +62,17 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
         dispatch(setAddFormLoadingState(AddFormState.LOADING))
         let result = []
         for (let i = 0; i < images.length; i++) {
-            const file= images[i].file
+            const file = images[i].file
             const { url } = await uploadImage(file)
             result.push(url)
         }
-        dispatch(fetchAddTweet({text: Textarea, images: result}))
+        dispatch(fetchAddTweet({ text: Textarea, images: result }))
         setTextarea('')
         images.length = 0
     }
 
     const onEmojiClick = (_, emojiObject) => {
-        setTextarea(prevInput => prevInput +  emojiObject.emoji)
+        setTextarea(prevInput => prevInput + emojiObject.emoji)
         setShowPicker(false)
     }
 
@@ -79,7 +80,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
     return (
         <Box >
             <Box className={classes.addTweetForm}>
-               
+
                 <Avatar alt="K N" src="/static/images/avatar/1.jpg" />
                 <div className={classes.tweetHeaderForm}>
                     <TextareaAutosize
@@ -90,23 +91,10 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                         maxRows={maxRows}
                         onChange={handleChange}
                         value={Textarea}
+                        required
                     />
-
-                    <div className={classes.ImagesList}>
-                        {images.map((obj, i) => {
-                            return (
-                                <>
-                                    <div key={obj.url} className={classes.image} style={{ backgroundImage: `url(${obj.url})` }}>
-                                        <IconButton color="inherit" className={classes.closeIcon} onClick={() => removeImg(obj.url)}>
-                                            <CloseIcon />
-                                        </IconButton>
-                                    </div>
-                                </>
-                            )
-                        })}
-                    </div>
-
-                    <Box className={classes.tweetHeaderFormActions} style={{position: 'relative'}}>
+                    {images && <ImgList images={images} setImages={setImages} edit />}
+                    <Box className={classes.tweetHeaderFormActions} style={{ position: 'relative' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <UploadImage setImages={setImages} />
                             <IconButton color="primary">
@@ -157,7 +145,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                     </Box>
                 </div>
             </Box>
-            {addFormState === AddFormState.ERROR && <Alert severity="error">Ошибка при добавлении твита :(</Alert>}
+            {addFormState === AddFormState.ERROR && <Alert severity="error" sx={{ marginTop: '10px' }}>Ошибка при добавлении твита :(</Alert>}
         </Box>
     )
 }

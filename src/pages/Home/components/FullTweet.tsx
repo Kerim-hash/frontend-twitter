@@ -18,6 +18,7 @@ import Box from '@mui/material/Box';
 import format from 'date-fns/format';
 import ruLand from 'date-fns/locale/ru'
 import { TweetStyle } from '../../../components/Tweet/style'
+import ImgList from '../../../components/imgList'
 
 
 export const FullTweet: React.FC = (): React.ReactElement | null  => {
@@ -39,6 +40,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null  => {
     if (!tweetData || !loaded) {
         return <div style={{ textAlign: 'center', marginTop: 50 }}><CircularProgress disableShrink /></div> 
     }
+    console.log(tweetData)
     return (
         <>
            <Paper variant="outlined" className={classNames(classes.tweet)}>
@@ -52,6 +54,10 @@ export const FullTweet: React.FC = (): React.ReactElement | null  => {
                         <p className={classes.tweetFullDescription} >
                             {tweetData.text}
                         </p>
+
+
+                        {tweetData.images && <ImgList images={tweetData.images} />}
+
                         <Box display="flex" >
                         <Typography variant="body1" color={'#7F8C95'}>{format(new Date(tweetData.createdAt), 'H:mm', {locale: ruLand})}</Typography>
                         <Typography variant="body1" color={'#7F8C95'}>{format(new Date(tweetData.createdAt), 'dd MMM yyyy г.', {locale: ruLand})}</Typography>

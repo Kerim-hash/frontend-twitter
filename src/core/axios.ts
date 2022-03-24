@@ -5,7 +5,7 @@ const get_token = () => {
 }
 
 export const istance = axios.create({
-    baseURL: `http://localhost:8080`,
+    baseURL: `https://twitter-2022.herokuapp.com`,
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json; charset=UTF-8",

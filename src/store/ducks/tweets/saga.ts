@@ -1,5 +1,5 @@
 import {  call, put, takeLatest } from 'redux-saga/effects'
-import { TweetsActionType, setTweetLoadingState, setTweets, AddTweet, fetchAddTweetActionInterface, setAddFormLoadingState, FetchactionInterface, FetchDeleteTweerInterface, deleteTweet, FetchLikeTweetsactionInterface } from './actionCreators'
+import { TweetsActionType, setTweetLoadingState, setTweets, AddTweet, fetchAddTweetActionInterface, setAddFormLoadingState, FetchactionInterface, FetchDeleteTweerInterface, deleteTweet, FetchLikeTweetsactionInterface, setLikeState } from './actionCreators'
 import { TweetsApi } from '../../../services/api/tweetApi'
 import { AddFormState, LoadingState, Tweet, TweetsState } from './contracts/state'
 
@@ -33,15 +33,12 @@ export function* DeleteTweetRequest({payload: TweetId}: FetchDeleteTweerInterfac
   }
 }
 
-export function* LikeToggleRequest({payload: TweetId}: FetchLikeTweetsactionInterface ) {
+export function* LikeToggleRequest({payload}: FetchLikeTweetsactionInterface ) {
   try{
-    const data = yield call(TweetsApi.likeToggleTweet, TweetId)
-    alert('ura')
-    // yield put(deleteTweet(TweetId))
-    // yield put(setAddFormLoadingState(AddFormState.SUCCESS))
+    const data = yield call(TweetsApi.likeToggleTweet, payload)
+     yield put(setLikeState({data, payload})) 
   }catch(e){
-    alert('ne ura')
-    // yield put(setAddFormLoadingState(AddFormState.ERROR))
+    // yield put(setLikeState(LikedState.NEVER))
   }
 }
 

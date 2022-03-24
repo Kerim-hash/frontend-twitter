@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { AddFormState, LoadingState, Tweet, TweetsState } from "./contracts/state";
+import { AddFormState, LoadingState, Tweet, TweetsState, } from "./contracts/state";
 
 export enum TweetsActionType {
     SET_TWEETS = "tweets/SET_TWEETS",
@@ -8,6 +8,7 @@ export enum TweetsActionType {
     FETCH_ADD_TWEET = "tweets/FETCH_ADD_TWEET",
     ADD_TWEET = "tweets/ADD_TWEET",
     SET_ADD_FORM_STATE = "tweets/SET_ADD_FORM_STATE",
+    SET_LIKE_STATE = "tweets/SET_LIKE_STATE",
     DELETE_TWEET = "tweet/DELETE_TWEET",
     FETCH_DELETE_TWEET = "tweet/FETCH_DELETE_TWEET",
     FETCH_LIKE_TOGGLE = "tweet/FETCH_LIKE_TOGGLE",
@@ -38,6 +39,11 @@ export interface SetAddFormLoadinfStateActionInterface extends Action<TweetsActi
     payload: AddFormState
 }
 
+export interface SetLikeStateActionInterface extends Action<TweetsActionType> {
+    type: TweetsActionType.SET_LIKE_STATE,
+    payload: any
+}
+
 export interface DeleteTweerInterface extends Action<TweetsActionType> {
     type: TweetsActionType.DELETE_TWEET,
     payload: string
@@ -56,7 +62,7 @@ export interface FetchactionInterface extends Action<TweetsActionType> {
 
 export interface FetchLikeTweetsactionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.FETCH_LIKE_TOGGLE,
-    payload?: string
+    payload?: {id: string, userID: string}
 }
 
 
@@ -89,6 +95,11 @@ export const setAddFormLoadingState = (payload: AddFormState): SetAddFormLoadinf
 
 })
 
+export const setLikeState = (payload: any): SetLikeStateActionInterface => ({
+    type: TweetsActionType.SET_LIKE_STATE,
+    payload
+})
+
 export const fetchTweets = (payload?: string): FetchactionInterface => ({
     type: TweetsActionType.FETCH_TWEETS,
     payload
@@ -103,7 +114,7 @@ export const fetchDeleteTweet = (payload: string): FetchDeleteTweerInterface => 
     payload
 })
 
-export const fetchLikeToggleTweet = (payload: string): FetchLikeTweetsactionInterface => ({
+export const fetchLikeToggleTweet = (payload: {id: string, userID: string}): FetchLikeTweetsactionInterface => ({
     type: TweetsActionType.FETCH_LIKE_TOGGLE,
     payload
 })
@@ -116,4 +127,5 @@ export type TweetsActions = DeleteTweerInterface |
     fetchAddTweetActionInterface |
     AddTweetActionInterface |
     SetAddFormLoadinfStateActionInterface |
-    FetchLikeTweetsactionInterface
+    FetchLikeTweetsactionInterface | 
+    SetLikeStateActionInterface

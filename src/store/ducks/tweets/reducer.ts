@@ -5,7 +5,7 @@ import { LoadingState, TweetsState, AddFormState } from './contracts/state'
 export const initialTweetState: TweetsState = {
     items: [],
     loadingState: LoadingState.NEVER,
-    addFormState: AddFormState.NEVER 
+    addFormState: AddFormState.NEVER
 }
 
 
@@ -18,22 +18,27 @@ export const tweetsReducer = produce((draft: Draft<TweetsState>, action: TweetsA
         case TweetsActionType.FETCH_TWEETS:
             draft.items = []
             draft.loadingState = LoadingState.LOADING
-            break 
+            break
         case TweetsActionType.SET_LOADING_STATE:
-            draft.loadingState  =  action.payload
-            break 
-        case TweetsActionType.FETCH_ADD_TWEET :
+            draft.loadingState = action.payload
+            break
+        case TweetsActionType.FETCH_ADD_TWEET:
             draft.addFormState = AddFormState.LOADING
-            break 
-        case TweetsActionType.SET_ADD_FORM_STATE :
+            break
+        case TweetsActionType.SET_ADD_FORM_STATE:
             draft.addFormState = action.payload
-            break 
+            break
         case TweetsActionType.ADD_TWEET:
-            draft.items.unshift(action.payload) 
+            draft.items.unshift(action.payload)
             draft.addFormState = AddFormState.NEVER
-            break 
+            break
         case TweetsActionType.DELETE_TWEET:
             draft.items = draft.items.filter(obj => obj._id !== action.payload)
-            break 
-        }
-}, initialTweetState) 
+            break
+        case TweetsActionType.SET_LIKE_STATE:
+            if (action.payload) {
+                 action.payload.data.liked ? draft.items.find(obj => obj._id === action.payload.payload.id).likes.push(action.payload.payload.userID) : draft.items.find(obj => obj._id === action.payload.payload.id).likes.pop()
+            }
+            break
+    }
+}, initialTweetState)

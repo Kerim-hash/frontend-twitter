@@ -28,8 +28,8 @@ export const TweetsApi = {
         return data.data
     }, 
 
-    async likeToggleTweet(id: string): Promise<Tweet> {
-        const { data } = await istance.delete(`/tweet/like/${id}`)
-        return data.data
+    async likeToggleTweet(payload): Promise<Tweet> {
+        const { data } = await istance.patch(`/tweet/like/${payload.id}`, {userId: payload.userID} )
+        return data
     }, 
 }

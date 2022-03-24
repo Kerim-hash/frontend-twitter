@@ -12,11 +12,7 @@ export enum AddFormState {
     SUCCESS = "SUCCESS",
 }
 
-export enum LikedState {
-    LIKED = "LIKED",
-    DISLAKED = "DISLAKED",
-    NEVER = "NEVER"
-}
+
 
 export interface Tweet {
     text: string,

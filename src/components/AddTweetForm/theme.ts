@@ -37,15 +37,18 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 50%) !important',
         gridTemplateRows: 'repeat(2, 50%) !important',
-        gridGap: '5px',
-        maxHeight: 300
+        gridGap: '10px',
+        maxHeight: 300,
+        marginBottom: '5px',
     },
     image: {
         width: '100%',
         height: '140px',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        position: 'relative'
+        position: 'relative',
+        backgroundPosition: 'center',
+        borderRadius: 10
     },
     closeIcon: {
         position: 'absolute',

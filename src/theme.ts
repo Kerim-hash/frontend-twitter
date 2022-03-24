@@ -83,6 +83,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
+          border: '1px solid rgba(0, 0, 0, 0.04)'
         }
       }
     },

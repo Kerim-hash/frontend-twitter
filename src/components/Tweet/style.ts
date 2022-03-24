@@ -51,9 +51,11 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         display: 'flex',
         padding: 10,
         overflowWrap: 'anywhere',
+        borderLeft: 'none !important', 
+        borderRight: 'none !important', 
         "&:hover": {
             background: "rgb(245, 248, 250)"
-        }
+        },
     },
     tweetUserName: {
         color: '#536471',

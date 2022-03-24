@@ -17,8 +17,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { TweetStyle } from './style';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchDeleteTweet } from '../../store/ducks/tweets/actionCreators';
+import { fetchDeleteTweet, fetchLikeToggleTweet } from '../../store/ducks/tweets/actionCreators';
 import { selectData } from '../../store/ducks/user/selectors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ImgList from '../imgList';
 interface TweetProps {
     user: {
         username: string,
@@ -60,23 +62,21 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const onClickLike = (event: React.MouseEvent<HTMLElement>) =>{
         event.preventDefault()
         event.stopPropagation();
-        
+        dispatch(fetchLikeToggleTweet({id: _id, userID: userData._id }))
     }
+    console.log(likes.includes(userData._id))
 
     return (
         <Link to={`/home/tweet/${_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <Paper variant="outlined" className={classNames(classes.tweet)}>
                 <Avatar alt={user.fullname} src="/static/images/avatar/1.jpg" />
-
                 <Box style={{ marginLeft: 20, flex: 1, maxWidth: '75%' }}>
                     <Box className={classes.tweetHeader}><Typography variant="body1">{user.fullname}</Typography><Typography variant="body2" className={classes.tweetUserName}>@{user.username}</Typography><span>·</span><Typography variant="caption" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></Box>
                     <Typography variant="body2" color="text.primary" style={{ marginTop: 5, wordBreak: 'break-word' }}>
                         {text}
                     </Typography>
                     <Box>
-                        {images && images.map(url => {
-                            return <img className={classes.img} src={url} />
-                        })}
+                    {images && <ImgList images={images} />}
                     </Box>
                     <Box className={classes.tweetActions}>
                         <div>
@@ -92,7 +92,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                         </div>
                         <div>
                             <IconButton onClick={onClickLike}>
-                                <LikeIcon sx={{ ":hover": {color: '#E8467F'}} }/>
+                                {likes.includes(userData._id) ?  <FavoriteIcon sx={{color: '#E8467F'}} />:  <LikeIcon sx={{ ":hover": {color: '#E8467F'}} }/>}
                             </IconButton>
                             <span>{likes.length}</span>
                         </div>

@@ -69,10 +69,7 @@ const Profile = ()=> {
 
     console.log(tweets)
 
-    // if (!profile || loading) {
-    //     return <div style={{ textAlign: 'center', marginTop: 50 }}><CircularProgress disableShrink /></div>
-    // }
-    
+   
     return (
         <div>
             <Box display='flex' alignItems="center" style={{ padding: 10 }} >
@@ -105,6 +102,7 @@ const Profile = ()=> {
                                 text={tweet.text}
                                 createdAt={tweet.createdAt}
                                 images={tweet.images}
+                                likes={tweet.likes}
                             />
                         })
                 }
