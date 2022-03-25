@@ -10,7 +10,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { selectData } from './store/ducks/user/selectors';
 import { FetchGetMe } from './store/ducks/user/actions';
-
 function App() {
    const dispatch = useDispatch()
     const user: any = useSelector(selectData)
@@ -44,6 +43,8 @@ function App() {
     return children
   };
 
+  
+
   return (
     <Suspense fallback={<div>Loading....</div>}>
     <div className="App">
@@ -59,7 +60,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/auth"
           element={
@@ -81,7 +81,9 @@ function App() {
           }
         />
       </Routes>
+      
     </div >
+   
     </Suspense>
   );
 }

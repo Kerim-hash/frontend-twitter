@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
@@ -21,6 +21,8 @@ import { fetchDeleteTweet, fetchLikeToggleTweet } from '../../store/ducks/tweets
 import { selectData } from '../../store/ducks/user/selectors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ImgList from '../imgList';
+import Carousel, { Modal, ModalGateway } from 'react-images'
+
 interface TweetProps {
     user: {
         username: string,
@@ -35,13 +37,14 @@ interface TweetProps {
     likes: string[]
 }
 
-export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images,likes }: TweetProps): React.ReactElement => {
+export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes }: TweetProps): React.ReactElement => {
     const classes = TweetStyle()
     const dispatch = useDispatch()
     const userData = useSelector(selectData)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const open = Boolean(anchorEl);
+
     const handleClose = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
@@ -59,12 +62,26 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         dispatch(fetchDeleteTweet(_id))
     }
 
-    const onClickLike = (event: React.MouseEvent<HTMLElement>) =>{
+    const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
-        dispatch(fetchLikeToggleTweet({id: _id, userID: userData._id }))
+        dispatch(fetchLikeToggleTweet({ id: _id, userID: userData._id }))
     }
-    console.log(likes.includes(userData._id))
+
+    const [toggle, setToggle] = React.useState<boolean>(false);
+    const [sIndex, setSIndex] = React.useState<number>(0);
+
+    // Handler
+    const handleClicToggleModal = (event: React.MouseEvent<HTMLElement> | React.SyntheticEvent<HTMLButtonElement>, i?: number) => {
+        event.preventDefault()
+        event.stopPropagation();
+        setToggle(!toggle)
+        i && setSIndex(i)
+    }
+
+    const imagesList = images.map((obj: any) =>  ({
+        source: obj.url ? obj.url : obj
+    }));
 
     return (
         <Link to={`/home/tweet/${_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -76,29 +93,39 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                         {text}
                     </Typography>
                     <Box>
-                    {images && <ImgList images={images} />}
+                            {images && <ImgList  images={images} setToggle={handleClicToggleModal} />}
+
+                        <ModalGateway>
+                            {toggle ? (
+                                <Modal onClose={handleClicToggleModal} >
+                                    <Carousel currentIndex={sIndex} views={imagesList} />
+                                </Modal>
+                            ) : null}
+                        </ModalGateway>
+
+
                     </Box>
                     <Box className={classes.tweetActions}>
                         <div>
                             <IconButton>
-                                <ModeCommentOutlinedIcon sx={{ ":hover": {color: '#3CA3F1'}} } />
+                                <ModeCommentOutlinedIcon sx={{ ":hover": { color: '#3CA3F1' } }} />
                             </IconButton>
                             <span>3</span>
                         </div>
                         <div>
                             <IconButton>
-                                <RepeatIcon sx={{ ":hover": {color: '#7FDCBD'}} }/>
+                                <RepeatIcon sx={{ ":hover": { color: '#7FDCBD' } }} />
                             </IconButton>
                         </div>
                         <div>
                             <IconButton onClick={onClickLike}>
-                                {likes.includes(userData._id) ?  <FavoriteIcon sx={{color: '#E8467F'}} />:  <LikeIcon sx={{ ":hover": {color: '#E8467F'}} }/>}
+                                {likes.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} />}
                             </IconButton>
                             <span>{likes.length}</span>
                         </div>
                         <div>
                             <IconButton>
-                                <ShareIcon sx={{ ":hover": {color: '#3CA3F1'}} }/>
+                                <ShareIcon sx={{ ":hover": { color: '#3CA3F1' } }} />
                             </IconButton>
                         </div>
                     </Box>

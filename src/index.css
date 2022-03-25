@@ -3,3 +3,6 @@ aside.emoji-picker-react{
     z-index: 999;
     top: 40px;
 }
+.css-m6j0xf:first-child{
+display: none !important;
+}

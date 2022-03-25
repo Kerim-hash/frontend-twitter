@@ -8,6 +8,7 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         gridTemplateRows: 'repeat(2, 50%) !important',
         gridGap: '5px',
         maxHeight: 300,
+        marginTop: 10,
         marginBottom: 10,
         maxWidth: '100%'
     },
