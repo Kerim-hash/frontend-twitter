@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { UserApi } from '../../../services/api/userApi'
-import { FetchSignInActionInterface, FetchSignUpActionInterface, setProfile, setUserData, setUserLoadingState, UserActionType , FetchProfileActionInterface, setLink} from './actions'
+import { FetchSignInActionInterface, FetchSignUpActionInterface, setProfile, setUserData, setUserLoadingState, UserActionType , FetchProfileActionInterface, setLink, setFollowState, FetchFollowActionInterface, FetchSearchUserActionInterface, SetSearchUser} from './actions'
 import { LoadingState } from './contracts/state'
 import {istance} from '../../../core/axios'
 
@@ -40,7 +40,6 @@ export function* RegisterRequest({ payload }: FetchSignUpActionInterface) {
 
 export function* ProfileRequest({ payload }: FetchProfileActionInterface) {
   try {
-
     const data = yield call(UserApi.fetchProfile, payload)
     yield put(setProfile(data))
     yield put(setUserLoadingState(LoadingState.SUCCESS))
@@ -58,6 +57,27 @@ export function* SignOut() {
   }
 }
 
+export function* FetchFollow({payload}: FetchFollowActionInterface) {
+  try {
+    const data = yield call(UserApi.fetchFollow, payload)
+    // console.log(data)
+    yield put(setFollowState(data))
+  } catch (e) {
+    alert('oops')
+    // yield put(setUserLoadingState(LoadingState.ERROR))
+  }
+}
+
+
+export function* SearchUser({ payload }: FetchSearchUserActionInterface) {
+  try {
+    const data = yield call(UserApi.fetchSearchUser, payload)
+    console.log(data)
+    yield put(SetSearchUser(data))
+  } catch (e) {
+    console.log('oops')
+  }
+}
 
 
 export function* UserSaga() {
@@ -66,4 +86,6 @@ export function* UserSaga() {
   yield takeLatest(UserActionType.FETCH_GET_ME, GetMeRequest)
   yield takeLatest(UserActionType.SIGN_OUT, SignOut)
   yield takeLatest(UserActionType.FETCH_PROFILE, ProfileRequest)
+  yield takeLatest(UserActionType.FETCH_FOLLOW, FetchFollow)
+  yield takeLatest(UserActionType.FETCH_SEARCH_USER_BY_NAME, SearchUser)
 }

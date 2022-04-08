@@ -4,10 +4,11 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import {fileImg} from './AddTweetForm/index'
 import axios from 'axios';
 interface UploadImageProps {
-    setImages: (callback: (prev: fileImg[]) => fileImg[]) => void
+    setImages: (callback: (prev: fileImg[]) => fileImg[]) => void,
+    images?: fileImg[]
 }
 
-const UploadImage: React.FC<UploadImageProps> = ({ setImages }: UploadImageProps): ReactElement => {
+const UploadImage: React.FC<UploadImageProps> = ({ setImages , images}: UploadImageProps): ReactElement => {
     const inputRef = React.useRef<HTMLInputElement>(null)
     const handleClickImage = () => {
         if (inputRef.current) {
@@ -35,9 +36,10 @@ const UploadImage: React.FC<UploadImageProps> = ({ setImages }: UploadImageProps
             inputRef.current.removeEventListener('change', handleChangeFileInput)
         }
     }, [])
+
     return (
         <div>
-            <IconButton color="primary" onClick={() => handleClickImage()}>
+            <IconButton color="primary" onClick={() => handleClickImage()} disabled={images?.length >= 4 }>
                 <CollectionsIcon />
             </IconButton>
             <input ref={inputRef} type="file" hidden />

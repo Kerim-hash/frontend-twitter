@@ -1,3 +1,4 @@
+import { Tweet } from "../../tweets/contracts/state";
 
 export interface UserType {
     _id?: string;
@@ -10,7 +11,28 @@ export interface UserType {
     location?: string;
     website?: string;
     about?: string;
-    tweets?: string[]
+    tweets?: string[],
+    createdAt: string,
+    followers?:  string[] | {
+        fullname: string,
+        username: string,
+        desk?: string,
+        follwers: string[],
+        followings: string[],
+        _id: string
+    }[] , 
+    followings?: string[] | {
+        fullname: string,
+        username: string,
+        desk?: string,
+        follwers: string[],
+        followings: string[],
+        _id: string
+    }[],
+    desc?: string,
+    city?: string,
+    liked: Tweet[],
+    bookmarks: Tweet[],
 }
 
 
@@ -28,6 +50,7 @@ export interface User {
     loadingState: LoadingState,
     data: UserType | undefined,
     profile: UserType | undefined,
+    searchUser: UserType[] | undefined,
     link: string
 }
 

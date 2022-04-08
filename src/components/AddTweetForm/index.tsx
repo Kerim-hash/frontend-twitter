@@ -4,20 +4,18 @@ import IconButton from '@mui/material/IconButton';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import GifIcon from '@mui/icons-material/GifBoxOutlined';
 import Avatar from '@mui/material/Avatar';
-import Snackbar from '@mui/material/Snackbar';
 import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAddTweet, setAddFormLoadingState } from '../../store/ducks/tweets/actionCreators';
-import { selectAddFormState, selectIsTweetLoading } from '../../store/ducks/tweets/selectors';
+import { selectAddFormState} from '../../store/ducks/tweets/selectors';
 import { AddFormState } from '../../store/ducks/tweets/contracts/state';
 import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 import UploadImage from '../uploadImage';
 import { useStylesAddForm } from './theme'
-import CloseIcon from '@mui/icons-material/Close';
 import { uploadImage } from '../../utils/uploadImage';
 import Picker from 'emoji-picker-react';
 import ImgList from '../imgList';
@@ -39,17 +37,12 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
     const dispatch = useDispatch()
     const classes = useStylesAddForm()
     const addFormState = useSelector(selectAddFormState)
-    const isTweetLoading = useSelector(selectIsTweetLoading)
     const [Textarea, setTextarea] = useState<string>("")
     const textLimitParsent = Math.round(Textarea.length / 280 * 100)
 
     const [images, setImages] = useState<fileImg[]>([] || undefined)
+    
     const [showPicker, setShowPicker] = useState<boolean>(false)
-
-    const removeImg = (url: string) => {
-        setImages(prev => prev.filter(obj => obj.url !== url))
-    }
-
 
 
     const handleChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
@@ -85,7 +78,6 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                 <div className={classes.tweetHeaderForm}>
                     <TextareaAutosize
                         className={classes.textarea}
-                        aria-label="empty textarea"
                         placeholder="Что происходит?"
                         minRows={minRows}
                         maxRows={maxRows}
@@ -96,7 +88,9 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                     {images && <ImgList images={images} setImages={setImages} edit />}
                     <Box className={classes.tweetHeaderFormActions} style={{ position: 'relative' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <UploadImage setImages={setImages} />
+
+                            <UploadImage setImages={setImages} images={images}/>
+
                             <IconButton color="primary">
                                 <GifIcon />
                             </IconButton>
@@ -132,8 +126,6 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                             </Box>
                             <LoadingButton
                                 loading={addFormState === AddFormState.LOADING}
-                                loadingPosition="start"
-                                startIcon={<SaveIcon />}
                                 size="small" variant="contained"
                                 style={{ marginLeft: 20, height: 35 }}
                                 disabled={textLimitParsent >= 100}
@@ -145,7 +137,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                     </Box>
                 </div>
             </Box>
-            {addFormState === AddFormState.ERROR && <Alert severity="error" sx={{ marginTop: '10px' }}>Ошибка при добавлении твита :(</Alert>}
+            {addFormState === AddFormState.ERROR && <Alert severity="error" sx={{ marginTop: '10px' }}>Что-то пошло не так, но не беспокойтесь — давайте попробуем еще раз.</Alert>}
         </Box>
     )
 }

@@ -9,6 +9,15 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         justifyContent: 'space-between',
         padding: 10,
     },
+    tweetsHeaderLink: {
+        display: 'flex',
+        color: 'inherit',
+        alignItems: 'center',
+        textDecoration: 'none',
+        "& .MuiTypography-body1:hover":{
+            textDecoration: 'underline'
+        }
+    },
     tweetHeader: {
         display: 'flex',
         alignItems: 'center'
@@ -29,11 +38,13 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         resize: 'none',
         fontSize: 22,
         fontFamily: "Rubik",
+
         "&:placeholder": {
             fontSize: 22,
             fontWeight: 500,
         }
     },
+
     tweetHeaderFormActions: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -51,8 +62,8 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         display: 'flex',
         padding: 10,
         overflowWrap: 'anywhere',
-        borderLeft: 'none !important', 
-        borderRight: 'none !important', 
+        borderLeft: 'none !important',
+        borderRight: 'none !important',
         "&:hover": {
             background: "rgb(245, 248, 250)"
         },
@@ -86,11 +97,12 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         fontSize: 23,
         margin: 0,
         lineHeight: 2,
+        wordBreak: 'break-word'
     },
     img: {
         width: 120,
         height: 120,
         objectFit: 'contain'
     }
-    
+
 }));

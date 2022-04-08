@@ -2,19 +2,23 @@ import { Action } from "redux";
 import { LoginFormProps } from "../../../components/auth/Signin";
 import { RegisterFormProps } from "../../../components/auth/SignUp";
 import { LoadingState, UserType } from "./contracts/state";
-import { UserResponse } from '../../../services/api/userApi'
+
 export enum UserActionType {
     FETCH_GET_ME = "User/FETCH_GET_ME",
     FETCH_SIGN_UP = "User/FETCH_SIGN_UP",
     FETCH_SIGN_IN = "User/FETCH_SIGN_IN",
+    FETCH_FOLLOW = "User/FETCH_FOLLOW",
+    SET_FOLLOW_STATE = "User/SET_FOLLOW_STATE",
+    FETCH_UNFOLLOW = "User/FETCH_UNFOLLOW",
     SET_USER_DATA = "User/SET_USER_DATA",
     SET_PROFILE = "User/SET_PROFILE",
     FETCH_PROFILE = "User/FETCH_PROFILE",
     SET_LOADING_STATE = "User/SET_LOADING_STATE",
     SIGN_OUT = "User/SIGN_OUT",
     SET_LINK = "User/SET_LINK",
+    FETCH_SEARCH_USER_BY_NAME = "User/FETCH_SEARCH_USER_BY_NAME",
+    SET_SEARCH_USER_BY_NAME = "User/SET_SEARCH_USER_BY_NAME"
 }
-
 
 // SIGN IN // --------------------------------` SIGN IN
 export interface FetchSignInActionInterface extends Action<UserActionType> {
@@ -55,8 +59,6 @@ export const FetchGetMe = (payload?: any): FetchGetMeActionInterface => ({
     payload
 })
 
-
-
 // SET DATA // --------------------------------`// SET DATA
 export interface SetUserDataActionInterface extends Action<UserActionType> {
     type: UserActionType.SET_USER_DATA,
@@ -67,6 +69,7 @@ export const setUserData = (payload?: UserType): SetUserDataActionInterface => (
     type: UserActionType.SET_USER_DATA,
     payload
 })
+
 // SET LINK // --------------------------------`// SET LINK
 export interface SetLinkActionInterface extends Action<UserActionType> {
     type: UserActionType.SET_LINK,
@@ -77,8 +80,6 @@ export const setLink = (payload?: string): SetLinkActionInterface => ({
     type: UserActionType.SET_LINK,
     payload
 })
-
-
 
 // FETCH Profile // --------------------------------`// FETCH Profile
 export interface FetchProfileActionInterface extends Action<UserActionType> {
@@ -101,7 +102,27 @@ export const setProfile = (payload?: UserType): SetProfileActionInterface => ({
     payload
 })
 
+// FETCH FOLLOW // --------------------------------`// FETCH UNFOLLOW
+export interface FetchFollowActionInterface extends Action<UserActionType> {
+    type: UserActionType.FETCH_FOLLOW,
+    payload?: {id: string, userID: string, followState: string}
+}
 
+export const fetchFollow = (payload?: {id: string, userID: string, followState: string}): FetchFollowActionInterface => ({
+    type: UserActionType.FETCH_FOLLOW,
+    payload
+})
+
+// // SET FOLLOW STATE // --------------------------------`// // // SET FOLLOW STATE 
+export interface SetFollowStateActionInterface extends Action<UserActionType> {
+    type: UserActionType.SET_FOLLOW_STATE,
+    payload: any
+}
+
+export const setFollowState = (payload: any): SetFollowStateActionInterface => ({
+    type: UserActionType.SET_FOLLOW_STATE,
+    payload
+})
 
 // SET_LOADING_STATE // --------------------------------`// SET_LOADING_STATE
 export interface SetLoadingStateActionInterface extends Action<UserActionType> {
@@ -113,8 +134,27 @@ export const setUserLoadingState = (payload: LoadingState): SetLoadingStateActio
     type: UserActionType.SET_LOADING_STATE,
     payload
 })
+// // // SET FOLLOW STATE // --------------------------------`// // // SET FOLLOW STATE 
+export interface FetchSearchUserActionInterface extends Action<UserActionType> {
+    type: UserActionType.FETCH_SEARCH_USER_BY_NAME,
+    payload: string
+}
 
+export const FetchSearchUser = (payload: string): FetchSearchUserActionInterface => ({
+    type: UserActionType.FETCH_SEARCH_USER_BY_NAME,
+    payload
+})
 
+// // SET_LOADING_STATE // --------------------------------`// SET_LOADING_STATE
+export interface SetSearchUserActionInterface extends Action<UserActionType> {
+    type: UserActionType.SET_SEARCH_USER_BY_NAME,
+    payload: UserType[]
+}
+
+export const SetSearchUser = (payload: UserType[]): SetSearchUserActionInterface => ({
+    type: UserActionType.SET_SEARCH_USER_BY_NAME,
+    payload
+})
 
 
 
@@ -125,4 +165,8 @@ export type UserActions =
     FetchGetMeActionInterface |
     FetchProfileActionInterface |
     SetProfileActionInterface | 
-    SetLinkActionInterface
+    SetLinkActionInterface |
+    FetchFollowActionInterface |  
+    SetFollowStateActionInterface | 
+    SetSearchUserActionInterface | 
+    FetchSearchUserActionInterface

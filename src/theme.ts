@@ -1,11 +1,9 @@
 // @ts-nocheck
-
 import { createTheme } from '@mui/material/styles';
-import { green, purple, red } from '@mui/material/colors';
+import {  red } from '@mui/material/colors';
 
 export const theme = createTheme({
   typography: {
-    // 14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif
     fontFamily: ['Rubik', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),
     h2: {
       fontWeight: 800,
@@ -22,10 +20,12 @@ export const theme = createTheme({
       fontSize: 20
     },
     body1: {
-      fontWeight: 600,
+      fontWeight: 500,
+      fontSize: 16
     },
     body2: {
       fontWeight: 400,
+      fontSize: 14
     },
     button: {
       textTransform: "none"
@@ -41,6 +41,10 @@ export const theme = createTheme({
     secondary: {
       main: 'rgb(26, 145, 218)',
     },
+    inherit :{
+      background: "#000",
+      color: '#fff'
+    },
     error: {
       main: red.A400,
     },
@@ -54,10 +58,11 @@ export const theme = createTheme({
       primary: '#1d9bfo',
       secondary: '#46505A',
       lightBlue: 'rgb(29, 161, 242)',
+      darkGrey: '#74828C'
     },
-  },
-
   
+ 
+  },
 
   components: {
    
@@ -69,6 +74,16 @@ export const theme = createTheme({
           borderRadius: 30,
           fontSize: 16,
           fontWeight: 700,
+          "&.MuiButton-contained.MuiButton-containedInherit": {
+            background: '#000',
+            color: '#fff'
+          },
+          "&.MuiButton-outlined.MuiButton-outlinedSizeSmall": {
+            height: 35,
+          },
+          "&.MuiButton-contained.MuiButton-sizeSmall": {
+           height: 35,
+          }
         },
       },
     },
@@ -137,7 +152,4 @@ export const theme = createTheme({
     }
 
   }
-
-
-
 });

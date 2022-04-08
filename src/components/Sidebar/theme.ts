@@ -66,14 +66,17 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
 
     profile: {
         display: 'flex',
-        padding: '12px 15px',
+        padding: '9px',
         width: '250px !important ',
         justifyContent: 'space-between !important',
         alignItems: 'center !important',
         margin: '0 5px',
-        borderRadius: "20% !important",
+        cursor: 'pointer',
+        borderRadius: "40px !important",
+        transition: 'all .2s',
+        marginLeft: '-15px',
         "&:hover": {
-            background: "rgba(15, 20, 25, 0.1) !important",
+            background: "rgba(15, 20, 25, 0.2) !important",
         },
     },
 
@@ -85,7 +88,6 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
     },
     tweetUserName: {
         color: '#536471',
-        margin: '2px 0 0 0 !important',
     },
     menuItem: {
         "& a": {
@@ -97,6 +99,10 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
             textDecoration: 'none',
             transition: "all .7s ease-out",
         }
+    },
+    menuWrapper: {
+        padding: '9px 9px !important',
+        borderRadius: '20px !important'
     }
 
 

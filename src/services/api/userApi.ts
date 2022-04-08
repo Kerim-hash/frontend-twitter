@@ -25,5 +25,14 @@ export const UserApi = {
     async fetchProfile(id: string): Promise<Response> {
         const { data } = await istance.get(`/users/${id}`)
         return data.data
+    },
+    async fetchFollow(payload): Promise<Response> {
+        const { data } = await istance.put(`/users/follow/${payload.id}`, {userID: payload.userID})
+        return data
+    },
+    async fetchSearchUser(payload): Promise<Response> {
+        const { data } = await istance.get(`/users/search/${payload}`)
+        return data.data
     }
+   
 }

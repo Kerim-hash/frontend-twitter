@@ -1,7 +1,8 @@
 import {  call, put, takeLatest } from 'redux-saga/effects'
-import { TweetsActionType, setTweetLoadingState, setTweets, AddTweet, fetchAddTweetActionInterface, setAddFormLoadingState, FetchactionInterface, FetchDeleteTweerInterface, deleteTweet, FetchLikeTweetsactionInterface, setLikeState } from './actionCreators'
+import { setTweetLoadingState, setTweets, AddTweet, setAddFormLoadingState, deleteTweet, setLikeState, setAddFormCommnetTweet, setCommnetTweet, setTweet, setBookmarksState } from './actionCreators'
 import { TweetsApi } from '../../../services/api/tweetApi'
-import { AddFormState, LoadingState, Tweet, TweetsState } from './contracts/state'
+import { AddCommentState, AddFormState, BookmarksState, LoadingState, Tweet, TweetsState } from './contracts/state'
+import { FetchactionInterface, FetchAddCommentTweetsactionInterface, fetchAddTweetActionInterface, fetchBookmarksactionInterface, FetchctionInterface, FetchDeleteTweerInterface, FetchLikeTweetsactionInterface, TweetsActionType } from './contracts/actionTypes'
 
 export function* TweetsRequest({payload}: FetchactionInterface) {
   try{
@@ -14,7 +15,6 @@ export function* TweetsRequest({payload}: FetchactionInterface) {
 
 export function* FetchAddTweetRequest({payload}: fetchAddTweetActionInterface) {
   try{
-    // yield put(setAddFormLoadingState(AddFormState.LOADING))
     const item: Tweet = yield call(TweetsApi.AddTweet, payload)
     yield put(AddTweet(item))
     yield put(setAddFormLoadingState(AddFormState.NEVER))
@@ -33,6 +33,16 @@ export function* DeleteTweetRequest({payload: TweetId}: FetchDeleteTweerInterfac
   }
 }
 
+export function* FetchAddCommentTweet({payload}: FetchAddCommentTweetsactionInterface ) {
+  try{
+    yield put(setAddFormCommnetTweet(AddCommentState.LOADING))
+    const data = yield call(TweetsApi.AddCommnet, payload)
+    yield put(setCommnetTweet(data))
+  }catch(e){
+    yield put(setAddFormCommnetTweet(AddCommentState.ERROR))
+  }
+}
+
 export function* LikeToggleRequest({payload}: FetchLikeTweetsactionInterface ) {
   try{
     const data = yield call(TweetsApi.likeToggleTweet, payload)
@@ -42,9 +52,31 @@ export function* LikeToggleRequest({payload}: FetchLikeTweetsactionInterface ) {
   }
 }
 
+export function* TweetRequest({payload: TweetId}: FetchctionInterface ) {
+  try{
+    const data: Tweet = yield call(TweetsApi.fetchTweet, TweetId)
+    yield put(setTweet(data))
+    yield put(setTweetLoadingState(LoadingState.LOADED))
+  }catch(e){
+    yield put(setTweetLoadingState(LoadingState.ERROR))
+  }
+}
+
+export function* TweetBookmarksRequest({payload}: fetchBookmarksactionInterface ) {
+  try{
+    const data = yield call(TweetsApi.bookmarksToggleTweet, payload)
+    yield put(setBookmarksState(BookmarksState.BOOKMARKSED))
+  }catch(e){
+    yield put(setBookmarksState(BookmarksState.NEVER))
+  }
+}
+
 export function* tweetsSaga() {
   yield takeLatest(TweetsActionType.FETCH_TWEETS , TweetsRequest);
   yield takeLatest(TweetsActionType.FETCH_ADD_TWEET , FetchAddTweetRequest)
   yield takeLatest(TweetsActionType.FETCH_DELETE_TWEET , DeleteTweetRequest)
   yield takeLatest(TweetsActionType.FETCH_LIKE_TOGGLE , LikeToggleRequest)
+  yield takeLatest(TweetsActionType.FETCH_ADD_COMMENT_STATE , FetchAddCommentTweet)
+  yield takeLatest(TweetsActionType.FETCH_TWEET , TweetRequest)
+  yield takeLatest(TweetsActionType.FETCH_BOOKMARKS , TweetBookmarksRequest)
 }  

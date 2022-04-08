@@ -1,71 +1,6 @@
 import { Action } from "redux";
-import { AddFormState, LoadingState, Tweet, TweetsState, } from "./contracts/state";
-
-export enum TweetsActionType {
-    SET_TWEETS = "tweets/SET_TWEETS",
-    FETCH_TWEETS = "tweets/FETCH_TWEETS",
-    SET_LOADING_STATE = "tweets/SET_LOADING_STATE",
-    FETCH_ADD_TWEET = "tweets/FETCH_ADD_TWEET",
-    ADD_TWEET = "tweets/ADD_TWEET",
-    SET_ADD_FORM_STATE = "tweets/SET_ADD_FORM_STATE",
-    SET_LIKE_STATE = "tweets/SET_LIKE_STATE",
-    DELETE_TWEET = "tweet/DELETE_TWEET",
-    FETCH_DELETE_TWEET = "tweet/FETCH_DELETE_TWEET",
-    FETCH_LIKE_TOGGLE = "tweet/FETCH_LIKE_TOGGLE",
-}
-
-export interface SetTweetsActionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.SET_TWEETS,
-    payload: TweetsState["items"]
-}
-
-export interface fetchAddTweetActionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.FETCH_ADD_TWEET,
-    payload: { text: string, images: string[] }
-}
-
-export interface AddTweetActionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.ADD_TWEET,
-    payload: Tweet
-}
-
-export interface SetTweetsLoadinfStateActionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.SET_LOADING_STATE,
-    payload: LoadingState
-}
-
-export interface SetAddFormLoadinfStateActionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.SET_ADD_FORM_STATE,
-    payload: AddFormState
-}
-
-export interface SetLikeStateActionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.SET_LIKE_STATE,
-    payload: any
-}
-
-export interface DeleteTweerInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.DELETE_TWEET,
-    payload: string
-}
-
-export interface FetchDeleteTweerInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.FETCH_DELETE_TWEET,
-    payload: string
-}
-
-
-export interface FetchactionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.FETCH_TWEETS,
-    payload?: string
-}
-
-export interface FetchLikeTweetsactionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.FETCH_LIKE_TOGGLE,
-    payload?: {id: string, userID: string}
-}
-
-
+import { AddTweetActionInterface, DeleteTweerInterface, FetchactionInterface, FetchAddCommentTweetsactionInterface, fetchAddTweetActionInterface, fetchBookmarksactionInterface, FetchctionInterface, FetchDeleteTweerInterface, FetchLikeTweetsactionInterface, SetAddFormCommentTweetsactionInterface, SetAddFormLoadinfStateActionInterface, SetBookmarksactionInterface, SetCommentTweetsactionInterface, SetLikeStateActionInterface, SetTweetActionInterface, SetTweetLoadinfStateActionInterface, SetTweetsActionInterface, SetTweetsLoadinfStateActionInterface, TweetsActionType } from "./contracts/actionTypes";
+import { AddCommentState, AddFormState, BookmarksState, LoadingState, Tweet, TweetsState } from "./contracts/state";
 
 export const setTweets = (payload: TweetsState['items']): SetTweetsActionInterface => ({
     type: TweetsActionType.SET_TWEETS,
@@ -83,16 +18,15 @@ export const AddTweet = (payload: Tweet): AddTweetActionInterface => ({
     payload
 })
 
-
 export const setTweetLoadingState = (payload: LoadingState): SetTweetsLoadinfStateActionInterface => ({
     type: TweetsActionType.SET_LOADING_STATE,
     payload
 
 })
+
 export const setAddFormLoadingState = (payload: AddFormState): SetAddFormLoadinfStateActionInterface => ({
     type: TweetsActionType.SET_ADD_FORM_STATE,
     payload
-
 })
 
 export const setLikeState = (payload: any): SetLikeStateActionInterface => ({
@@ -109,16 +43,50 @@ export const deleteTweet = (payload: string): DeleteTweerInterface => ({
     type: TweetsActionType.DELETE_TWEET,
     payload
 })
+
 export const fetchDeleteTweet = (payload: string): FetchDeleteTweerInterface => ({
     type: TweetsActionType.FETCH_DELETE_TWEET,
     payload
 })
 
-export const fetchLikeToggleTweet = (payload: {id: string, userID: string}): FetchLikeTweetsactionInterface => ({
+export const fetchLikeToggleTweet = (payload: { id: string, userID: string }): FetchLikeTweetsactionInterface => ({
     type: TweetsActionType.FETCH_LIKE_TOGGLE,
     payload
 })
 
+export const fetchAddCommnetTweet = (payload: { text: string, userID: string, images?: string[], tweetID: string, author: { username: string, fullname: string } }): FetchAddCommentTweetsactionInterface => ({
+    type: TweetsActionType.FETCH_ADD_COMMENT_STATE,
+    payload
+})
+
+export const setAddFormCommnetTweet = (payload: AddCommentState): SetAddFormCommentTweetsactionInterface => ({
+    type: TweetsActionType.SET_ADD_COMMENT_FORM_STATE,
+    payload
+})
+
+export const setCommnetTweet = (payload): SetCommentTweetsactionInterface => ({
+    type: TweetsActionType.SET_COMMENT_TWEET,
+    payload
+})
+
+export const setTweet = (payload: TweetsState['data']): SetTweetActionInterface => ({
+    type: TweetsActionType.SET_TWEET,
+    payload
+})
+
+export const fetchTweet = (payload: string): FetchctionInterface => ({
+    type: TweetsActionType.FETCH_TWEET,
+    payload
+})
+
+export const fetchBookmarks = (payload: { userID: string, tweetID: string }): fetchBookmarksactionInterface => ({
+    type: TweetsActionType.FETCH_BOOKMARKS,
+    payload
+})
+export const setBookmarksState = (payload:  BookmarksState ): SetBookmarksactionInterface => ({
+    type: TweetsActionType.SET_BOOKMARKS_STATE,
+    payload
+})
 
 export type TweetsActions = DeleteTweerInterface |
     SetTweetsActionInterface |
@@ -127,5 +95,12 @@ export type TweetsActions = DeleteTweerInterface |
     fetchAddTweetActionInterface |
     AddTweetActionInterface |
     SetAddFormLoadinfStateActionInterface |
-    FetchLikeTweetsactionInterface | 
-    SetLikeStateActionInterface
+    FetchLikeTweetsactionInterface |
+    SetLikeStateActionInterface |
+    FetchAddCommentTweetsactionInterface |
+    SetAddFormCommentTweetsactionInterface |
+    SetCommentTweetsactionInterface |
+    SetTweetActionInterface | SetTweetLoadinfStateActionInterface |
+    FetchctionInterface |
+    fetchBookmarksactionInterface |
+    SetBookmarksactionInterface

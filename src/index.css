@@ -6,3 +6,9 @@ aside.emoji-picker-react{
 .css-m6j0xf:first-child{
 display: none !important;
 }
+.emojiIcon .emoji-picker-react{
+    position: absolute;
+    z-index: 999;
+    top: -320px;
+    right: 50px;
+}

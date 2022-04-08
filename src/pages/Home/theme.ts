@@ -2,7 +2,7 @@ import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material';
 export const useStylesHome = makeStyles((theme: Theme) => ({
     wrapper: {
-        maxWidth: '1230px',
+        maxWidth: '1220px',
         margin: '0 auto',
     },
     tweets: {
@@ -87,6 +87,5 @@ export const useStylesHome = makeStyles((theme: Theme) => ({
         "&.Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root": {
             color: theme.palette.primary.main,
         },
-
     }
 }));

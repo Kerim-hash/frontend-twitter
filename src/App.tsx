@@ -1,4 +1,4 @@
-import React, {lazy, Suspense} from 'react';
+import React, { lazy, Suspense } from 'react';
 
 import { Auth } from './pages/Auth';
 import Home from './pages/Home/Home';
@@ -6,19 +6,24 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectData } from './store/ducks/user/selectors';
 import { FetchGetMe } from './store/ducks/user/actions';
+import NotFound from './pages/NotFound';
+import Messages from './pages/messages';
+import Video from './pages/video';
 function App() {
-   const dispatch = useDispatch()
-    const user: any = useSelector(selectData)
+  const dispatch = useDispatch()
+  const user: any = useSelector(selectData)
+  let navigate = useNavigate();
+  React.useEffect(() => {
+    dispatch(FetchGetMe())
+    if(window.location.pathname === '/') navigate("/home");
+  }, [])
 
-    React.useEffect(() => {
-      dispatch(FetchGetMe())
-    }, [])
-
-   const isAuthenticated = () => {
+  const isAuthenticated = () => {
     try {
       if (user.data !== null) {
         return true;
@@ -30,7 +35,7 @@ function App() {
       return false;
     }
   }
-  
+
 
   const ProtectedRoute = ({
     isAllowed,
@@ -43,47 +48,67 @@ function App() {
     return children
   };
 
-  
+
 
   return (
     <Suspense fallback={<div>Loading....</div>}>
-    <div className="App">
-      <Routes>
-        <Route
-          path="/home/*"
-          element={
-            <ProtectedRoute
-              isAllowed={isAuthenticated()}
-              redirectPath="/auth"
-            >
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/auth"
-          element={
-            <ProtectedRoute
-              isAllowed={!isAuthenticated()}
-              redirectPath="/home/"
-            >
-              <Auth />
-            </ProtectedRoute>
-          }
-        />
+      <div className="App">
+        <Routes>
+          <Route
+            path="/home/*"
+            element={
+              <ProtectedRoute
+                isAllowed={isAuthenticated()}
+                redirectPath="/auth"
+              >
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/messages/*"
+            element={
+              <ProtectedRoute
+                isAllowed={isAuthenticated()}
+                redirectPath="/auth"
+              >
+                <Messages />
+              </ProtectedRoute>
+            }
+          />
+          {/* <Route
+            path="/video/*"
+            element={
+              <ProtectedRoute
+                isAllowed={isAuthenticated()}
+                redirectPath="/auth"
+              >
+                <Video />
+              </ProtectedRoute>
+            }
+          /> */}
+          <Route
+            path="/auth"
+            element={
+              <ProtectedRoute
+                isAllowed={!isAuthenticated()}
+                redirectPath="/home/"
+              >
+                <Auth />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="*"
-          element={
-            <main style={{ padding: "1rem" }}>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        />
-      </Routes>
-      
-    </div >
-   
+          <Route
+            path="*"
+            element={
+              <NotFound />
+            }
+          />
+        </Routes>
+
+      </div >
+
     </Suspense>
   );
 }

@@ -15,10 +15,13 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         outline: 'none',
         width: '100%',
         resize: 'none',
-        fontSize: 22,
-        fontFamily: "Rubik",
+        fontSize: 20,
+        fontFamily: "inherit",
+        color: '#536471 !important',
+        fontWeight: 500,
         "&:placeholder": {
             fontSize: 22,
+            color: '#000 !important',
             fontWeight: 500,
         }
     },

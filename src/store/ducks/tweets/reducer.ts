@@ -1,11 +1,14 @@
 import produce, { Draft } from 'immer'
-import { TweetsActions, TweetsActionType } from './actionCreators'
-import { LoadingState, TweetsState, AddFormState } from './contracts/state'
+import { TweetsActions } from './actionCreators'
+import { TweetsActionType } from './contracts/actionTypes'
+import { LoadingState, TweetsState, AddFormState, AddCommentState, BookmarksState} from './contracts/state'
 
 export const initialTweetState: TweetsState = {
     items: [],
     loadingState: LoadingState.NEVER,
-    addFormState: AddFormState.NEVER
+    addFormState: AddFormState.NEVER,
+    addCommentState: AddCommentState.NEVER,
+    bookmarksState: BookmarksState.NEVER,
 }
 
 
@@ -35,9 +38,46 @@ export const tweetsReducer = produce((draft: Draft<TweetsState>, action: TweetsA
         case TweetsActionType.DELETE_TWEET:
             draft.items = draft.items.filter(obj => obj._id !== action.payload)
             break
+        case TweetsActionType.SET_TWEET:
+            draft.data = action.payload
+            draft.loadingState = LoadingState.LOADED
+            break
+        case TweetsActionType.FETCH_TWEET:
+            draft.loadingState = LoadingState.LOADING
+            break
+        case TweetsActionType.SET_COMMENT_TWEET:
+            if (action.payload.comment) {
+                draft.addCommentState = AddCommentState.NEVER
+                draft.data.comment.unshift(action.payload.comment)
+            } else {
+                draft.addCommentState = AddCommentState.ERROR
+            }
+            break
+        case TweetsActionType.FETCH_ADD_COMMENT_STATE:
+            draft.addCommentState = AddCommentState.LOADING
+            break
         case TweetsActionType.SET_LIKE_STATE:
             if (action.payload) {
-                 action.payload.data.liked ? draft.items.find(obj => obj._id === action.payload.payload.id).likes.push(action.payload.payload.userID) : draft.items.find(obj => obj._id === action.payload.payload.id).likes.pop()
+                if (action.payload.data.liked) {
+                    draft.items.find(obj => obj._id === action.payload.payload.id).likes.push(action.payload.payload.userID)
+                    draft.data.likes.push(action.payload.payload.userID)
+                } else {
+                    draft.items.find(obj => obj._id === action.payload.payload.id).likes.pop()
+                    draft.data.likes.pop()
+                }
+            }
+        case TweetsActionType.SET_BOOKMARKS_STATE:
+            if (action.payload.message === 'tweet bookmarksed') {
+                console.log('tweet bookmarksed')
+                draft.bookmarksState = BookmarksState.BOOKMARKSED
+                draft.items.find(action.payload.tweetID).bookmarks.push(action.payload.userID)
+            } else if (action.payload.message === 'tweet unbookmarksed') {
+                console.log('tweet unbookmarksed')
+                draft.bookmarksState = BookmarksState.UNBOOKMARKSED
+                draft.items.find(action.payload.tweetID).bookmarks.pop()
+            } else  {
+                console.log('tweet never')
+                // draft.bookmarksState = BookmarksState.NEVER
             }
             break
     }

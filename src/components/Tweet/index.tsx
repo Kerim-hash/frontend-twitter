@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
@@ -8,7 +8,7 @@ import LikeIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShareIcon from '@mui/icons-material/IosShareOutlined';
 import RepeatIcon from '@mui/icons-material/RepeatRounded';
 import classNames from 'classnames'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import { formaDate } from '../../utils/formatDate';
 import Menu from '@mui/material/Menu';
@@ -17,43 +17,76 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { TweetStyle } from './style';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchDeleteTweet, fetchLikeToggleTweet } from '../../store/ducks/tweets/actionCreators';
+import { fetchBookmarks, fetchDeleteTweet, fetchLikeToggleTweet, setBookmarksState } from '../../store/ducks/tweets/actionCreators';
 import { selectData } from '../../store/ducks/user/selectors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ImgList from '../imgList';
 import Carousel, { Modal, ModalGateway } from 'react-images'
+import { BookmarksState, Comment, Tweet } from '../../store/ducks/tweets/contracts/state';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkRemoveOutlinedIcon from '@mui/icons-material/BookmarkRemoveOutlined';
+import { istance } from '../../core/axios';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { selectBookmarksState } from '../../store/ducks/tweets/selectors';
 
 interface TweetProps {
-    user: {
+    user?: {
         username: string,
         fullname: string,
         avatarUrl: string,
-        _id: string
+        _id: string,
+        bookmarks: string[]
     },
-    createdAt: string,
-    text: string
+    createdAt?: string,
+    text?: string | any
     _id: string,
-    images: string[],
-    likes: string[]
+    images?: string[] | any,
+    likes?: string[],
+    comment?: string[] | Comment[],
+    fullname?: string,
+    username?: string,
+    bookmarks?: string[] | Tweet[]
 }
 
-export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes }: TweetProps): React.ReactElement => {
+export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes, comment, fullname, username, bookmarks }: TweetProps): React.ReactElement => {
     const classes = TweetStyle()
     const dispatch = useDispatch()
+    let navigate = useNavigate();
     const userData = useSelector(selectData)
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const bookmarksStateData = useSelector(selectBookmarksState)
 
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
+    const [shareEl, setShareEl] = React.useState<null | HTMLElement>(null);
+    const shareOpen = Boolean(shareEl);
+    
+    const [userTweet, setUserTweet] = React.useState<{ fullname: string, username: string, _id: string, bookmarks: string[] }>(null)
 
     const handleClose = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
         setAnchorEl(null);
     };
+
+    const handleCloseShare = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault()
+        event.stopPropagation();
+        setShareEl(null);
+    };
+
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
         setAnchorEl(event.currentTarget);
+    };
+
+    const handleClickShare = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault()
+        event.stopPropagation();
+        setShareEl(event.currentTarget);
     };
 
     const deleteTweetById = (event: React.MouseEvent<HTMLElement>) => {
@@ -61,7 +94,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         event.stopPropagation();
         dispatch(fetchDeleteTweet(_id))
     }
-
     const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
@@ -71,6 +103,26 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const [toggle, setToggle] = React.useState<boolean>(false);
     const [sIndex, setSIndex] = React.useState<number>(0);
 
+    // alert
+    const [snackbarState, setSnackbarState] = React.useState<{ text: string, type: 'error' | 'info' }>()
+
+
+    React.useEffect(() => {
+        if (bookmarksStateData === BookmarksState.BOOKMARKSED) {
+            setSnackbarState({ text: 'Твит добавлен в закладки', type: 'info' })
+        }
+        else if (bookmarksStateData === BookmarksState.UNBOOKMARKSED) {
+            setSnackbarState({ text: 'Твит удален из закладок', type: 'info' })
+        }
+
+    }, [bookmarksStateData])
+
+    const handleCloseAlert = (event) => {
+        event.preventDefault()
+        event.stopPropagation();
+        // dispatch(setBookmarksState(BookmarksState.NEVER))
+    }
+
     // Handler
     const handleClicToggleModal = (event: React.MouseEvent<HTMLElement> | React.SyntheticEvent<HTMLButtonElement>, i?: number) => {
         event.preventDefault()
@@ -79,21 +131,73 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         i && setSIndex(i)
     }
 
-    const imagesList = images.map((obj: any) =>  ({
+    const imagesList = images && images.map((obj: any) => ({
         source: obj.url ? obj.url : obj
     }));
 
+    const copyShare = (event) => {
+        event.preventDefault()
+        event.stopPropagation();
+        navigator.clipboard.writeText(`${window.location.href}/tweet/${_id}`)
+        setShareEl(null);
+    }
+
+    const navigateToTweet = () => {
+        !fullname && navigate(`/home/tweet/${_id}`)
+    }
+
+    const navigateToProfile = (event) => {
+        event.preventDefault()
+        event.stopPropagation();
+        navigate(`/home/profile/${user._id !== undefined ? user._id : userTweet?._id}`)
+    }
+
+    const bookmarksAdd = (event) => {
+        event.preventDefault()
+        event.stopPropagation();
+        dispatch(fetchBookmarks({ userID: user?._id, tweetID: _id }))
+    }
+    const bookmarksRemove = (event) => {
+        event.preventDefault()
+        event.stopPropagation();
+        dispatch(fetchBookmarks({ userID: user?._id, tweetID: _id }))
+    }
+
+    React.useEffect(() => {
+        if ((user?.fullname ? user?.fullname : fullname) === undefined) {
+
+            const getUser = async () => {
+                try {
+                    const res = await istance.get(`users/withoutDetails/${user}`)
+                    setUserTweet(res.data.data)
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+            getUser()
+        }
+    }, [username])
+
+    const bookmarksState = userData.bookmarks.map((item: any) => item._id.includes(bookmarks.join()))
+
+    // console.log(bookmarksState.join())
+    // console.log(bookmarksState.join() === 'false')
     return (
-        <Link to={`/home/tweet/${_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <div onClick={() => navigateToTweet()} >
+            <Snackbar open={bookmarksStateData === BookmarksState.BOOKMARKSED || bookmarksStateData === BookmarksState.UNBOOKMARKSED} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+                <Alert onClose={handleCloseAlert} severity={snackbarState?.type} sx={{ width: '100%' }}>
+                    {snackbarState?.text}
+                </Alert>
+            </Snackbar>
             <Paper variant="outlined" className={classNames(classes.tweet)}>
-                <Avatar alt={user.fullname} src="/static/images/avatar/1.jpg" />
+                <Avatar alt={user?.fullname} src="/static/images/avatar/1.jpg" />
                 <Box style={{ marginLeft: 20, flex: 1, maxWidth: '75%' }}>
-                    <Box className={classes.tweetHeader}><Typography variant="body1">{user.fullname}</Typography><Typography variant="body2" className={classes.tweetUserName}>@{user.username}</Typography><span>·</span><Typography variant="caption" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></Box>
+                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1">{user?.fullname ? user?.fullname : fullname ? fullname : userTweet?.fullname}</Typography><Typography variant="body2" className={classes?.tweetUserName}>@{user?.username ? user?.username : username ? username : userTweet?.username}</Typography><span>·</span><Typography variant="caption" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
                     <Typography variant="body2" color="text.primary" style={{ marginTop: 5, wordBreak: 'break-word' }}>
                         {text}
                     </Typography>
                     <Box>
-                            {images && <ImgList  images={images} setToggle={handleClicToggleModal} />}
+                        {images && <ImgList images={images} setToggle={handleClicToggleModal} />}
 
                         <ModalGateway>
                             {toggle ? (
@@ -103,14 +207,14 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                             ) : null}
                         </ModalGateway>
 
-
                     </Box>
-                    <Box className={classes.tweetActions}>
+
+                    {!fullname && <Box className={classes.tweetActions}>
                         <div>
                             <IconButton>
                                 <ModeCommentOutlinedIcon sx={{ ":hover": { color: '#3CA3F1' } }} />
                             </IconButton>
-                            <span>3</span>
+                            <span>{comment?.length}</span>
                         </div>
                         <div>
                             <IconButton>
@@ -119,19 +223,47 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                         </div>
                         <div>
                             <IconButton onClick={onClickLike}>
-                                {likes.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} />}
+                                {likes?.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} />}
                             </IconButton>
-                            <span>{likes.length}</span>
+                            <span>{likes?.length}</span>
                         </div>
                         <div>
-                            <IconButton>
+                            <IconButton onClick={handleClickShare}
+                                aria-label="more"
+                                id="long-button"
+                                aria-controls={shareOpen ? 'long-menu' : undefined}
+                                aria-expanded={shareOpen ? 'true' : undefined}
+                                aria-haspopup="true">
                                 <ShareIcon sx={{ ":hover": { color: '#3CA3F1' } }} />
                             </IconButton>
                         </div>
-                    </Box>
+                    </Box>}
+
                 </Box>
 
+                <Menu
+                    id="long-menu"
+                    MenuListProps={{
+                        'aria-labelledby': 'long-button',
+                    }}
+                    anchorEl={shareEl}
+                    open={shareOpen}
+                    onClose={handleCloseShare}
+                >
+                    <MenuItem onClick={copyShare}>
+                        <ContentCopyIcon style={{ marginRight: 10, fontSize: 16 }} />  Копировать ссылку на твит
+                    </MenuItem>
 
+                    {bookmarksState.join() === 'false' ?
+                        <MenuItem onClick={bookmarksRemove}>
+                            <BookmarkRemoveOutlinedIcon style={{ marginRight: 10, fontSize: 20 }} />  Удалить твит из закладок
+                        </MenuItem>
+                        :
+                        <MenuItem onClick={bookmarksAdd}>
+                            <BookmarkAddIcon style={{ marginRight: 10, fontSize: 20 }} />  Закладка
+                         </MenuItem>
+                    }
+                </Menu>
 
                 <IconButton
                     aria-label="more"
@@ -145,7 +277,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                     <MoreVertIcon />
                 </IconButton>
                 <Menu
-
                     id="long-menu"
                     MenuListProps={{
                         'aria-labelledby': 'long-button',
@@ -154,7 +285,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                     open={open}
                     onClose={handleClose}
                 >
-                    {userData._id === user._id && <MenuItem onClick={(e) => deleteTweetById(e)} sx={{ color: '#EA5561' }}>
+                    {userData._id === user?._id && <MenuItem onClick={(e) => deleteTweetById(e)} sx={{ color: '#EA5561' }}>
                         <DeleteOutlinedIcon sx={{ color: '#EA5561' }} />  Удалить твит
                     </MenuItem>}
                     <MenuItem onClick={handleClose}>
@@ -163,8 +294,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
 
                 </Menu>
             </Paper>
-        </Link>
+        </div>
     )
 }
-
-

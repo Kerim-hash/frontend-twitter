@@ -1,12 +1,13 @@
 import produce, { Draft } from 'immer'
 import { UserActions, UserActionType } from './actions'
-import { LoadingState, User} from './contracts/state'
+import { LoadingState, User } from './contracts/state'
 
 export const initialstate: User = {
     loadingState: LoadingState.NEVER,
     data: undefined,
     profile: undefined,
-    link: undefined
+    link: undefined,
+    searchUser: undefined,
 }
 
 export const userReducer = produce((draft: Draft<User>, action: UserActions) => {
@@ -26,5 +27,14 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
         case UserActionType.SET_LINK:
             draft.link = action.payload
             break
+        case UserActionType.SET_FOLLOW_STATE:
+            if (action.payload.status) {
+                action.payload.followed ? draft.data.followings.push(action.payload.follower) : draft.data.followings.pop()
+            }
+            break
+        case UserActionType.SET_SEARCH_USER_BY_NAME:
+            if (action.payload) {
+                draft.searchUser = action.payload
+            }
     }
 }, initialstate)

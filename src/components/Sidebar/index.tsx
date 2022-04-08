@@ -80,28 +80,28 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <div>
+                    <Link to={`/video`}>
                             <NotificationIcon sx={{ fontSize: 27 }} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Уведомления</Typography>
                             </Hidden>
-                        </div>
+                        </Link>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <div>
+                    <Link to={`/messages`}>
                             <MessageIcon sx={{ fontSize: 27 }} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Сообщения</Typography>
                             </Hidden>
-                        </div>
+                        </Link>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <div>
+                        <Link to={`/home/bookmarks`}>
                             <BookmarkIcon sx={{ fontSize: 27 }} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Закладки</Typography>
                             </Hidden>
-                        </div>
+                        </Link>
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
@@ -132,17 +132,17 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                 </ul>
 
-                <IconButton className={classes.profile} onClick={handleClickProfile}>
+                <Box className={classes.profile} onClick={handleClickProfile}>
                     <Box display="flex" >
                         <Avatar alt={user.fullname} src="/static/images/avatar/1.jpg" />
                         <div className={classes.profileInfo}>
-                            <Typography variant="body1">{user.fullname}</Typography>
-                            <Typography variant="body2" className={classes.tweetUserName}>@{user.username}</Typography>
+                            <Typography variant="body1" style={{fontSize: 14, fontWeight: 500}}>{user.fullname}</Typography>
+                            <Typography variant="body2" className={classes.tweetUserName} >@{user.username}</Typography>
                         </div>
                     </Box>
 
                     <MoreHorizIcon />
-                </IconButton>
+                </Box>
 
                 <Menu
                     anchorEl={anchorEl}
@@ -156,6 +156,8 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                             overflow: 'visible',
                             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                             mt: -2,
+                            padding: '9px 9px',
+                            borderRadius: '20px',
                             '& .MuiAvatar-root': {
                                 width: 32,
                                 height: 32,
@@ -178,6 +180,8 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     }}
                     transformOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                     anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                    className={classes.menuWrapper}
+
                 >
                     <MenuItem className={classes.menuItem}>
                         <Link to={`/home/profile/${user._id}`}>
@@ -197,7 +201,6 @@ export const Sidebar: React.FC = (): React.ReactElement => {
             <ModalBlock title="" visible={visibleAddTweetModal} onClose={onClose}>
                 <div style={{ width: 540 }}>
                     <AddTweetForm maxRows={15} minRows={4} />
-
                 </div>
             </ModalBlock>
         </div>
