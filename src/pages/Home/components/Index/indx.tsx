@@ -13,6 +13,7 @@ import { AddTweetForm } from '../../../../components/AddTweetForm';
 import { AddFormState, Tweet} from '../../../../store/ducks/tweets/contracts/state';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTweetsItems, selectIsTweetLoading, selectIsTweetDeleted } from '../../../../store/ducks/tweets/selectors';
+import { selectUser } from '../../../../store/ducks/user/selectors';
 
 const Index = () => {
     const dispatch = useDispatch()
@@ -20,7 +21,9 @@ const Index = () => {
     const tweets = useSelector(selectTweetsItems)
     const loading = useSelector(selectIsTweetLoading)
     const isDeleted = useSelector(selectIsTweetDeleted)
+    const userData = useSelector(selectUser)
 
+    console.log(userData)
 
     const [snackbarState, setSnackbarState] = useState<{ text: string, type: 'error' | 'success' | 'info' }>()
 

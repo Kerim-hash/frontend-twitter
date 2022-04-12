@@ -8,7 +8,10 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        marginLeft: 20
+        marginLeft: 20,
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: 5,
+        },
     },
     textarea: {
         border: 'none',
@@ -24,6 +27,11 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
             color: '#000 !important',
             fontWeight: 500,
         }
+    },
+    icon: {
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '1rem',
+        },
     },
     tweetHeaderFormActions: {
         display: 'flex',
@@ -60,5 +68,13 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         height: '30px',
         right: -5,
         background: 'rgb(143 143 143 / 81%) !important'
+    },
+    button: {
+        height: '35px',
+        marginLeft: '20px',
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: 8,
+        },
+
     }
 }));

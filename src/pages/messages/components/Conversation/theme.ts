@@ -29,6 +29,5 @@ export const useStylesMessageUser = makeStyles((theme: Theme) => ({
     menuIcon: {
         height: 35, 
         marginLeft: 'auto',
-        transform:'rotate(90deg)',
     }
 }));

@@ -23,7 +23,7 @@ export const ModalBlock: React.FC<ModalProps> = ({ title, children, visible = fa
                         <CloseIcon onClick={onClose} />
                     </IconButton>
                     {title} </DialogTitle>
-                <DialogContent>
+                <DialogContent dividers={true}>
                     {children}
                 </DialogContent>
             </Dialog>

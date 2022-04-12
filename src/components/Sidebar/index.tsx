@@ -26,9 +26,15 @@ import IconButton from '@mui/material/IconButton';
 import Logout from '@mui/icons-material/Logout';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { signOut } from '../../store/ducks/user/actions'
+import AddIcon from '@mui/icons-material/Add';
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@emotion/react';
+import { Theme } from '@mui/material';
 export const Sidebar: React.FC = (): React.ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesSidebar()
+    const theme = useTheme();
+    const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
     const user = useSelector(selectData)
 
     const [visibleAddTweetModal, setVisibleAddTweetModal] = useState<boolean>(false)
@@ -80,7 +86,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                    <Link to={`/video`}>
+                        <Link to={`/video`}>
                             <NotificationIcon sx={{ fontSize: 27 }} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Уведомления</Typography>
@@ -88,7 +94,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                         </Link>
                     </li>
                     <li className={classes.sidebarItem}>
-                    <Link to={`/messages`}>
+                        <Link to={`/messages`}>
                             <MessageIcon sx={{ fontSize: 27 }} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Сообщения</Typography>
@@ -128,20 +134,19 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Button onClick={handleClick} variant="contained" fullWidth>Твитнуть</Button>
+                        <Button onClick={handleClick} variant="contained" fullWidth >{matches ? 'Твитнуть' : <AddIcon />}</Button>
                     </li>
                 </ul>
 
                 <Box className={classes.profile} onClick={handleClickProfile}>
-                    <Box display="flex" >
-                        <Avatar alt={user.fullname} src="/static/images/avatar/1.jpg" />
-                        <div className={classes.profileInfo}>
-                            <Typography variant="body1" style={{fontSize: 14, fontWeight: 500}}>{user.fullname}</Typography>
+                    <Box display="flex">
+                        <Avatar alt={user.fullname} src={user.avatar} />
+                        {matches && <div className={classes.profileInfo}>
+                            <Typography variant="body1" style={{ fontSize: 14, fontWeight: 500 }}>{user.fullname}</Typography>
                             <Typography variant="body2" className={classes.tweetUserName} >@{user.username}</Typography>
-                        </div>
+                        </div>}
                     </Box>
-
-                    <MoreHorizIcon />
+                    {matches && <MoreHorizIcon sx={{marginLeft: '80px'}}/>}
                 </Box>
 
                 <Menu

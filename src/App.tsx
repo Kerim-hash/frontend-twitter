@@ -1,7 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-
-import { Auth } from './pages/Auth';
-import Home from './pages/Home/Home';
+// import Auth from './pages/Auth';
 import {
   Routes,
   Route,
@@ -12,15 +10,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectData } from './store/ducks/user/selectors';
 import { FetchGetMe } from './store/ducks/user/actions';
 import NotFound from './pages/NotFound';
-import Messages from './pages/messages';
-import Video from './pages/video';
+import CircularProgress from '@mui/material/CircularProgress';
+const Auth = React.lazy(() => import("./pages/Auth").then((module) => ({ default: module.default, })));
+const Home = React.lazy(() => import("./pages/Home/Home").then((module) => ({ default: module.default, })));
+const Messages = React.lazy(() => import("./pages/messages").then((module) => ({ default: module.default, })));
 function App() {
   const dispatch = useDispatch()
   const user: any = useSelector(selectData)
   let navigate = useNavigate();
   React.useEffect(() => {
     dispatch(FetchGetMe())
-    if(window.location.pathname === '/') navigate("/home");
+    if (window.location.pathname === '/') navigate("/home");
   }, [])
 
   const isAuthenticated = () => {
@@ -51,7 +51,7 @@ function App() {
 
 
   return (
-    <Suspense fallback={<div>Loading....</div>}>
+    <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}><CircularProgress color="primary" /></div>}>
       <div className="App">
         <Routes>
           <Route

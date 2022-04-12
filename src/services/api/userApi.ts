@@ -33,6 +33,10 @@ export const UserApi = {
     async fetchSearchUser(payload): Promise<Response> {
         const { data } = await istance.get(`/users/search/${payload}`)
         return data.data
-    }
+    },
+    async fetchUserUpdate(payload): Promise<Response> {
+        const { data } = await istance.put(`/users/update`, payload)
+        return data.data
+    },
    
 }

@@ -7,6 +7,7 @@ export enum UserActionType {
     FETCH_GET_ME = "User/FETCH_GET_ME",
     FETCH_SIGN_UP = "User/FETCH_SIGN_UP",
     FETCH_SIGN_IN = "User/FETCH_SIGN_IN",
+    FETCH_USER_UPDATE = "User/FETCH_USER_UPDATE",
     FETCH_FOLLOW = "User/FETCH_FOLLOW",
     SET_FOLLOW_STATE = "User/SET_FOLLOW_STATE",
     FETCH_UNFOLLOW = "User/FETCH_UNFOLLOW",
@@ -156,6 +157,17 @@ export const SetSearchUser = (payload: UserType[]): SetSearchUserActionInterface
     payload
 })
 
+// FETCH USER UPDATE // --------------------------------`// FETCH USER UPDATE
+export interface FetchUserUpdateActionInterface extends Action<UserActionType> {
+    type: UserActionType.FETCH_USER_UPDATE,
+    payload: any
+}
+
+export const FetchUserUpdate = (payload: any): FetchUserUpdateActionInterface => ({
+    type: UserActionType.FETCH_USER_UPDATE,
+    payload
+})
+
 
 
 export type UserActions =
@@ -169,4 +181,5 @@ export type UserActions =
     FetchFollowActionInterface |  
     SetFollowStateActionInterface | 
     SetSearchUserActionInterface | 
-    FetchSearchUserActionInterface
+    FetchSearchUserActionInterface | 
+    FetchUserUpdateActionInterface

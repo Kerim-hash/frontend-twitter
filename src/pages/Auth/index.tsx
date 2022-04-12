@@ -7,7 +7,7 @@ import Signin from '../../components/auth/Signin';
 import SignUp from '../../components/auth/SignUp';
 import  {useStylesAuth} from './theme'
 
-export const Auth: React.FC = () => {
+const Auth: React.FC = () => {
     const classes = useStylesAuth()
 
     const [open, setOpen] = useState<"signin" | "signup">();
@@ -43,3 +43,4 @@ export const Auth: React.FC = () => {
     )
 }
 
+export default  Auth

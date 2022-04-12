@@ -19,7 +19,7 @@ import { useStylesAddForm } from './theme'
 import { uploadImage } from '../../utils/uploadImage';
 import Picker from 'emoji-picker-react';
 import ImgList from '../imgList';
-
+import { selectData } from '../../store/ducks/user/selectors'
 
 interface AddTweetFormProps {
     maxRows?: number,
@@ -37,13 +37,13 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
     const dispatch = useDispatch()
     const classes = useStylesAddForm()
     const addFormState = useSelector(selectAddFormState)
+    const userData = useSelector(selectData) 
     const [Textarea, setTextarea] = useState<string>("")
     const textLimitParsent = Math.round(Textarea.length / 280 * 100)
 
     const [images, setImages] = useState<fileImg[]>([] || undefined)
     
     const [showPicker, setShowPicker] = useState<boolean>(false)
-
 
     const handleChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
         if (event.currentTarget) {
@@ -74,7 +74,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
         <Box >
             <Box className={classes.addTweetForm}>
 
-                <Avatar alt="K N" src="/static/images/avatar/1.jpg" />
+                <Avatar alt={userData.username} src={userData?.avatar} />
                 <div className={classes.tweetHeaderForm}>
                     <TextareaAutosize
                         className={classes.textarea}
@@ -92,22 +92,22 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                             <UploadImage setImages={setImages} images={images}/>
 
                             <IconButton color="primary">
-                                <GifIcon />
+                                <GifIcon className={classes.icon}/>
                             </IconButton>
 
                             {showPicker && <Picker onEmojiClick={onEmojiClick} />}
 
 
                             <IconButton color="primary" onClick={() => setShowPicker(true)}>
-                                <SentimentSatisfiedAltOutlinedIcon />
+                                <SentimentSatisfiedAltOutlinedIcon className={classes.icon}/>
                             </IconButton>
 
 
                             <IconButton color="primary">
-                                <EventOutlinedIcon />
+                                <EventOutlinedIcon className={classes.icon}/>
                             </IconButton>
                         </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }} style={{ position: 'relative' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }} style={{ position: 'relative', alignItems: 'self-end', }}>
                             <Box className={classes.Progress}>
                                 <CircularProgress
                                     variant="determinate"
@@ -127,7 +127,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                             <LoadingButton
                                 loading={addFormState === AddFormState.LOADING}
                                 size="small" variant="contained"
-                                style={{ marginLeft: 20, height: 35 }}
+                                className={classes.button}
                                 disabled={textLimitParsent >= 100}
                                 onClick={handleClickAddTweet}
                             >

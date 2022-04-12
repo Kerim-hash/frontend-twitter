@@ -45,10 +45,10 @@ export function* FetchAddCommentTweet({payload}: FetchAddCommentTweetsactionInte
 
 export function* LikeToggleRequest({payload}: FetchLikeTweetsactionInterface ) {
   try{
-    const data = yield call(TweetsApi.likeToggleTweet, payload)
+     let data = yield call(TweetsApi.likeToggleTweet, payload)
      yield put(setLikeState({data, payload})) 
   }catch(e){
-    // yield put(setLikeState(LikedState.NEVER))
+    yield put(setLikeState({message: 'error'}))
   }
 }
 

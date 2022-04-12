@@ -15,7 +15,7 @@ import Hidden from '@mui/material/Hidden';
 import SearchIcon from '@mui/icons-material/Search';
 import { useDebounce } from '../../hook/useDebounce';
 import { useDispatch, useSelector } from 'react-redux';
-import { FetchSearchUser } from '../../store/ducks/user/actions';
+import { FetchSearchUser, SetSearchUser } from '../../store/ducks/user/actions';
 import { selectSearchUser } from '../../store/ducks/user/selectors';
 import { NavLink } from 'react-router-dom';
 import { useStylesAside } from './theme';
@@ -40,17 +40,21 @@ const Aside: React.FC = (): ReactElement => {
     };
 
     const userData = useSelector(selectSearchUser)
+
     React.useEffect(() => {
         if (search) {
             dispatch(FetchSearchUser(search))
         }
     }, [search])
 
-    console.log(userData)
+    React.useEffect(() => {
+        dispatch(SetSearchUser([]))
+    }, [window.location.pathname])
 
     return (
         <Hidden lgDown>
-            <Grid item xs={0} lg={0} md={3.4} style={{ position: 'sticky', top: 0 }}>
+            <Grid item xs={0} lg={0} md={3.4} >
+                <div style={{ position: 'sticky', top: 0 }}>
                 <OutlinedInput
                     fullWidth
                     className={classes.outlinedInput}
@@ -106,6 +110,7 @@ const Aside: React.FC = (): ReactElement => {
                         <Link color="text.lightBlue" variant="body2" >Показать ёще</Link>
                     </Box>
                 </Paper>
+                </div>
             </Grid>
         </Hidden>
     )

@@ -103,6 +103,11 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         width: 120,
         height: 120,
         objectFit: 'contain'
-    }
+    },
+    icon: {
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '1rem',
+        },
+    },
 
 }));

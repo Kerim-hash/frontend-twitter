@@ -32,12 +32,9 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
             "& div": {
                 background: "rgba(15, 20, 25, 0.1)"
             },
-            "& h6": {
-                color: theme.palette.primary.main
+            "& a": {
+                background: "rgba(15, 20, 25, 0.1)"
             },
-            "& svg path": {
-                fill: theme.palette.primary.main
-            }
         },
         "& a": {
             display: 'inline-flex',
@@ -48,7 +45,7 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
             color: 'inherit',
             textDecoration: 'none',
             height: "50px",
-            transition: "all .7s ease-out",
+            transition: "all .2s ease-out",
         },
         "& div": {
             display: 'inline-flex',
@@ -59,15 +56,17 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
             height: "50px",
             transition: "all .7s ease-out",
         },
-        "& svg": {
-            marginRight: '20px'
-        }
+        [theme.breakpoints.up('sm')]: {
+            "& svg": {
+                marginRight: '20px'
+            }
+          },
     },
 
     profile: {
         display: 'flex',
         padding: '9px',
-        width: '250px !important ',
+        width: 'auto !important ',
         justifyContent: 'space-between !important',
         alignItems: 'center !important',
         margin: '0 5px',

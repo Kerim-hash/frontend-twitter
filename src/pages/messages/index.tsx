@@ -70,6 +70,11 @@ const Messages = () => {
 
     useEffect(() => {
         socket.current.emit("addUser", user._id);
+        socket.current.on("getUsers", (users) => {
+            setOnlineUsers(
+                users
+            );
+          });
     }, [user]);
 
     useEffect(() => {
@@ -158,7 +163,13 @@ const Messages = () => {
     const addConversations = (id) => {
         dispatch(FetchAddConversation({senderId: user._id, receiverId: id }))
     }
+
+    const defineOnlineUser = () => {
+
+    }
     
+    // console.log(conversations)
+    // console.log(onlineUsers)
     return (
         <section className={classes.wrapper}>
             <Grid container spacing={1}>
@@ -191,9 +202,9 @@ const Messages = () => {
                         </div>
 
                         <Box className={classes.messageUsers}>
-                            {conversations && conversations?.map((item) => {
+                            {conversations && conversations?.map((item, index) => {
                                 return <div onClick={() => openChat(item)}>
-                                    <Conversation setCurrentChat={setCurrentChat} conversations={item} currentUser={user._id} />
+                                    <Conversation setCurrentChat={setCurrentChat} conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} />
                                 </div>
                             })
                             }

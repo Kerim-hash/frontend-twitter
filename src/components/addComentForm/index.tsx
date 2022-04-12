@@ -91,7 +91,6 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
                 <div className={classes.tweetHeaderForm}>
                     <TextareaAutosize
                         className={classes.textarea}
-                        aria-label="empty textarea"
                         placeholder="Твитуть в ответ"
                         minRows={minRows}
                         maxRows={maxRows}

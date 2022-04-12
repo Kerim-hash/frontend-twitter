@@ -5,22 +5,25 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useStylesMessageUser } from './theme'
 import { istance } from '../../../../core/axios';
-import {ConversationType} from '../../../../store/ducks/Messages/contracts/state'
+import { ConversationType } from '../../../../store/ducks/Messages/contracts/state'
 import { UserType } from '../../../../store/ducks/user/contracts/state';
 import { useSelector } from 'react-redux';
 import { selectData } from '../../../../store/ducks/user/selectors';
-
+import { styled } from '@mui/material/styles';
+import Badge from '@mui/material/Badge';
 interface conversationProps {
     conversations?: ConversationType,
     currentUser?: string,
-    setCurrentChat?: any
+    setCurrentChat?: any,
+    index: number,
+    onlineUsers: any[]
 }
 
-const Conversation: React.FC<conversationProps> = ({setCurrentChat, conversations}: conversationProps): ReactElement => {
+const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversations, onlineUsers, index, }: conversationProps): ReactElement => {
     const classes = useStylesMessageUser()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [user, setUser] = React.useState<UserType>(null)
@@ -40,13 +43,13 @@ const Conversation: React.FC<conversationProps> = ({setCurrentChat, conversation
     };
 
 
-     React.useEffect( () => {
-        const friendId = conversations && conversations.members.find(m => m !== userData._id) 
+    React.useEffect(() => {
+        const friendId = conversations && conversations.members.find(m => m !== userData._id)
         const getUser = async () => {
-            try{
+            try {
                 const res = await istance.get(`users/withoutDetails/${friendId}`)
                 setUser(res.data.data)
-            }catch(e){
+            } catch (e) {
                 console.log(e)
             }
         }
@@ -54,15 +57,50 @@ const Conversation: React.FC<conversationProps> = ({setCurrentChat, conversation
     }, [userData, conversations])
 
 
-console.log(conversations);
+    console.log(conversations);
+    const StyledBadge = styled(Badge)(({ theme }) => ({
+        '& .MuiBadge-badge': {
+            backgroundColor: '#44b700',
+            color: '#44b700',
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+            '&::after': {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                animation: 'ripple 1.2s infinite ease-in-out',
+                border: '1px solid currentColor',
+                content: '""',
+            },
+        },
+        '@keyframes ripple': {
+            '0%': {
+                transform: 'scale(.8)',
+                opacity: 1,
+            },
+            '100%': {
+                transform: 'scale(2.4)',
+                opacity: 0,
+            },
+        },
+    }));
+
 
 
 
     return (
-        <Box  className={classes.wrapper}>
+        <Box className={classes.wrapper}>
             <Box className={classes.item}>
-            <Avatar alt="M.D" src="https://twitter.com/DavidWells/photo" />
-            <Typography variant="body1" className={classes.username}>{user?.username}</Typography>
+                {user?._id === onlineUsers[index]?.userId ? <StyledBadge
+                    overlap="circular"
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    variant="dot"
+                >
+                    <Avatar alt="M.D" src="https://twitter.com/DavidWells/photo" />
+                </StyledBadge> : <Avatar alt="M.D" src="https://twitter.com/DavidWells/photo" />}
+                <Typography variant="body1" className={classes.username}>{user?.username}</Typography>
             </Box>
             <IconButton
                 aria-label="more"
@@ -73,14 +111,14 @@ console.log(conversations);
                 className={classes.menuIcon}
                 onClick={handleClick}
             >
-                <MoreVertIcon />
+                <MoreHorizOutlinedIcon />
             </IconButton>
             <Menu
                 id="long-menu"
                 MenuListProps={{
                     'aria-labelledby': 'long-button',
                 }}
-               
+
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
@@ -93,4 +131,4 @@ console.log(conversations);
     )
 }
 
-export default  React.memo(Conversation) 
+export default React.memo(Conversation)

@@ -16,7 +16,7 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         width: '100%',
         resize: 'none',
         fontSize: 22,
-        fontFamily: "Rubik",
+        fontFamily: ['Rubik', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),
         "&:placeholder": {
             fontSize: 22,
             fontWeight: 500,

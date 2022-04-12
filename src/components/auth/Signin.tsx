@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import TextField from '@mui/material/TextField';
-import { useStylesAuth } from '../../pages/Auth/theme';
 import DialogActions from '@mui/material/DialogActions';
 import { ModalBlock } from '../../components/Modal';
 import { useForm } from "react-hook-form";
@@ -13,7 +12,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FetchSignIn, setUserLoadingState } from '../../store/ducks/user/actions';
 import { selectData, selectLoadingState } from '../../store/ducks/user/selectors';
 import { LoadingState } from '../../store/ducks/user/contracts/state';
-import { useNavigate } from 'react-router-dom';
 
 interface SigninProps {
     open: boolean;
@@ -32,12 +30,8 @@ const LoginFormSchema = yup.object({
 }).required();
 
 const Signin = ({ open, onClose }: SigninProps) => {
-    const classes = useStylesAuth()
     const dispatch = useDispatch()
-    let navigate = useNavigate();
-    const data = useSelector(selectData)
     const loadingData = useSelector(selectLoadingState)
-
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormProps>({
         resolver: yupResolver(LoginFormSchema)
@@ -82,7 +76,6 @@ const Signin = ({ open, onClose }: SigninProps) => {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="name"
                     label="Email Address"
@@ -94,7 +87,6 @@ const Signin = ({ open, onClose }: SigninProps) => {
                 />
                 <p>{errors.username?.message}</p>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="password"
                     label="password"

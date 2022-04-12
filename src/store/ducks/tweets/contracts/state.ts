@@ -61,7 +61,7 @@ export interface Tweet {
 
 export interface TweetsState {
     items: Tweet[],
-    data?: Tweet,
+    data: Tweet,
     loadingState: LoadingState,
     addFormState: AddFormState,
     addCommentState: AddCommentState,

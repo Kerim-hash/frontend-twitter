@@ -178,10 +178,38 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         }
     }, [username])
 
-    const bookmarksState = userData.bookmarks.map((item: any) => item._id.includes(bookmarks.join()))
+    const bookmarksState = userData.bookmarks.map((item: any) => item._id.includes(bookmarks?.join()))
 
-    // console.log(bookmarksState.join())
-    // console.log(bookmarksState.join() === 'false')
+
+   
+function stringToColor(string: string) {
+    let hash = 0;
+    let i;
+  
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let color = '#';
+  
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+    return color;
+  }
+  
+  function stringAvatar(name: string) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ').length >= 2 ? name.split(' ')[1][0] : '' }`,
+    };
+  }
+
     return (
         <div onClick={() => navigateToTweet()} >
             <Snackbar open={bookmarksStateData === BookmarksState.BOOKMARKSED || bookmarksStateData === BookmarksState.UNBOOKMARKSED} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
@@ -190,7 +218,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                 </Alert>
             </Snackbar>
             <Paper variant="outlined" className={classNames(classes.tweet)}>
-                <Avatar alt={user?.fullname} src="/static/images/avatar/1.jpg" />
+             <Avatar  {...stringAvatar(user?.fullname ? user?.fullname : fullname ? fullname : userTweet?.fullname)} src={user?.avatar} />  
                 <Box style={{ marginLeft: 20, flex: 1, maxWidth: '75%' }}>
                     <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1">{user?.fullname ? user?.fullname : fullname ? fullname : userTweet?.fullname}</Typography><Typography variant="body2" className={classes?.tweetUserName}>@{user?.username ? user?.username : username ? username : userTweet?.username}</Typography><span>·</span><Typography variant="caption" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
                     <Typography variant="body2" color="text.primary" style={{ marginTop: 5, wordBreak: 'break-word' }}>
@@ -212,18 +240,18 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                     {!fullname && <Box className={classes.tweetActions}>
                         <div>
                             <IconButton>
-                                <ModeCommentOutlinedIcon sx={{ ":hover": { color: '#3CA3F1' } }} />
+                                <ModeCommentOutlinedIcon sx={{ ":hover": { color: '#3CA3F1' } }} className={classes.icon} />
                             </IconButton>
                             <span>{comment?.length}</span>
                         </div>
                         <div>
                             <IconButton>
-                                <RepeatIcon sx={{ ":hover": { color: '#7FDCBD' } }} />
+                                <RepeatIcon sx={{ ":hover": { color: '#7FDCBD' } }} className={classes.icon} />
                             </IconButton>
                         </div>
                         <div>
                             <IconButton onClick={onClickLike}>
-                                {likes?.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} />}
+                                {likes?.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} className={classes.icon} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} className={classes.icon} />}
                             </IconButton>
                             <span>{likes?.length}</span>
                         </div>
@@ -234,7 +262,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                                 aria-controls={shareOpen ? 'long-menu' : undefined}
                                 aria-expanded={shareOpen ? 'true' : undefined}
                                 aria-haspopup="true">
-                                <ShareIcon sx={{ ":hover": { color: '#3CA3F1' } }} />
+                                <ShareIcon sx={{ ":hover": { color: '#3CA3F1' } }} className={classes.icon} />
                             </IconButton>
                         </div>
                     </Box>}

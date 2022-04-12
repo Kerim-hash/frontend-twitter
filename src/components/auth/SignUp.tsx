@@ -39,10 +39,8 @@ const RegisterFormSchema = yup.object({
 }).required();
 
 const SignUp = ({ open, onClose }: SignUpProps) => {
-    const classes = useStylesAuth()
     const dispatch = useDispatch()
 
-    const data = useSelector(selectData)
     const link = useSelector(selectLink)
     const loadingData = useSelector(selectLoadingState)
 
@@ -90,7 +88,6 @@ const SignUp = ({ open, onClose }: SignUpProps) => {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="name"
                     label="Name"
@@ -102,7 +99,6 @@ const SignUp = ({ open, onClose }: SignUpProps) => {
                 />
                    <p>{errors.username?.message}</p>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="fullname"
                     label="fullname"
@@ -114,7 +110,6 @@ const SignUp = ({ open, onClose }: SignUpProps) => {
                 />
                    <p>{errors.fullname?.message}</p>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="name"
                     label="Email Address"
@@ -126,7 +121,6 @@ const SignUp = ({ open, onClose }: SignUpProps) => {
                 />
                 <p>{errors.email?.message}</p>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="password"
                     label="password"
@@ -138,7 +132,6 @@ const SignUp = ({ open, onClose }: SignUpProps) => {
                 />
                  <p>{errors.password?.message}</p>
                 <TextField
-                    autoFocus
                     margin="dense"
                     id="password2"
                     label="Confirm password"
@@ -160,7 +153,7 @@ const SignUp = ({ open, onClose }: SignUpProps) => {
                         Зарегистрироваться
                               </LoadingButton>
                 </DialogActions>
-                {link?.link && <Alert severity="success"> Для того, чтобы подтвердить аккаунт, перейдите по этой ссылке <a href={link?.link}>{link?.link}</a> </Alert>}
+                {link?.link && <Alert severity="success"> Для того, чтобы подтвердить аккаунт, перейдите по этой ссылке <a href={link.link ? link.link : '#'}>{link?.link}</a> </Alert>}
               
             </form>
         </ModalBlock>

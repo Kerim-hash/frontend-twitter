@@ -13,6 +13,7 @@ export interface UserType {
     about?: string;
     tweets?: string[],
     createdAt: string,
+    avatar?: string,
     followers?:  string[] | {
         fullname: string,
         username: string,

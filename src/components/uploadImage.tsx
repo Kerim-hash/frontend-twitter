@@ -2,7 +2,6 @@ import React, { ReactElement, useState } from 'react'
 import IconButton from '@mui/material/IconButton';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import {fileImg} from './AddTweetForm/index'
-import axios from 'axios';
 interface UploadImageProps {
     setImages: (callback: (prev: fileImg[]) => fileImg[]) => void,
     images?: fileImg[]
