@@ -14,6 +14,7 @@ export interface UserType {
     tweets?: string[],
     createdAt: string,
     avatar?: string,
+    bgImage?: string,
     followers?:  string[] | {
         fullname: string,
         username: string,

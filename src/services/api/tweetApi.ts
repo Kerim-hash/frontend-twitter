@@ -1,4 +1,4 @@
-import { Tweet, TweetsState } from '../../store/ducks/tweets/contracts/state'
+import { Tweet } from '../../store/ducks/tweets/contracts/state'
 import {istance} from '../../core/axios'
 
 interface Response<T> {
@@ -9,7 +9,6 @@ interface Response<T> {
 
 
 export const TweetsApi = {
-
     async fetchTweets(id?: string): Promise<Tweet[]> {
         const { data } = await istance.get<Response<Tweet[]>>(!!id ? `/tweet/user/${id}` : 'tweets')
         return data.data

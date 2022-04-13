@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import TextField from '@mui/material/TextField';
-import { useStylesAuth } from '../../pages/Auth/theme';
 import DialogActions from '@mui/material/DialogActions';
 import { ModalBlock } from '../../components/Modal';
 import { useForm } from "react-hook-form";
@@ -13,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FetchSignUp, setUserLoadingState } from '../../store/ducks/user/actions';
 import { selectData, selectLink, selectLoadingState } from '../../store/ducks/user/selectors';
 import { LoadingState } from '../../store/ducks/user/contracts/state';
+import { Link } from 'react-router-dom';
 
 interface SignUpProps {
     open: boolean;
@@ -146,14 +146,13 @@ const SignUp = ({ open, onClose }: SignUpProps) => {
                     <LoadingButton
                         loading={loadingData === LoadingState.LOADING}
                         type="submit"
-                        size="small"
                         variant="contained"
                         fullWidth
                     >
                         Зарегистрироваться
                               </LoadingButton>
                 </DialogActions>
-                {link?.link && <Alert severity="success"> Для того, чтобы подтвердить аккаунт, перейдите по этой ссылке <a href={link.link ? link.link : '#'}>{link?.link}</a> </Alert>}
+                {link?.link && <Alert severity="success"> Для того, чтобы подтвердить аккаунт, перейдите по этой ссылке <Link to={link.link}>{link?.link}</Link> </Alert>}
               
             </form>
         </ModalBlock>

@@ -4,12 +4,11 @@ export const useStylesProfile = makeStyles((theme: Theme) => ({
     profileHeader: {
         height: 200,
         background: '#CFD9DE',
-
     },
     profileInfo: {
         display: 'flex',
         flexDirection: 'column',
-        marginTop: -80,
+        marginTop: -70,
     },
     tab: {
         '& .MuiBox-root': {

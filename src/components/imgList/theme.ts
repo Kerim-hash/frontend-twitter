@@ -31,10 +31,10 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         width: 'auto',
         height: '280px',
         "&:nth-child(1)": {
-            borderRadius: '10px 0 0 10px',
+            borderRadius: '15px 0 0 15px',
         },
         "&:nth-child(2)": {
-            borderRadius: '0 10px 10px 0',
+            borderRadius: '0 15px 15px 0',
         }
     },
     coupleImageEdit: {
@@ -43,30 +43,30 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
     },
     treeImage: {
         "&:nth-child(1)": {
-            borderRadius: '10px 0 0 0',
+            borderRadius: '15px 0 0 0',
             height: '150px'
         },
         "&:nth-child(3)": {
-            borderRadius: '0 0 0 10px',
+            borderRadius: '0 0 0 15px',
             height: '145.3px',
         },
         "&:nth-child(2)": {
             height: '295px',
-            borderRadius: '0 10px 10px 0',
+            borderRadius: '0 15px 15px 0',
         }
     },
     FullImage: {
         "&:nth-child(1)": {
-            borderRadius: '10px 0 0 0',
+            borderRadius: '15px 0 0 0',
         },
         "&:nth-child(3)": {
-            borderRadius: '0 0 0 10px',
+            borderRadius: '0 0 0 15px',
         },
         "&:nth-child(2)": {
-            borderRadius: '0 10px 0 0',
+            borderRadius: '0 15px 0 0',
         },
         "&:nth-child(4)": {
-            borderRadius: '0 0 10px 0',
+            borderRadius: '0 0 15px 0',
         }
     },
     treeImageEdit: {

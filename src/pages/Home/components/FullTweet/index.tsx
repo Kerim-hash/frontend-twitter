@@ -29,12 +29,14 @@ import MenuItem from '@mui/material/MenuItem';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkRemoveOutlinedIcon from '@mui/icons-material/BookmarkRemoveOutlined';
+import AvatarComponent from '../../../../components/avatar'
 
 export const FullTweet: React.FC = (): React.ReactElement | null => {
     const dispatch = useDispatch()
     const params: { id?: string } = useParams()
     const userData = useSelector(selectData)
     const [shareEl, setShareEl] = React.useState<null | HTMLElement>(null);
+
     React.useEffect(() => {
         dispatch(fetchTweet(params.id || ""))
         return () => {
@@ -63,7 +65,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
     const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
-        dispatch(fetchLikeToggleTweet({ id: tweetData._id, userID: userData._id }))
+        dispatch(fetchLikeToggleTweet({ id: tweetData._id, userID: userData._id, liked: !tweetData.likes.includes(userData._id) }))
     }
 
     const imagesList = tweetData.images.map((obj: any) => ({
@@ -107,7 +109,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
         <Paper variant="outlined" style={{ width: '-webkit-fill-available', }}>
             <Box style={{ width: '-webkit-fill-available', padding: '20px 13px' }}>
                 <Link to={`/home/profile/${tweetData.user._id}`} className={classes.tweetsHeaderLink}>
-                    <Avatar alt={tweetData.user.avatarUrl} src="/static/images/avatar/1.jpg" />
+                    <AvatarComponent user={tweetData.user}/>
                     <Box className={classes.tweetFullHeader}><Typography variant="body1">{tweetData.user.fullname}</Typography><Typography variant="body2" className={classes.tweetFullUserName}>@{tweetData.user.username}</Typography></Box>
                 </Link>
 
@@ -128,8 +130,8 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                     </ModalGateway>
 
                     <Box display="flex" >
-                        <Typography variant="body1" color={'#7F8C95'}>{format(new Date(tweetData.createdAt), 'H:mm', { locale: ruLand })}</Typography>
-                        <Typography variant="body1" color={'#7F8C95'}>{format(new Date(tweetData.createdAt), 'dd MMM yyyy г.', { locale: ruLand })}</Typography>
+                        <Typography variant="body1" color={'#7F8C95'}>{format(new Date(tweetData.createdAt), 'H:mm ', { locale: ruLand })}</Typography>
+                        <Typography variant="body1" color={'#7F8C95'} style={{marginLeft: 3}}>{format(new Date(tweetData.createdAt),  'dd MMM yyyy г.', { locale: ruLand })}</Typography>
                     </Box>
 
                     <Box className={classes.tweetActions} style={{ maxWidth: '100%', borderTop: '1px solid #EFF3F4', borderBottom: '1px solid #EFF3F4', padding: '7px 40px' }}>
@@ -177,7 +179,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                         <ContentCopyIcon style={{ marginRight: 10, fontSize: 16 }} />  Копировать ссылку на твит
                     </MenuItem>
 
-                    {bookmarksState.join() === 'false' ?
+                    {/* {bookmarksState.join() === 'false' ?
                         <MenuItem onClick={bookmarksRemove}>
                             <BookmarkRemoveOutlinedIcon style={{ marginRight: 10, fontSize: 20 }} />  Удалить твит из закладок
                         </MenuItem>
@@ -185,7 +187,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                         <MenuItem onClick={bookmarksAdd}>
                             <BookmarkAddIcon style={{ marginRight: 10, fontSize: 20 }} />  Закладка
                          </MenuItem>
-                    }
+                    } */}
                 </Menu>
                 <AddComentForm id={params.id} fullname={userData.fullname} username={userData.username} />
 
@@ -199,7 +201,6 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                     images={item?.images}
                     username={item.username}
                     fullname={item.fullname}
-
                 />
             })}
         </Paper>

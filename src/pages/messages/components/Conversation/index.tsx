@@ -9,24 +9,33 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useStylesMessageUser } from './theme'
 import { istance } from '../../../../core/axios';
-import { ConversationType } from '../../../../store/ducks/Messages/contracts/state'
 import { UserType } from '../../../../store/ducks/user/contracts/state';
 import { useSelector } from 'react-redux';
 import { selectData } from '../../../../store/ducks/user/selectors';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
+import AvatarComponent from '../../../../components/avatar';
+
 interface conversationProps {
-    conversations?: ConversationType,
+    conversations?: {
+        _id: string,
+        members: string[],
+        createdAt: string,
+        updatedAt: string,
+    },
     currentUser?: string,
     setCurrentChat?: any,
     index: number,
-    onlineUsers: any[]
+    onlineUsers: any[],
+    deleteConversation: (id: string) => void
 }
 
-const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversations, onlineUsers, index, }: conversationProps): ReactElement => {
+const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversations, onlineUsers, index, deleteConversation}: conversationProps): ReactElement => {
     const classes = useStylesMessageUser()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    
     const [user, setUser] = React.useState<UserType>(null)
+
     const userData = useSelector(selectData)
     const open = Boolean(anchorEl);
 
@@ -57,7 +66,7 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
     }, [userData, conversations])
 
 
-    console.log(conversations);
+    
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
             backgroundColor: '#44b700',
@@ -87,7 +96,7 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
         },
     }));
 
-
+   
 
 
     return (
@@ -98,9 +107,12 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     variant="dot"
                 >
-                    <Avatar alt="M.D" src="https://twitter.com/DavidWells/photo" />
-                </StyledBadge> : <Avatar alt="M.D" src="https://twitter.com/DavidWells/photo" />}
-                <Typography variant="body1" className={classes.username}>{user?.username}</Typography>
+                   <AvatarComponent user={user} />
+                </StyledBadge> :  <AvatarComponent user={user} />}
+                <Box>
+                <Typography variant="body1" className={classes.username}>{user?.fullname}</Typography>
+                <Typography variant="body2" className={classes.username}>@{user?.username}</Typography>
+                </Box>
             </Box>
             <IconButton
                 aria-label="more"
@@ -123,7 +135,7 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem sx={{ color: '#EA5561' }}>
+                <MenuItem sx={{ color: '#EA5561' }} onClick={(e) => deleteConversation(conversations._id)}>
                     <DeleteOutlinedIcon sx={{ color: '#EA5561' }} />  Удалить переписку
                 </MenuItem>
             </Menu>

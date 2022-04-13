@@ -47,7 +47,7 @@ export interface Tweet {
     user: {
         username: string,
         fullname: string,
-        avatarUrl: string,
+        avatar: string,
         _id: string,
         bookmarks: string[]
     },

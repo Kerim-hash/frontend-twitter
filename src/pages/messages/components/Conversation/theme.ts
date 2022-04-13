@@ -19,7 +19,7 @@ export const useStylesMessageUser = makeStyles((theme: Theme) => ({
     },
     item: {
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: 'align-start',
     },
     username: {
         marginLeft: '10px !important',

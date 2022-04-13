@@ -1,7 +1,6 @@
 import React from 'react'
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import LikeIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -30,15 +29,11 @@ import { istance } from '../../core/axios';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { selectBookmarksState } from '../../store/ducks/tweets/selectors';
+import AvatarComponent from '../avatar';
+import { UserType } from '../../store/ducks/user/contracts/state';
 
 interface TweetProps {
-    user?: {
-        username: string,
-        fullname: string,
-        avatarUrl: string,
-        _id: string,
-        bookmarks: string[]
-    },
+    user?: UserType,
     createdAt?: string,
     text?: string | any
     _id: string,
@@ -50,7 +45,7 @@ interface TweetProps {
     bookmarks?: string[] | Tweet[]
 }
 
-export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes, comment, fullname, username, bookmarks }: TweetProps): React.ReactElement => {
+export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes, comment, fullname, username, bookmarks}: TweetProps): React.ReactElement => {
     const classes = TweetStyle()
     const dispatch = useDispatch()
     let navigate = useNavigate();
@@ -62,8 +57,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
 
     const [shareEl, setShareEl] = React.useState<null | HTMLElement>(null);
     const shareOpen = Boolean(shareEl);
-    
-    const [userTweet, setUserTweet] = React.useState<{ fullname: string, username: string, _id: string, bookmarks: string[] }>(null)
 
     const handleClose = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
@@ -97,7 +90,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
-        dispatch(fetchLikeToggleTweet({ id: _id, userID: userData._id }))
+        dispatch(fetchLikeToggleTweet({ id: _id, userID: userData._id, liked: likes?.includes(userData._id)}))
     }
 
     const [toggle, setToggle] = React.useState<boolean>(false);
@@ -149,7 +142,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const navigateToProfile = (event) => {
         event.preventDefault()
         event.stopPropagation();
-        navigate(`/home/profile/${user._id !== undefined ? user._id : userTweet?._id}`)
+        navigate(`/home/profile/${user._id}`)
     }
 
     const bookmarksAdd = (event) => {
@@ -163,53 +156,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         dispatch(fetchBookmarks({ userID: user?._id, tweetID: _id }))
     }
 
-    React.useEffect(() => {
-        if ((user?.fullname ? user?.fullname : fullname) === undefined) {
-
-            const getUser = async () => {
-                try {
-                    const res = await istance.get(`users/withoutDetails/${user}`)
-                    setUserTweet(res.data.data)
-                } catch (e) {
-                    console.log(e)
-                }
-            }
-            getUser()
-        }
-    }, [username])
-
-    const bookmarksState = userData.bookmarks.map((item: any) => item._id.includes(bookmarks?.join()))
-
-
-   
-function stringToColor(string: string) {
-    let hash = 0;
-    let i;
-  
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-  
-    let color = '#';
-  
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-    /* eslint-enable no-bitwise */
-    return color;
-  }
-  
-  function stringAvatar(name: string) {
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-      },
-      children: `${name.split(' ')[0][0]}${name.split(' ').length >= 2 ? name.split(' ')[1][0] : '' }`,
-    };
-  }
-
+    console.log(user)
     return (
         <div onClick={() => navigateToTweet()} >
             <Snackbar open={bookmarksStateData === BookmarksState.BOOKMARKSED || bookmarksStateData === BookmarksState.UNBOOKMARKSED} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
@@ -218,9 +165,11 @@ function stringToColor(string: string) {
                 </Alert>
             </Snackbar>
             <Paper variant="outlined" className={classNames(classes.tweet)}>
-             <Avatar  {...stringAvatar(user?.fullname ? user?.fullname : fullname ? fullname : userTweet?.fullname)} src={user?.avatar} />  
+
+                <AvatarComponent fullname={fullname} user={user}  />
+
                 <Box style={{ marginLeft: 20, flex: 1, maxWidth: '75%' }}>
-                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1">{user?.fullname ? user?.fullname : fullname ? fullname : userTweet?.fullname}</Typography><Typography variant="body2" className={classes?.tweetUserName}>@{user?.username ? user?.username : username ? username : userTweet?.username}</Typography><span>·</span><Typography variant="caption" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
+                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1">{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" className={classes?.tweetUserName}>@{user?.username ? user?.username : username }</Typography><span>·</span><Typography variant="caption" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
                     <Typography variant="body2" color="text.primary" style={{ marginTop: 5, wordBreak: 'break-word' }}>
                         {text}
                     </Typography>
@@ -251,7 +200,7 @@ function stringToColor(string: string) {
                         </div>
                         <div>
                             <IconButton onClick={onClickLike}>
-                                {likes?.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} className={classes.icon} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} className={classes.icon} />}
+                                {likes?.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} className={classes.likeIcon} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} className={classes.icon} />}
                             </IconButton>
                             <span>{likes?.length}</span>
                         </div>
@@ -282,7 +231,7 @@ function stringToColor(string: string) {
                         <ContentCopyIcon style={{ marginRight: 10, fontSize: 16 }} />  Копировать ссылку на твит
                     </MenuItem>
 
-                    {bookmarksState.join() === 'false' ?
+                    {/* {bookmarksState.join() === 'false' ?
                         <MenuItem onClick={bookmarksRemove}>
                             <BookmarkRemoveOutlinedIcon style={{ marginRight: 10, fontSize: 20 }} />  Удалить твит из закладок
                         </MenuItem>
@@ -290,7 +239,7 @@ function stringToColor(string: string) {
                         <MenuItem onClick={bookmarksAdd}>
                             <BookmarkAddIcon style={{ marginRight: 10, fontSize: 20 }} />  Закладка
                          </MenuItem>
-                    }
+                    } */}
                 </Menu>
 
                 <IconButton
@@ -319,7 +268,6 @@ function stringToColor(string: string) {
                     <MenuItem onClick={handleClose}>
                         Подробнее
                     </MenuItem>
-
                 </Menu>
             </Paper>
         </div>

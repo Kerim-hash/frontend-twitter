@@ -10,11 +10,12 @@ import { fetchTweets, setAddFormLoadingState } from '../../../../store/ducks/twe
 import { useStylesHome } from './theme'
 import { TweetComponent } from '../../../../components/Tweet';
 import { AddTweetForm } from '../../../../components/AddTweetForm';
-import { AddFormState, Tweet} from '../../../../store/ducks/tweets/contracts/state';
+import { AddFormState, Tweet } from '../../../../store/ducks/tweets/contracts/state';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTweetsItems, selectIsTweetLoading, selectIsTweetDeleted } from '../../../../store/ducks/tweets/selectors';
 import { selectUser } from '../../../../store/ducks/user/selectors';
-
+import { TransitionGroup } from 'react-transition-group';
+import Collapse from '@mui/material/Collapse';
 const Index = () => {
     const dispatch = useDispatch()
     const classes = useStylesHome()
@@ -52,18 +53,19 @@ const Index = () => {
             </Snackbar>
 
             <Box className={classes.tweets} >
-                    <div className={classes.tweetsHeader}>
-                        <Typography variant="h6" style={{ fontWeight: 700, fontSize: 20 }}>Главная</Typography>
-                        <IconButton>
-                            <AutoAwesomeIcon />
-                        </IconButton>
-                    </div>
-                    <div style={{ padding: 15 }}>
-                        <AddTweetForm />
-                    </div>
-                    {
-                        loading ? <div style={{ textAlign: 'center', marginTop: 50 }}><CircularProgress disableShrink /></div> : Array.isArray(tweets) && tweets.map((tweet: Tweet) => {
-                            return <TweetComponent
+                <div className={classes.tweetsHeader}>
+                    <Typography variant="h6" style={{ fontWeight: 700, fontSize: 20 }}>Главная</Typography>
+                    <IconButton>
+                        <AutoAwesomeIcon />
+                    </IconButton>
+                </div>
+                <div style={{ padding: 15 }}>
+                    <AddTweetForm />
+                </div>
+                {
+                    loading ? <div style={{ textAlign: 'center', marginTop: 50 }}><CircularProgress disableShrink /></div> : <TransitionGroup>{Array.isArray(tweets) && tweets.map((tweet: Tweet) => {
+                        return <Collapse key={tweet._id}>
+                            <TweetComponent
                                 key={tweet._id}
                                 user={tweet.user}
                                 _id={tweet._id}
@@ -74,8 +76,10 @@ const Index = () => {
                                 comment={tweet.comment}
                                 bookmarks={tweet.bookmarks}
                             />
-                        })
-                    }
+                        </Collapse>
+
+                    })}
+                    </TransitionGroup>}
             </Box>
         </section>
     )

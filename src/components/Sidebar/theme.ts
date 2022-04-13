@@ -59,6 +59,9 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
         [theme.breakpoints.up('sm')]: {
             "& svg": {
                 marginRight: '20px'
+            },
+            "& img": {
+                marginRight: '20px'
             }
           },
     },

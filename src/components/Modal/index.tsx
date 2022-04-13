@@ -19,7 +19,7 @@ export const ModalBlock: React.FC<ModalProps> = ({ title, children, visible = fa
         return (
             <Dialog open={visible} onClose={onClose}>
                 <DialogTitle >
-                    <IconButton aria-label="delete">
+                    <IconButton style={{marginRight: 5, marginLeft: -5}}>
                         <CloseIcon onClick={onClose} />
                     </IconButton>
                     {title} </DialogTitle>

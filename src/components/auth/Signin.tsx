@@ -101,7 +101,6 @@ const Signin = ({ open, onClose }: SigninProps) => {
                     <LoadingButton
                         loading={loadingData === LoadingState.LOADING}
                         type="submit"
-                        size="small"
                         variant="contained"
                         fullWidth
                     >

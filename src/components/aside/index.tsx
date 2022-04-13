@@ -69,7 +69,7 @@ const Aside: React.FC = (): ReactElement => {
                 {userData !== undefined && userData?.length > 0 && <Box className={classes.listUsers}>
                     {userData.map((item: UserType) => {
                         return <NavLink className={classes.user} to={`/home/profile/${item?._id}`}>
-                            <Avatar alt={item?.fullname} src="https://twitter.com/DavidWells/photo" />
+                            <Avatar alt={item?.fullname} src={item?.avatar} />
                             <Box className={classes.userinfo}>
                                 <Typography variant="body1" className={classes.fullname}>{item?.fullname}</Typography>
                                 <Typography variant="body1" className={classes.username}>@{item?.username}</Typography>

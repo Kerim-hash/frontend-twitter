@@ -67,12 +67,14 @@ const Index = () => {
             </div>
         );
     }
+
     function a11yProps(index) {
         return {
             id: `simple-tab-${index}`,
             'aria-controls': `simple-tabpanel-${index}`,
         };
     }
+
     const [value, setValue] = React.useState(0);
 
     const handleChange = useCallback((event, newValue) => {
@@ -95,16 +97,16 @@ const Index = () => {
                 <BackButton /><Box display="flex" flexDirection="column"> <Typography variant="body1" style={{ fontWeight: 800, fontSize: 18 }}>{profile?.fullname}</Typography> <Typography variant="caption" style={{ fontWeight: 300, fontSize: 14, lineHeight: 1 }}>{tweets?.length} твит</Typography></Box>
             </Box>
 
-            <div className={classes.profileHeader}></div>
+            <div className={classes.profileHeader} style={{backgroundImage: `url(${profile?.bgImage})`}}></div>
             <Box display='flex' justifyContent="space-between" style={{ padding: '0 15px', position: 'relative' }}>
                 <Box className={classes.profileInfo}>
-                    <Avatar sx={{ width: 133, height: 133 }} src={profile?.avatar} />
+                    <Avatar sx={{ width: 143, height: 143, border:'5px solid #fff' }} src={profile?.avatar} />
                     <Typography variant="body1" style={{ fontWeight: 800, fontSize: 20, marginTop: 25 }}>{profile?.fullname}</Typography>
                     <Typography variant="caption" style={{ fontWeight: 500, fontSize: 14, color: '#536471', lineHeight: 1, }}>@{profile?.username}</Typography>
                     <Typography variant="caption" style={{ fontWeight: 500, fontSize: 14, marginTop: 15 }}>{profile?.about}</Typography>
                     <Box display="flex" alignItems="center" style={{ marginTop: 15 }} > <EventOutlinedIcon sx={{ fill: '#536471', marginRight: '5px', fontSize: 18 }} /><Typography variant="caption" style={{ fontWeight: 400, fontSize: 14, color: '#536471' }}>Регистрация: {profile?.createdAt && format(new Date(profile?.createdAt), 'MMMM yyyy г.', { locale: ruLand })}</Typography></Box>
                     <Box display="flex" alignItems="center" style={{ marginTop: 15 }} > <Location sx={{ fill: '#536471', marginRight: '5px', fontSize: 18 }} /><Typography variant="caption" style={{ fontWeight: 400, fontSize: 14, color: '#536471' }}>{profile?.location}</Typography></Box>
-                    <Box display="flex" alignItems="center" style={{ marginTop: 15 }} > <PublicOutlinedIcon sx={{ fill: '#536471', marginRight: '5px', fontSize: 18 }} /><Typography variant="caption" style={{ fontWeight: 400, fontSize: 14, color: '#536471' }}><a style={{color: "#359BF0"}} href={profile?.website}>{profile?.website}</a></Typography></Box>
+                    <Box display="flex" alignItems="center" style={{ marginTop: 15 }} > <PublicOutlinedIcon sx={{ fill: '#536471', marginRight: '5px', fontSize: 18 }} /><Typography variant="caption" style={{ fontWeight: 400, fontSize: 14, color: '#536471' }}><a style={{ color: "#359BF0" }} href={profile?.website}>{profile?.website}</a></Typography></Box>
                     <Box display="flex" alignItems="center" style={{ marginTop: 15 }} ><NavLink className={classes.link} to={`/home/profile/${params.id}/followers`}><span>{profile?.followings?.length}</span>в читаемых</NavLink> <NavLink to="#" className={classes.link} style={{ marginLeft: 10 }}><span>{profile?.followers?.length}</span>читателя</NavLink>  </Box>
                 </Box>
                 {user._id !== params.id ? <>
@@ -176,7 +178,7 @@ const Index = () => {
 
             <ModalBlock title="Изменить профиль" visible={open} onClose={handleClose}>
                 <div style={{ width: 540 }}>
-                    <Settings params={params.id}/>
+                    <Settings params={params.id} />
                 </div>
             </ModalBlock>
         </div>

@@ -62,10 +62,7 @@ export interface SetAddFormLoadinfStateActionInterface extends Action<TweetsActi
     payload: AddFormState
 }
 
-export interface SetLikeStateActionInterface extends Action<TweetsActionType> {
-    type: TweetsActionType.SET_LIKE_STATE,
-    payload: any
-}
+
 
 export interface DeleteTweerInterface extends Action<TweetsActionType> {
     type: TweetsActionType.DELETE_TWEET,
@@ -85,7 +82,7 @@ export interface FetchactionInterface extends Action<TweetsActionType> {
 
 export interface FetchLikeTweetsactionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.FETCH_LIKE_TOGGLE,
-    payload?: {id: string, userID: string}
+    payload?: {id: string, userID: string, liked: boolean}
 }
 
 export interface FetchAddCommentTweetsactionInterface extends Action<TweetsActionType> {

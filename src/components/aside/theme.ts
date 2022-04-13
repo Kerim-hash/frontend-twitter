@@ -22,7 +22,7 @@ export const useStylesAside = makeStyles((theme: Theme) => ({
     },
     listUsers: {
         background: '#fff',
-        padding: 10,
+        padding: '15px 10px 0 10px',
         borderRadius: 10,
         boxShadow: '0px -1px 17px rgb(0 0 0 / 30%)',
         position: 'absolute',

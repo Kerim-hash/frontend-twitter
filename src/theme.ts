@@ -20,12 +20,13 @@ export const theme = createTheme({
       fontSize: 20
     },
     body1: {
-      fontWeight: 500,
-      fontSize: 16
+      fontWeight: 600,
+      fontSize: 16,
     },
     body2: {
       fontWeight: 400,
-      fontSize: 14
+      fontSize: 14,
+      color: '#536471'
     },
     button: {
       textTransform: "none"

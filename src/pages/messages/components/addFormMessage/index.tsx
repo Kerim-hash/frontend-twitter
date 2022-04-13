@@ -21,7 +21,7 @@ interface MessageFormProps {
     handleSubmit: (e: any) => Promise<void>
 }
 
-const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , handleSubmit}: MessageFormProps): ReactElement => {
+const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , handleSubmit,}: MessageFormProps): ReactElement => {
     const classes = useStylesMessages()
     const dispatch = useDispatch()
     const [images, setImages] = useState<fileImg[]>([] || undefined)
@@ -30,7 +30,7 @@ const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , ha
     const user = useSelector(selectData)
 
     const onEmojiClick = (_, emojiObject) => {
-        setTextarea(prevInput => prevInput + emojiObject.emoji)
+        setNewMessage(prevInput => prevInput + emojiObject.emoji)
         setShowPicker(false)
     }
     const handleChange = (event: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>) => {

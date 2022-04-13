@@ -30,7 +30,7 @@ import Conversation from './components/Conversation';
 import { useDebounce } from '../../hook/useDebounce';
 import { FetchSearchUser } from '../../store/ducks/user/actions';
 import { UserType } from '../../store/ducks/user/contracts/state';
-import { FetchAddConversation } from '../../store/ducks/Messages/actions';
+import AvatarComponent from '../../components/avatar';
 const Messages = () => {
     const dispatch = useDispatch()
     const classes = useStylesMessages()
@@ -47,9 +47,10 @@ const Messages = () => {
     const searchNewPerson = () => {
         setOpen(true);
     }
+
     const user = useSelector(selectData)
     const params: { "*"?: string } = useParams()
-    const [conversations, setConversations] = useState([]);
+    const [conversations, setConversations] = useState<any>([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
@@ -74,7 +75,7 @@ const Messages = () => {
             setOnlineUsers(
                 users
             );
-          });
+        });
     }, [user]);
 
     useEffect(() => {
@@ -108,6 +109,10 @@ const Messages = () => {
         getMessages();
     }, [currentChat]);
 
+    const receiverId = Array.isArray(currentChat?.members) && currentChat?.members?.find(
+        (member) => member !== user._id
+    );
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const message = {
@@ -115,9 +120,6 @@ const Messages = () => {
             text: newMessage,
             conversationId: currentChat._id,
         };
-        const receiverId = currentChat.members.find(
-            (member) => member !== user._id
-        );
         socket.current.emit("sendMessage", {
             senderId: user._id,
             receiverId,
@@ -144,32 +146,50 @@ const Messages = () => {
     let handleChange = (search) => setSearch(search)
     const debounceChange = useDebounce(handleChange, 500);
     useEffect(() => {
-        
+
     })
 
     const handleChangeSearch = (e) => {
         debounceChange(e.target.value);
-        // setDisplayValue(e.target.value);
     };
 
     const userData = useSelector(selectSearchUser)
+
     React.useEffect(() => {
         if (search) {
             dispatch(FetchSearchUser(search))
         }
     }, [search])
 
+    console.log(currentChat)
 
-    const addConversations = (id) => {
-        dispatch(FetchAddConversation({senderId: user._id, receiverId: id }))
+    const addConversations = (item) => {
+        const addConversation = async () => {
+            try {
+                const res = await istance.post("/conversation/", { senderId: user._id, receiverId: item._id });
+                setConversations([...conversations, res.data.data]);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        addConversation();
+        handleClose()
     }
 
-    const defineOnlineUser = () => {
-
+    const deleteConversation = async (id: string) => {
+        // event.stopPropagation()
+         const deleteConversation = async () => {
+            try {
+                const res = await istance.delete(`/conversation/${id}`);
+                setConversations(conversations.filter(item => item._id !== id));
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        await deleteConversation();
+        setCurrentChat(null)
     }
     
-    // console.log(conversations)
-    // console.log(onlineUsers)
     return (
         <section className={classes.wrapper}>
             <Grid container spacing={1}>
@@ -204,7 +224,7 @@ const Messages = () => {
                         <Box className={classes.messageUsers}>
                             {conversations && conversations?.map((item, index) => {
                                 return <div onClick={() => openChat(item)}>
-                                    <Conversation setCurrentChat={setCurrentChat} conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} />
+                                    <Conversation setCurrentChat={setCurrentChat} conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} deleteConversation={deleteConversation} />
                                 </div>
                             })
                             }
@@ -223,7 +243,7 @@ const Messages = () => {
                         </Box>
                         :
                         <Box>
-                            <MessageTop />
+                            <MessageTop receiverId={receiverId} />
                             <Box display="flex" flexDirection="column" style={{ height: '82vh', overflow: 'scroll' }}>
                                 {Array.isArray(messages) && messages?.map((item) => {
                                     return <div ref={scrollRef} className={classNames(classes.messageWrapper, { [classes.messageWrapperOwn]: item.sender === user._id })} >
@@ -269,15 +289,15 @@ const Messages = () => {
                     </div>
                 </div>
                 <div>
-                    {userData !== undefined && userData?.length > 0 && userData.map((item:UserType) => {
-                      return  <Box className={classes.searchUser} onClick={() => addConversations(item._id)}>
-                       <Avatar alt={item?.fullname} src="https://twitter.com/DavidWells/photo" />
-                       <Box className={classes.userinfo}>
-                           <Typography variant="body1" className={classes.fullname}>{item?.fullname}</Typography>
-                           <Typography variant="body1" className={classes.username}>@{item?.username}</Typography>
-                       </Box>
-                   </Box>
-                    })} 
+                    {userData !== undefined && userData?.length > 0 && userData.map((item: UserType) => {
+                        return <Box className={classes.searchUser} onClick={() => addConversations(item)}>
+                            <AvatarComponent user={item} />
+                            <Box className={classes.userinfo}>
+                                <Typography variant="body1" className={classes.fullname}>{item?.fullname}</Typography>
+                                <Typography variant="body1" className={classes.username}>@{item?.username}</Typography>
+                            </Box>
+                        </Box>
+                    })}
                 </div>
             </Dialog>
         </section>

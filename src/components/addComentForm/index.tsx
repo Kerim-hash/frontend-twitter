@@ -3,23 +3,20 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import GifIcon from '@mui/icons-material/GifBoxOutlined';
-import Avatar from '@mui/material/Avatar';
 import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAddCommnetTweet, setAddFormCommnetTweet } from '../../store/ducks/tweets/actionCreators';
 import { selectAddCommentState, selectIsTweetLoading } from '../../store/ducks/tweets/selectors';
-
 import { AddCommentState } from '../../store/ducks/tweets/contracts/state';
-
 import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
 import UploadImage from '../uploadImage';
 import { useStylesAddForm } from './theme'
 import { uploadImage } from '../../utils/uploadImage';
 import Picker from 'emoji-picker-react';
 import ImgList from '../imgList';
 import { selectData } from '../../store/ducks/user/selectors'
+import AvatarComponent from '../avatar';
 
 interface AddTweetFormProps {
     maxRows?: number,
@@ -40,9 +37,6 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
     const classes = useStylesAddForm()
     
     const addFormState = useSelector(selectAddCommentState)
-
-
-
     const userData = useSelector(selectData)
 
     const isTweetLoading = useSelector(selectIsTweetLoading)
@@ -87,7 +81,7 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
         <Box >
             <Box className={classes.addTweetForm}>
 
-                <Avatar alt="K N" src="/static/images/avatar/1.jpg" />
+            <AvatarComponent user={userData}  />
                 <div className={classes.tweetHeaderForm}>
                     <TextareaAutosize
                         className={classes.textarea}

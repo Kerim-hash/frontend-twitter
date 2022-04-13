@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { AddTweetActionInterface, DeleteTweerInterface, FetchactionInterface, FetchAddCommentTweetsactionInterface, fetchAddTweetActionInterface, fetchBookmarksactionInterface, FetchctionInterface, FetchDeleteTweerInterface, FetchLikeTweetsactionInterface, SetAddFormCommentTweetsactionInterface, SetAddFormLoadinfStateActionInterface, SetBookmarksactionInterface, SetCommentTweetsactionInterface, SetLikeStateActionInterface, SetTweetActionInterface, SetTweetLoadinfStateActionInterface, SetTweetsActionInterface, SetTweetsLoadinfStateActionInterface, TweetsActionType } from "./contracts/actionTypes";
+import { AddTweetActionInterface, DeleteTweerInterface, FetchactionInterface, FetchAddCommentTweetsactionInterface, fetchAddTweetActionInterface, fetchBookmarksactionInterface, FetchctionInterface, FetchDeleteTweerInterface, FetchLikeTweetsactionInterface, SetAddFormCommentTweetsactionInterface, SetAddFormLoadinfStateActionInterface, SetBookmarksactionInterface, SetCommentTweetsactionInterface, SetTweetActionInterface, SetTweetLoadinfStateActionInterface, SetTweetsActionInterface, SetTweetsLoadinfStateActionInterface, TweetsActionType } from "./contracts/actionTypes";
 import { AddCommentState, AddFormState, BookmarksState, LoadingState, Tweet, TweetsState } from "./contracts/state";
 
 export const setTweets = (payload: TweetsState['items']): SetTweetsActionInterface => ({
@@ -29,11 +29,6 @@ export const setAddFormLoadingState = (payload: AddFormState): SetAddFormLoadinf
     payload
 })
 
-export const setLikeState = (payload: any): SetLikeStateActionInterface => ({
-    type: TweetsActionType.SET_LIKE_STATE,
-    payload
-})
-
 export const fetchTweets = (payload?: string): FetchactionInterface => ({
     type: TweetsActionType.FETCH_TWEETS,
     payload
@@ -49,7 +44,7 @@ export const fetchDeleteTweet = (payload: string): FetchDeleteTweerInterface => 
     payload
 })
 
-export const fetchLikeToggleTweet = (payload: { id: string, userID: string }): FetchLikeTweetsactionInterface => ({
+export const fetchLikeToggleTweet = (payload: { id: string, userID: string, liked: boolean }): FetchLikeTweetsactionInterface => ({
     type: TweetsActionType.FETCH_LIKE_TOGGLE,
     payload
 })
@@ -96,7 +91,6 @@ export type TweetsActions = DeleteTweerInterface |
     AddTweetActionInterface |
     SetAddFormLoadinfStateActionInterface |
     FetchLikeTweetsactionInterface |
-    SetLikeStateActionInterface |
     FetchAddCommentTweetsactionInterface |
     SetAddFormCommentTweetsactionInterface |
     SetCommentTweetsactionInterface |

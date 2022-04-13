@@ -57,7 +57,7 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         }
     },
     tweet: {
-        transition: 'all 3s',
+        transition: 'all 1s',
         cursor: 'pointer',
         display: 'flex',
         padding: 10,
@@ -104,6 +104,29 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         height: 120,
         objectFit: 'contain'
     },
+    likeIcon: {
+            animation: `$myEffect 1700ms ${theme.transitions.easing.easeInOut}`
+    },
+    "@keyframes myEffect": {
+        "0%": {
+          transform: "scale(0.8)"
+        },
+        "5%": {
+          transform: "scale(0.9)"
+        },
+        "10%": {
+          transform: "scale(0.8)"
+        },
+        "15%": {
+          transform: "scale(1)"
+        },
+        "50%": {
+          transform: "scale(0.9)"
+        },
+        "100%": {
+          transform: "scale(1)"
+        }
+      },
     icon: {
         [theme.breakpoints.down('sm')]: {
             fontSize: '1rem',

@@ -57,18 +57,14 @@ export const tweetsReducer = produce((draft: Draft<TweetsState>, action: TweetsA
         case TweetsActionType.FETCH_ADD_COMMENT_STATE:
             draft.addCommentState = AddCommentState.LOADING
             break
-        case TweetsActionType.SET_LIKE_STATE:
-            if (action.payload.data.liked) {
-                draft.items.find(obj => obj._id === action.payload.payload.id).likes.push(action.payload.payload.userID)
-            } else {
-                draft.items.find(obj => obj._id === action.payload.payload.id).likes.pop()
-            }
-            break
         case TweetsActionType.FETCH_LIKE_TOGGLE:
-            if (action.payload) {
-                Array.isArray(draft.data.likes) && draft.data.likes.push(action.payload.userID)
+            console.log(draft.data)
+            if (action.payload.liked) {
+                draft.items.find(obj => obj._id === action.payload.id)?.likes.pop()
+                draft.data !== undefined && draft.data?.likes.push(action.payload.userID)
             } else {
-                draft.data.likes.length >= 1 && draft.data.likes.pop()
+                draft.items.find(obj => obj._id === action.payload.id)?.likes.push(action.payload.userID)
+                draft.data !== undefined && draft.data?.likes.pop()
             }
             break
         // case TweetsActionType.SET_BOOKMARKS_STATE:

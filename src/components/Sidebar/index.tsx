@@ -30,6 +30,7 @@ import AddIcon from '@mui/icons-material/Add';
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@emotion/react';
 import { Theme } from '@mui/material';
+import AvatarComponent from '../avatar';
 export const Sidebar: React.FC = (): React.ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesSidebar()
@@ -71,7 +72,9 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <Link to="/home">
-                            <HomeIcon sx={{ fontSize: 27 }} />
+                            {/* <HomeIcon sx={{ fontSize: 27 }} /> */}
+                            <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/165_Birdhouse_Tweet_Twitter-512.png" alt="home" style={{width:29, height: 29}} />
+                         
                             <Hidden lgDown>
                                 <Typography variant="h6">Главная</Typography>
                             </Hidden>
@@ -79,7 +82,8 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
-                            <Grid3x3OutlinedIcon sx={{ fontSize: 27 }} />
+                        <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/162_Follow_Hash_tag_Tweet_Twitter-512.png" alt="home" style={{width:29, height: 29}} />
+                            {/* <Grid3x3OutlinedIcon sx={{ fontSize: 27 }} /> */}
                             <Hidden lgDown>
                                 <Typography variant="h6">Обзор</Typography>
                             </Hidden>
@@ -87,7 +91,8 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <Link to={`/video`}>
-                            <NotificationIcon sx={{ fontSize: 27 }} />
+                            {/* <NotificationIcon sx={{ fontSize: 27 }} /> */}
+                            <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/167_Bell_Sign_Twitter-512.png" alt="home" style={{width:29, height: 29}} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Уведомления</Typography>
                             </Hidden>
@@ -111,7 +116,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
-                            <ListIcon sx={{ fontSize: 27 }} />
+                        <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/152_Twitter_Text_Chat-512.png" alt="home" style={{width:29, height: 29}} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Списки</Typography>
                             </Hidden>
@@ -127,7 +132,9 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
-                            <MessageIcon sx={{ fontSize: 27 }} />
+                        <img src="https://cdn4.iconfinder.com/data/icons/user-interface-outline-27/24/8.more_interface_button_ui_mark-256.png" alt="home" style={{width:29, height: 29}} />
+                        
+                            {/* <MessageIcon sx={{ fontSize: 27 }} /> */}
                             <Hidden lgDown>
                                 <Typography variant="h6">Еще</Typography>
                             </Hidden>
@@ -139,8 +146,8 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                 </ul>
 
                 <Box className={classes.profile} onClick={handleClickProfile}>
-                    <Box display="flex">
-                        <Avatar alt={user.fullname} src={user.avatar} />
+                    <Box display="flex" alignItems="center">
+                       <AvatarComponent size={34} user={user} />
                         {matches && <div className={classes.profileInfo}>
                             <Typography variant="body1" style={{ fontSize: 14, fontWeight: 500 }}>{user.fullname}</Typography>
                             <Typography variant="body2" className={classes.tweetUserName} >@{user.username}</Typography>

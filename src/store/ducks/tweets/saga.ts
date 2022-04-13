@@ -1,5 +1,5 @@
 import {  call, put, takeLatest } from 'redux-saga/effects'
-import { setTweetLoadingState, setTweets, AddTweet, setAddFormLoadingState, deleteTweet, setLikeState, setAddFormCommnetTweet, setCommnetTweet, setTweet, setBookmarksState } from './actionCreators'
+import { setTweetLoadingState, setTweets, AddTweet, setAddFormLoadingState, deleteTweet, setAddFormCommnetTweet, setCommnetTweet, setTweet, setBookmarksState } from './actionCreators'
 import { TweetsApi } from '../../../services/api/tweetApi'
 import { AddCommentState, AddFormState, BookmarksState, LoadingState, Tweet, TweetsState } from './contracts/state'
 import { FetchactionInterface, FetchAddCommentTweetsactionInterface, fetchAddTweetActionInterface, fetchBookmarksactionInterface, FetchctionInterface, FetchDeleteTweerInterface, FetchLikeTweetsactionInterface, TweetsActionType } from './contracts/actionTypes'
@@ -44,13 +44,9 @@ export function* FetchAddCommentTweet({payload}: FetchAddCommentTweetsactionInte
 }
 
 export function* LikeToggleRequest({payload}: FetchLikeTweetsactionInterface ) {
-  try{
-     let data = yield call(TweetsApi.likeToggleTweet, payload)
-     yield put(setLikeState({data, payload})) 
-  }catch(e){
-    yield put(setLikeState({message: 'error'}))
-  }
+     yield call(TweetsApi.likeToggleTweet, payload)
 }
+
 
 export function* TweetRequest({payload: TweetId}: FetchctionInterface ) {
   try{

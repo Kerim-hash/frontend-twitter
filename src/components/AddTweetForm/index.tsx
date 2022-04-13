@@ -20,6 +20,7 @@ import { uploadImage } from '../../utils/uploadImage';
 import Picker from 'emoji-picker-react';
 import ImgList from '../imgList';
 import { selectData } from '../../store/ducks/user/selectors'
+import AvatarComponent from '../avatar';
 
 interface AddTweetFormProps {
     maxRows?: number,
@@ -74,7 +75,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
         <Box >
             <Box className={classes.addTweetForm}>
 
-                <Avatar alt={userData.username} src={userData?.avatar} />
+                <AvatarComponent user={userData}  />
                 <div className={classes.tweetHeaderForm}>
                     <TextareaAutosize
                         className={classes.textarea}
@@ -126,7 +127,8 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                             </Box>
                             <LoadingButton
                                 loading={addFormState === AddFormState.LOADING}
-                                size="small" variant="contained"
+                                size="small"
+                                variant="contained"
                                 className={classes.button}
                                 disabled={textLimitParsent >= 100}
                                 onClick={handleClickAddTweet}
