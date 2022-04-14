@@ -53,6 +53,7 @@ export interface User {
     data: UserType | undefined,
     profile: UserType | undefined,
     searchUser: UserType[] | undefined,
-    link: string
+    link: string,
+    users: UserType[] | undefined,
 }
 

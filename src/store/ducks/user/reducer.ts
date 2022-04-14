@@ -8,6 +8,7 @@ export const initialstate: User = {
     profile: undefined,
     link: undefined,
     searchUser: undefined,
+    users: undefined,
 }
 
 export const userReducer = produce((draft: Draft<User>, action: UserActions) => {
@@ -36,5 +37,9 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
             if (action.payload) {
                 draft.searchUser = action.payload
             }
+            break
+        case UserActionType.SET_USERS:
+            draft.users = action.payload
+            break
     }
 }, initialstate)

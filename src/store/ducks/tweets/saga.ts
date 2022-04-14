@@ -17,6 +17,7 @@ export function* FetchAddTweetRequest({payload}: fetchAddTweetActionInterface) {
   try{
     const item: Tweet = yield call(TweetsApi.AddTweet, payload)
     yield put(AddTweet(item))
+    yield put(setAddFormLoadingState(AddFormState.ADDED))
     yield put(setAddFormLoadingState(AddFormState.NEVER))
   }catch(e){
     yield put(setAddFormLoadingState(AddFormState.ERROR))
@@ -27,7 +28,7 @@ export function* DeleteTweetRequest({payload: TweetId}: FetchDeleteTweerInterfac
   try{
     yield call(TweetsApi.deleteTweet, TweetId)
     yield put(deleteTweet(TweetId))
-    yield put(setAddFormLoadingState(AddFormState.SUCCESS))
+    yield put(setAddFormLoadingState(AddFormState.DELETED))
   }catch(e){
     yield put(setAddFormLoadingState(AddFormState.ERROR))
   }
@@ -46,7 +47,6 @@ export function* FetchAddCommentTweet({payload}: FetchAddCommentTweetsactionInte
 export function* LikeToggleRequest({payload}: FetchLikeTweetsactionInterface ) {
      yield call(TweetsApi.likeToggleTweet, payload)
 }
-
 
 export function* TweetRequest({payload: TweetId}: FetchctionInterface ) {
   try{

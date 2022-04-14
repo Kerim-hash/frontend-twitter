@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { UserApi } from '../../../services/api/userApi'
-import { FetchSignInActionInterface, FetchSignUpActionInterface, setProfile, setUserData, setUserLoadingState, UserActionType , FetchProfileActionInterface, setLink, setFollowState, FetchFollowActionInterface, FetchSearchUserActionInterface, SetSearchUser, FetchUserUpdateActionInterface} from './actions'
+import { FetchSignInActionInterface, FetchSignUpActionInterface, setProfile, setUserData, setUserLoadingState, UserActionType , FetchProfileActionInterface, setLink, setFollowState, FetchFollowActionInterface, FetchSearchUserActionInterface, SetSearchUser, FetchUserUpdateActionInterface, setUsers} from './actions'
 import { LoadingState } from './contracts/state'
 import {istance} from '../../../core/axios'
 
@@ -11,6 +11,16 @@ export function* GetMeRequest() {
   }
   catch (e) {
     yield put(setUserData(null))
+  }
+}
+
+export function* fetchUsersRequest() {
+  try {
+    const data = yield call(UserApi.fetchUsers)
+    yield put(setUsers(data))
+  }
+  catch (e) {
+    yield put(setUsers(null))
   }
 }
 
@@ -99,4 +109,5 @@ export function* UserSaga() {
   yield takeLatest(UserActionType.FETCH_FOLLOW, FetchFollow)
   yield takeLatest(UserActionType.FETCH_SEARCH_USER_BY_NAME, SearchUser)
   yield takeLatest(UserActionType.FETCH_USER_UPDATE, FetchUserUpdate)
+  yield takeLatest(UserActionType.FETCH_USERS, fetchUsersRequest)
 }

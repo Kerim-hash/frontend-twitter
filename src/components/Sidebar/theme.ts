@@ -92,6 +92,8 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
         color: '#536471',
     },
     menuItem: {
+        fontSize: '14px',
+         wordWrap: 'break-word',
         "& a": {
             display: 'inline-flex',
             alignItems: 'center',
@@ -109,6 +111,5 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
     icon: {
         width: 29,
         height: 29
-    }
-
+    },
 }));

@@ -33,7 +33,13 @@ import AvatarComponent from '../avatar';
 import { UserType } from '../../store/ducks/user/contracts/state';
 
 interface TweetProps {
-    user?: UserType,
+    user?: UserType | {
+        username: string,
+        fullname: string,
+        avatar: string,
+        _id: string,
+        bookmarks: string[],
+    },
     createdAt?: string,
     text?: string | any
     _id: string,
@@ -45,7 +51,7 @@ interface TweetProps {
     bookmarks?: string[] | Tweet[]
 }
 
-export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes, comment, fullname, username, bookmarks}: TweetProps): React.ReactElement => {
+export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes, comment, fullname, username, bookmarks }: TweetProps): React.ReactElement => {
     const classes = TweetStyle()
     const dispatch = useDispatch()
     let navigate = useNavigate();
@@ -90,7 +96,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
-        dispatch(fetchLikeToggleTweet({ id: _id, userID: userData._id, liked: likes?.includes(userData._id)}))
+        dispatch(fetchLikeToggleTweet({ id: _id, userID: userData._id, liked: likes?.includes(userData._id) }))
     }
 
     const [toggle, setToggle] = React.useState<boolean>(false);
@@ -156,7 +162,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         dispatch(fetchBookmarks({ userID: user?._id, tweetID: _id }))
     }
 
-    console.log(user)
     return (
         <div onClick={() => navigateToTweet()} >
             <Snackbar open={bookmarksStateData === BookmarksState.BOOKMARKSED || bookmarksStateData === BookmarksState.UNBOOKMARKSED} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
@@ -166,10 +171,10 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
             </Snackbar>
             <Paper variant="outlined" className={classNames(classes.tweet)}>
 
-                <AvatarComponent fullname={fullname} user={user}  />
+                <AvatarComponent fullname={fullname} user={user} />
 
                 <Box style={{ marginLeft: 20, flex: 1, maxWidth: '75%' }}>
-                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1">{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" className={classes?.tweetUserName}>@{user?.username ? user?.username : username }</Typography><span>·</span><Typography variant="caption" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
+                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1">{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" className={classes?.tweetUserName}>@{user?.username ? user?.username : username}</Typography><span>·</span><Typography variant="caption" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
                     <Typography variant="body2" color="text.primary" style={{ marginTop: 5, wordBreak: 'break-word' }}>
                         {text}
                     </Typography>

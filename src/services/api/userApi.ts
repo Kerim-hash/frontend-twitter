@@ -22,6 +22,10 @@ export const UserApi = {
         const { data } = await istance.get('/users/me')
         return data.data
     },
+    async fetchUsers(): Promise<Response> {
+        const { data } = await istance.get(`/users/`)
+        return data.data
+    },
     async fetchProfile(id: string): Promise<Response> {
         const { data } = await istance.get(`/users/${id}`)
         return data.data

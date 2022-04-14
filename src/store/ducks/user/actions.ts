@@ -7,6 +7,8 @@ export enum UserActionType {
     FETCH_GET_ME = "User/FETCH_GET_ME",
     FETCH_SIGN_UP = "User/FETCH_SIGN_UP",
     FETCH_SIGN_IN = "User/FETCH_SIGN_IN",
+    FETCH_USERS = "User/FETCH_USERS",
+    SET_USERS = "User/SET_USERS",
     FETCH_USER_UPDATE = "User/FETCH_USER_UPDATE",
     FETCH_FOLLOW = "User/FETCH_FOLLOW",
     SET_FOLLOW_STATE = "User/SET_FOLLOW_STATE",
@@ -79,6 +81,25 @@ export interface SetLinkActionInterface extends Action<UserActionType> {
 
 export const setLink = (payload?: string): SetLinkActionInterface => ({
     type: UserActionType.SET_LINK,
+    payload
+})
+
+// FETCH Users Profile // --------------------------------`// FETCH Users Profile
+export interface FetchUsersActionInterface extends Action<UserActionType> {
+    type: UserActionType.FETCH_USERS,
+}
+
+export const fetchUsers = (): FetchUsersActionInterface => ({
+    type: UserActionType.FETCH_USERS,
+})
+// SET Profile // --------------------------------`// SET Profile
+export interface SetUsersActionInterface extends Action<UserActionType> {
+    type: UserActionType.SET_USERS,
+    payload?: UserType[]
+}
+
+export const setUsers = (payload?: UserType[]): SetUsersActionInterface => ({
+    type: UserActionType.SET_USERS,
     payload
 })
 
@@ -182,4 +203,5 @@ export type UserActions =
     SetFollowStateActionInterface | 
     SetSearchUserActionInterface | 
     FetchSearchUserActionInterface | 
-    FetchUserUpdateActionInterface
+    FetchUserUpdateActionInterface | 
+    SetUsersActionInterface

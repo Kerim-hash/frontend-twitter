@@ -13,7 +13,8 @@ export const selectIsTweetLoading = (state: RootState) => selectLoading(state) =
 
 export const selectIsTweetLoaded = (state: RootState) => selectLoading(state) === LoadingState.LOADED
 
-export const selectIsTweetDeleted = (state: RootState) => selectAddFormState(state) === AddFormState.SUCCESS
+export const selectIsTweetDeleted = (state: RootState) => selectAddFormState(state) === AddFormState.DELETED
+export const selectIsTweetAdded = (state: RootState) => selectAddFormState(state) === AddFormState.ADDED
 
 export const selectTweetsItems = (state: RootState) => selectTweetsState(state).items
 

@@ -23,9 +23,6 @@ const Index = () => {
     const loading = useSelector(selectIsTweetLoading)
     const isDeleted = useSelector(selectIsTweetDeleted)
     const userData = useSelector(selectUser)
-
-    console.log(userData)
-
     const [snackbarState, setSnackbarState] = useState<{ text: string, type: 'error' | 'success' | 'info' }>()
 
     React.useEffect(() => {

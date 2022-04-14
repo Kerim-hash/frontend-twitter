@@ -10,6 +10,8 @@ export enum AddFormState {
     LOADING = "LOADING",
     NEVER = "NEVER",
     SUCCESS = "SUCCESS",
+    DELETED = "DELETED",
+    ADDED = "ADDED",
 }
 
 export enum LoadingStateTweet {

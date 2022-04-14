@@ -4,8 +4,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
-import { ModalBlock } from '../Modal';
 import Avatar from '@mui/material/Avatar';
+import { ModalBlock } from '../Modal';
 import { Link } from 'react-router-dom'
 import { AddTweetForm } from '../AddTweetForm';
 import { useStylesSidebar } from './theme';
@@ -23,12 +23,14 @@ import AddIcon from '@mui/icons-material/Add';
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Theme } from '@mui/material';
 import AvatarComponent from '../avatar';
-export const Sidebar: React.FC = (): React.ReactElement => {
+import { selectIsTweetAdded } from '../../store/ducks/tweets/selectors';
 
+export const Sidebar: React.FC = (): React.ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesSidebar()
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
     const user = useSelector(selectData)
+    const stateForm = useSelector(selectIsTweetAdded)
     const [visibleAddTweetModal, setVisibleAddTweetModal] = useState<boolean>(false)
 
     const handleToggleClick = () => {
@@ -47,7 +49,13 @@ export const Sidebar: React.FC = (): React.ReactElement => {
     const signOutClick = () => {
         dispatch(signOut())
     }
-    
+
+    React.useEffect(() => {
+        if(stateForm) {
+            handleToggleClick()
+        }
+    }, [stateForm])
+
     return (
         <div>
             <div className={classes.wrapper}>
@@ -155,6 +163,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                             mt: -2,
                             padding: '9px 9px',
                             borderRadius: '20px',
+                            maxWidth: 250,
                             '& .MuiAvatar-root': {
                                 width: 32,
                                 height: 32,
@@ -182,15 +191,15 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                 >
                     <MenuItem className={classes.menuItem}>
                         <Link to={`/home/profile/${user._id}`}>
-                            <Avatar /> Profile
+                            <Avatar /> Профиль
                         </Link>
                     </MenuItem>
                     <Divider />
-                    <MenuItem onClick={() => signOutClick()}>
+                    <MenuItem onClick={() => signOutClick()} className={classes.menuItem}>
                         <ListItemIcon>
                             <Logout fontSize="small" />
                         </ListItemIcon>
-                                 Logout
+                                 Выйти
                         </MenuItem>
                 </Menu>
 
