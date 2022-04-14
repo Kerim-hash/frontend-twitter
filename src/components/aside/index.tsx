@@ -46,28 +46,37 @@ const Aside: React.FC = (): ReactElement => {
     React.useEffect(() => {
         dispatch(fetchUsers())
     }, [])
+
     const [focus, setFocus] = useState<boolean>(false)
+    const rootEl = React.useRef(null);
+
+    React.useEffect(() => {
+        if(focus){
+            const onClick = e => rootEl.current.contains(e.target) || setFocus(false)
+            document.addEventListener('click', onClick);
+        }
+    }, [focus]);
 
     return (
         <Hidden lgDown>
             <Grid item xs={0} lg={0} md={3.4} >
                 <div style={{ position: 'sticky', top: 0 }}>
-                    <OutlinedInput
-                        fullWidth
-                        className={classes.outlinedInput}
-                        placeholder="Поиск в Твитерре"
-                        onChange={handleChangeSearch}
-                        onFocus={() => setFocus(true)}
-                        onBlur={() => setFocus(false)}
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <SearchIcon />
-                            </InputAdornment>
-                        }
-                    />
-                    {focus &&
-                         <Box className={classes.listUsers}>
-                            { userData !== undefined && userData?.length > 0 ? userData.map((item: UserType) => {
+
+                    <div ref={rootEl} >
+                        <OutlinedInput
+                            fullWidth
+                            className={classes.outlinedInput}
+                            placeholder="Поиск в Твитерре"
+                            onChange={handleChangeSearch}
+                            onFocus={() => setFocus(true)}
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            }
+                        />
+                        {focus && <Box className={classes.listUsers}>
+                            {userData !== undefined && userData?.length > 0 ? userData.map((item: UserType) => {
                                 return <NavLink className={classes.user} to={`/home/profile/${item?._id}`}>
                                     <AvatarComponent user={item} />
                                     <Box className={classes.userinfo}>
@@ -75,9 +84,12 @@ const Aside: React.FC = (): ReactElement => {
                                         <Typography variant="body1" className={classes.username}>@{item?.username}</Typography>
                                     </Box>
                                 </NavLink>
-                            }) : <Typography variant="body2" style={{textAlign: 'center',fontWeight: 600, paddingBottom: 30}}>Попробуйте поискать людей, темы или ключевые слова</Typography>}
+                            }) : <Typography variant="body2" style={{ textAlign: 'center', fontWeight: 600, paddingBottom: 30 }}>Попробуйте поискать людей, темы или ключевые слова</Typography>}
                         </Box>
-                    }
+                        }
+                    </div>
+
+
 
 
                     <Paper elevation={3} sx={{ padding: '7px 10px 20px', borderRadius: 5, background: "#f7f9f9", marginTop: '20px', boxShadow: 'none' }}>
