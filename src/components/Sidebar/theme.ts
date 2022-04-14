@@ -63,7 +63,7 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
             "& img": {
                 marginRight: '20px'
             }
-          },
+        },
     },
 
     profile: {
@@ -105,7 +105,10 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
     menuWrapper: {
         padding: '9px 9px !important',
         borderRadius: '20px !important'
+    },
+    icon: {
+        width: 29,
+        height: 29
     }
-
 
 }));

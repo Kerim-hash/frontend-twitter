@@ -1,11 +1,4 @@
 import React, { useState } from 'react'
-import HomeIcon from '@mui/icons-material/HomeOutlined';
-import Grid3x3OutlinedIcon from '@mui/icons-material/Grid3x3Outlined';
-import NotificationIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import MessageIcon from '@mui/icons-material/MailOutlineOutlined';
-import ProfileIcon from '@mui/icons-material/PermIdentityOutlined';
-import ListIcon from '@mui/icons-material/ListAltOutlined';
-import BookmarkIcon from '@mui/icons-material/BookmarkBorder';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -28,25 +21,19 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { signOut } from '../../store/ducks/user/actions'
 import AddIcon from '@mui/icons-material/Add';
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { useTheme } from '@emotion/react';
 import { Theme } from '@mui/material';
 import AvatarComponent from '../avatar';
 export const Sidebar: React.FC = (): React.ReactElement => {
+
     const dispatch = useDispatch()
     const classes = useStylesSidebar()
-    const theme = useTheme();
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
     const user = useSelector(selectData)
-
     const [visibleAddTweetModal, setVisibleAddTweetModal] = useState<boolean>(false)
 
-    const handleClick = () => {
-        setVisibleAddTweetModal(true)
+    const handleToggleClick = () => {
+        setVisibleAddTweetModal(!visibleAddTweetModal)
     }
-    const onClose = () => {
-        setVisibleAddTweetModal(false)
-    }
-
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -56,9 +43,11 @@ export const Sidebar: React.FC = (): React.ReactElement => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const signOutClick = () => {
         dispatch(signOut())
     }
+    
     return (
         <div>
             <div className={classes.wrapper}>
@@ -72,8 +61,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <Link to="/home">
-                            {/* <HomeIcon sx={{ fontSize: 27 }} /> */}
-                            <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/165_Birdhouse_Tweet_Twitter-512.png" alt="home" style={{width:29, height: 29}} />
+                            <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/165_Birdhouse_Tweet_Twitter-512.png" alt="home" className={classes.icon} />
                          
                             <Hidden lgDown>
                                 <Typography variant="h6">Главная</Typography>
@@ -82,8 +70,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
-                        <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/162_Follow_Hash_tag_Tweet_Twitter-512.png" alt="home" style={{width:29, height: 29}} />
-                            {/* <Grid3x3OutlinedIcon sx={{ fontSize: 27 }} /> */}
+                        <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/162_Follow_Hash_tag_Tweet_Twitter-512.png" alt="explore" className={classes.icon} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Обзор</Typography>
                             </Hidden>
@@ -91,8 +78,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <Link to={`/video`}>
-                            {/* <NotificationIcon sx={{ fontSize: 27 }} /> */}
-                            <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/167_Bell_Sign_Twitter-512.png" alt="home" style={{width:29, height: 29}} />
+                            <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/167_Bell_Sign_Twitter-512.png" alt="notifications" className={classes.icon} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Уведомления</Typography>
                             </Hidden>
@@ -100,7 +86,8 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <Link to={`/messages`}>
-                            <MessageIcon sx={{ fontSize: 27 }} />
+                            <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/168_Twitter_Mail_Sms_Chat-256.png" alt="messages" style={{width:24, height: 26}} />
+                           
                             <Hidden lgDown>
                                 <Typography variant="h6">Сообщения</Typography>
                             </Hidden>
@@ -108,7 +95,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <Link to={`/home/bookmarks`}>
-                            <BookmarkIcon sx={{ fontSize: 27 }} />
+                            <img src="https://cdn0.iconfinder.com/data/icons/basic-ui-108/24/Save-256.png" alt="bookmarks" style={{width:24, height: 26}} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Закладки</Typography>
                             </Hidden>
@@ -116,7 +103,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
-                        <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/152_Twitter_Text_Chat-512.png" alt="home" style={{width:29, height: 29}} />
+                        <img src="https://cdn3.iconfinder.com/data/icons/twitter-20/512/152_Twitter_Text_Chat-512.png" alt="list" className={classes.icon} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Списки</Typography>
                             </Hidden>
@@ -124,7 +111,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <Link to={`/home/profile/${user._id}`}>
-                            <ProfileIcon sx={{ fontSize: 27 }} />
+                            <img src="https://cdn2.iconfinder.com/data/icons/e-commerce-line-4-1/1024/user4-256.png" alt="home" className={classes.icon} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Профиль</Typography>
                             </Hidden>
@@ -132,16 +119,14 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
-                        <img src="https://cdn4.iconfinder.com/data/icons/user-interface-outline-27/24/8.more_interface_button_ui_mark-256.png" alt="home" style={{width:29, height: 29}} />
-                        
-                            {/* <MessageIcon sx={{ fontSize: 27 }} /> */}
+                        <img src="https://cdn2.iconfinder.com/data/icons/essential-web-5/50/more-dot-tripple-circle-detail-256.png" alt="home" className={classes.icon} />
                             <Hidden lgDown>
                                 <Typography variant="h6">Еще</Typography>
                             </Hidden>
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Button onClick={handleClick} variant="contained" fullWidth >{matches ? 'Твитнуть' : <AddIcon />}</Button>
+                        <Button onClick={handleToggleClick} variant="contained" fullWidth >{matches ? 'Твитнуть' : <AddIcon />}</Button>
                     </li>
                 </ul>
 
@@ -210,7 +195,9 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                 </Menu>
 
             </div>
-            <ModalBlock title="" visible={visibleAddTweetModal} onClose={onClose}>
+
+
+            <ModalBlock title="" visible={visibleAddTweetModal} onClose={handleToggleClick}>
                 <div style={{ width: 540 }}>
                     <AddTweetForm maxRows={15} minRows={4} />
                 </div>
