@@ -5,9 +5,6 @@ export const useStylesHome = makeStyles((theme: Theme) => ({
         maxWidth: '1220px',
         margin: '0 auto',
     },
-    tweets: {
-        height: '100vh'
-    },
     tweetsHeader: {
         display: 'flex',
         justifyContent: 'space-between',

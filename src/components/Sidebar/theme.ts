@@ -93,7 +93,7 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
     },
     menuItem: {
         fontSize: '14px',
-         wordWrap: 'break-word',
+        wordWrap: 'break-word',
         "& a": {
             display: 'inline-flex',
             alignItems: 'center',
@@ -109,7 +109,10 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
         borderRadius: '20px !important'
     },
     icon: {
-        width: 29,
-        height: 29
+        width: 24,
+        height: 24,
+        "& path": {
+            fill: theme.palette.icon.main
+        }
     },
 }));

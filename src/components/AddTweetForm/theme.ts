@@ -20,11 +20,11 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         resize: 'none',
         fontSize: 20,
         fontFamily: "inherit",
-        color: '#536471 !important',
+        color: theme.palette.text.secondary,
         fontWeight: 500,
-        "&:placeholder": {
-            fontSize: 22,
-            color: '#000 !important',
+        backgroundColor : theme.palette.background.default,
+        "&::placeholder": {
+            color: theme.palette.text.secondary,
             fontWeight: 500,
         }
     },

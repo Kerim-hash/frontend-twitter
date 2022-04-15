@@ -1,8 +1,9 @@
 // @ts-nocheck
 import { createTheme } from '@mui/material/styles';
-import {  red } from '@mui/material/colors';
+import { useSelector } from 'react-redux';
+import { selectTheme } from './store/ducks/theme/selectors';
 
-export const theme = createTheme({
+export const theme =  createTheme({
   typography: {
     fontFamily: ['Rubik', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),
     h2: {
@@ -26,7 +27,7 @@ export const theme = createTheme({
     body2: {
       fontWeight: 400,
       fontSize: 14,
-      color: '#536471'
+      // color: '#536471'
     },
     button: {
       textTransform: "none"
@@ -34,39 +35,73 @@ export const theme = createTheme({
   },
 
   palette: {
-    primary: {
-      main: 'rgb(29, 161, 242)',
-      dark: 'rgb(26, 145, 218)',
-      contrastText: '#fff',
-    },
-    secondary: {
-      main: 'rgb(26, 145, 218)',
-    },
-    inherit :{
-      background: "#000",
-      color: '#fff'
-    },
-    error: {
-      main: red.A400,
-    },
-    action: {
-      main: '#fff',
-    },
-    background: {
-      default: '#fff',
-    },
-    text: {
-      primary: '#1d9bfo',
-      secondary: '#46505A',
-      lightBlue: 'rgb(29, 161, 242)',
-      darkGrey: '#74828C'
-    },
-  
- 
+    mode: 'light',
+    ...('LIGHT'=== 'LIGHT'
+      ? {
+        primary: {
+          main: 'rgb(29, 161, 242)',
+          dark: 'rgb(26, 145, 218)',
+          contrastText: '#fff',
+        },
+        secondary: {
+          main: '#f7f9f9',
+          dark: '#fff',
+        },
+        action: {
+          main: '#fff',
+          dark: '#f7f9f9',
+        },
+        background: {
+          default: '#fff',
+        },
+        grey:  {
+          light: '#536471',
+          dark: '#74828C',
+        },
+        text: {
+          primary: '#1d9bfo',
+          secondary: '#000',
+          lightBlue: 'rgb(29, 161, 242)',
+          grey:  {
+            light: '#536471',
+            main: '#3f50b5',
+            dark: '#74828C',
+            contrastText: '#fff',
+          }
+        },
+      }
+      : {
+        secondary: {
+          main: '#16181C',
+          dark: '#000',
+        },
+        text: {
+          primary: '#fff',
+          secondary: '#fff',
+          lightBlue: 'rgb(29, 161, 242)',
+          grey:  {
+            light: '#474B4E',
+            main: '#3f50b5',
+            dark: '#74828C',
+            contrastText: '#fff',
+          }
+        },
+        background: {
+          default: '#000',
+        },
+        grey:  {
+          light: '#536471',
+          dark: '#74828C',
+        },
+      }),
+
+
+
+
   },
 
   components: {
-   
+
     MuiButton: {
       styleOverrides: {
         root: {
@@ -83,7 +118,7 @@ export const theme = createTheme({
             height: 35,
           },
           "&.MuiButton-contained.MuiButton-sizeSmall": {
-           height: 35,
+            height: 35,
           }
         },
       },

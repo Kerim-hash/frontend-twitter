@@ -41,7 +41,7 @@ const MessageTop: React.FC<MessageTopProps> = ({ receiverId }: MessageTopProps):
             <Box display="flex" alignItems="center">
              {user && <AvatarComponent user={user} />}
                 <Box display="flex" flexDirection="column" style={{ marginLeft: 10 }}>
-                    <Typography variant="body1" className={classes.fullname}>{user?.fullname}</Typography>
+                    <Typography variant="body1" color="text.secondary" className={classes.fullname}>{user?.fullname}</Typography>
                     <Typography variant="body2" className={classes.username}>@{user?.username}</Typography>
                 </Box>
             </Box>

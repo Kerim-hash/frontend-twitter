@@ -3,8 +3,8 @@ import { rootReducer } from './ducks/rootReducer'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './ducks/rootSaga';
 import { TweetsState } from './ducks/tweets/contracts/state';
-import { TagsState } from './ducks/tags/contracts/state';
 import { User } from './ducks/user/contracts/state';
+import { ThemeState } from './ducks/theme/contracts/state';
 
 declare global {
     interface Window {
@@ -18,7 +18,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 export interface RootState {
     tweets: TweetsState,
-    tags: TagsState,
+    theme: ThemeState,
     user: User,
 }
 

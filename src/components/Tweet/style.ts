@@ -57,7 +57,7 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         }
     },
     tweet: {
-        transition: 'all 1s',
+        transition: 'all .3s',
         cursor: 'pointer',
         display: 'flex',
         padding: 10,
@@ -65,17 +65,14 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         borderLeft: 'none !important',
         borderRight: 'none !important',
         "&:hover": {
-            background: "rgb(245, 248, 250)"
+            background: `rgba(#444, .5)`
         },
     },
     tweetUserName: {
-        color: '#536471',
         margin: '0 8px 0 5px !important',
-
     },
     tweettimeUploded: {
         display: 'block',
-        color: '#536471',
         marginLeft: '8px !important',
     },
     tweetActions: {

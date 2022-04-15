@@ -22,7 +22,6 @@ const Index = () => {
     const tweets = useSelector(selectTweetsItems)
     const loading = useSelector(selectIsTweetLoading)
     const isDeleted = useSelector(selectIsTweetDeleted)
-    const userData = useSelector(selectUser)
     const [snackbarState, setSnackbarState] = useState<{ text: string, type: 'error' | 'success' | 'info' }>()
 
     React.useEffect(() => {
@@ -82,4 +81,4 @@ const Index = () => {
     )
 }
 
-export default Index
+export default React.memo(Index)

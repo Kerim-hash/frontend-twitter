@@ -6,7 +6,8 @@ export const useStylesHome = makeStyles((theme: Theme) => ({
         margin: '0 auto',
     },
     tweets: {
-        height: '100vh'
+        minHeight: '100vh',
+        // border: "1px solid #000"
     },
     tweetsHeader: {
         display: 'flex',

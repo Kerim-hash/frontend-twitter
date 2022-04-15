@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { TagsState } from '../../store/ducks/tags/contracts/state'
+import { TagsState } from '../../store/ducks/theme/contracts/state'
 
 export const TagsApi = {
     fetchTags(): Promise<TagsState['items']>{

@@ -61,7 +61,6 @@ const Aside: React.FC = (): ReactElement => {
         <Hidden lgDown>
             <Grid item xs={0} lg={0} md={3.4} >
                 <div style={{ position: 'sticky', top: 0 }}>
-
                     <div ref={rootEl} >
                         <OutlinedInput
                             fullWidth
@@ -80,11 +79,11 @@ const Aside: React.FC = (): ReactElement => {
                                 return <NavLink className={classes.user} to={`/home/profile/${item?._id}`}>
                                     <AvatarComponent user={item} />
                                     <Box className={classes.userinfo}>
-                                        <Typography variant="body1" className={classes.fullname}>{item?.fullname}</Typography>
-                                        <Typography variant="body1" className={classes.username}>@{item?.username}</Typography>
+                                        <Typography variant="body1" color="text.secondary" className={classes.fullname}>{item?.fullname}</Typography>
+                                        <Typography variant="body1" color="text.secondary"  className={classes.username}>@{item?.username}</Typography>
                                     </Box>
                                 </NavLink>
-                            }) : <Typography variant="body2" style={{ textAlign: 'center', fontWeight: 600, paddingBottom: 30 }}>Попробуйте поискать людей, темы или ключевые слова</Typography>}
+                            }) : <Typography variant="body2" color="text.secondary" style={{ textAlign: 'center', fontWeight: 600, paddingBottom: 30 }}>Попробуйте поискать людей, темы или ключевые слова</Typography>}
                         </Box>
                         }
                     </div>
@@ -92,15 +91,15 @@ const Aside: React.FC = (): ReactElement => {
 
 
 
-                    <Paper elevation={3} sx={{ padding: '7px 10px 20px', borderRadius: 5, background: "#f7f9f9", marginTop: '20px', boxShadow: 'none' }}>
+                    <Paper elevation={3} className={classes.listUsersFooter}>
                         <Typography variant="h5">Кого читать</Typography>
                         {users !== undefined && users.map((item) => {
                             return <Card sx={{ maxWidth: 345, background: 'transparent', boxShadow: 'none', borderColor: 'transparent', cursor: 'pointer', transition: 'background .4s', "&:hover": { background: '#E1E8ED' }, margin: "0 -11px 0 -11px", alignItems: 'center' }}>
                                 <CardHeader
                                     avatar={<AvatarComponent user={item} />}
                                     action={<Button color="inherit" size="small" variant="contained" >Читать</Button>}
-                                    title={item?.fullname}
-                                    subheader={`@${item?.username}`}
+                                    title={<Typography color="text.secondary">{item?.fullname}</Typography>}
+                                    subheader={<Typography color="text.grey.light">@{item?.username}</Typography>}
                                 />
                             </Card>
                         })}

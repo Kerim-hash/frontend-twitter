@@ -21,11 +21,7 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
         fontWeight: '400 !important',
         margin: '10px 0',
         height: 45,
-        background: '#fff !important',
-        paddingBottom: '0 !important',
-        "&:focus": {
-            background: '#fff',
-        },
+        background: theme.palette.secondary.light,
         "&.Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root": {
             color: theme.palette.primary.main,
         },

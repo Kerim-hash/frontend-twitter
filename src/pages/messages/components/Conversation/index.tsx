@@ -96,9 +96,6 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
         },
     }));
 
-   
-
-
     return (
         <Box className={classes.wrapper}>
             <Box className={classes.item}>
@@ -110,8 +107,8 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
                    <AvatarComponent user={user} />
                 </StyledBadge> :  <AvatarComponent user={user} />}
                 <Box>
-                <Typography variant="body1" className={classes.username}>{user?.fullname}</Typography>
-                <Typography variant="body2" className={classes.username}>@{user?.username}</Typography>
+                <Typography variant="body1" color="text.secondary" className={classes.username}>{user?.fullname}</Typography>
+                <Typography variant="body2" color="text.grey.light"  className={classes.username}>@{user?.username}</Typography>
                 </Box>
             </Box>
             <IconButton

@@ -8,27 +8,31 @@ export const useStylesAside = makeStyles((theme: Theme) => ({
     },
     outlinedInput: {
         borderRadius: '30px !important',
-        background: '#EFF3F4',
         fontWeight: '400 !important',
         margin: '10px 0',
         height: 45,
         position: 'relative',
-        "&:focus": {
-            background: '#fff',
-        },
+        background: theme.palette.secondary.light,
         "&.Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root": {
             color: theme.palette.primary.main,
         },
     },
     listUsers: {
-        background: '#fff',
+        background: theme.palette.secondary.light,
         padding: '15px 10px 0 10px',
         borderRadius: 10,
-        boxShadow: '0px -1px 17px rgb(0 0 0 / 30%)',
+        boxShadow: 'rgb(149 157 171 / 30%) 0px -4px 9px',
         position: 'absolute',
         width: '100%',
         left: 0,
         zIndex: 1,
+    },
+    listUsersFooter: {
+        background: theme.palette.secondary.light,
+        borderRadius: 10,
+        marginTop: '20px',
+        boxShadow: 'none',
+        padding: '15px 10px 0 10px',
     },
     user: {
         display: 'flex',
@@ -47,5 +51,5 @@ export const useStylesAside = makeStyles((theme: Theme) => ({
     fullname: {
     },
 
-    
+
 }));

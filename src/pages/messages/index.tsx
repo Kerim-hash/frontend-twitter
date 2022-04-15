@@ -200,7 +200,7 @@ const Messages = () => {
                     <Box style={{ borderLeft: '1px solid #EFF3F4', height: '100vh' }}>
                         <div style={{ padding: '8px 15px', }}>
                             <Box display='flex' alignItems="center" justifyContent="space-between" >
-                                <Typography variant="body1" style={{ fontWeight: 800, fontSize: 19, lineHeight: 1 }}>Сообщения</Typography>
+                                <Typography variant="body1" color="text.secondary" style={{ fontWeight: 800, fontSize: 19, lineHeight: 1 }}>Сообщения</Typography>
                                 <IconButton onClick={searchNewPerson}>
                                     <PersonAddAlt1OutlinedIcon />
                                 </IconButton>
@@ -236,7 +236,7 @@ const Messages = () => {
                     {!currentChat ?
                         <Box style={{ padding: 15, height: '100vh', display: "flex", justifyContent: "center", flexDirection: 'column', alignItems: 'center', }}>
                             <Box style={{ maxWidth: 295 }}>
-                                <Typography variant="h4" style={{ fontWeight: 800, lineHeight: 1 }}>Вы не выбрали сообщение</Typography>
+                                <Typography variant="h4" color="text.secondary" style={{ fontWeight: 800, lineHeight: 1 }}>Вы не выбрали сообщение</Typography>
                                 <Typography variant="body2" color="#74828C" style={{ fontWeight: 500, marginTop: 10, marginBottom: 30 }}>Выберите одно из своих сообщений или напишите новое.</Typography>
                                 <Button variant="contained" color="primary" size="large" onClick={searchNewPerson}>Новое сообщение</Button>
                             </Box>
