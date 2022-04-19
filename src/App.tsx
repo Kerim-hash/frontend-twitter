@@ -276,7 +276,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* <Route
+            <Route
               path="/video/*"
               element={
                 <ProtectedRoute
@@ -286,7 +286,7 @@ function App() {
                 <Video />
               </ProtectedRoute>
               }
-            /> */}
+            />
             <Route
               path="/auth"
               element={

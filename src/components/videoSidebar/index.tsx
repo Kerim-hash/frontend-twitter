@@ -40,6 +40,9 @@ const Sidebar = ({ children }) => {
   const [idToCall, setIdToCall] = useState('');
   const classes = useStyles();
 
+  const copyMe = () => {
+    navigator.clipboard.writeText(me)
+  }
   return (
     <Container className={classes.container}>
       <Paper elevation={10} className={classes.paper}>
@@ -48,11 +51,11 @@ const Sidebar = ({ children }) => {
             <Grid item xs={12} md={6} className={classes.padding}>
               <Typography gutterBottom variant="h6">Account Info</Typography>
               <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
-              {/* <CopyToClipboard text={me} className={classes.margin}>
-                <Button variant="contained" color="primary" fullWidth>
+              {/* <CopyToClipboard text={me} className={classes.margin}> */}
+                <Button variant="contained" color="primary" fullWidth onClick={() => copyMe()}>
                   Copy Your ID
                 </Button>
-              </CopyToClipboard> */}
+              {/* </CopyToClipboard> */}
             </Grid>
             <Grid item xs={12} md={6} className={classes.padding}>
               <Typography gutterBottom variant="h6">Make a call</Typography>
