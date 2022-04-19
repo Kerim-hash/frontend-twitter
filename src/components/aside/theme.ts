@@ -20,7 +20,7 @@ export const useStylesAside = makeStyles((theme: Theme) => ({
     },
     listUsers: {
         background: theme.palette.secondary.dark,
-        padding: '15px 10px 0 10px',
+        padding: '8px 0',
         borderRadius: 10,
         boxShadow: 'rgb(149 157 171 / 30%) 0px -4px 9px',
         position: 'absolute',
@@ -33,19 +33,22 @@ export const useStylesAside = makeStyles((theme: Theme) => ({
         borderRadius: 10,
         marginTop: '20px',
         boxShadow: 'none',
-        padding: '15px 10px 0 10px',
+        padding: '8px 0',
     },
     user: {
         display: 'flex',
         color: 'inherit',
         textDecoration: 'none',
         alingItems: 'center',
-        marginBottom: '15px'
+        paddingBottom: '15px',
+        padding: '15px 10px 0 10px',
+        "&:hover": { background: theme.palette.tonalOffset },
     },
     userinfo: {
         display: 'flex',
         flexDirection: 'column',
         marginLeft: 10,
+
     },
     card: {
         maxWidth: 345,
@@ -54,8 +57,8 @@ export const useStylesAside = makeStyles((theme: Theme) => ({
         borderColor: 'transparent',
         cursor: 'pointer',
         transition: 'background .4s',
+        padding: '5px 10px 0 5px',
         "&:hover": { background: theme.palette.tonalOffset },
-        margin: "0 -11px 0 -11px",
         alignItems: 'center'
     }
 

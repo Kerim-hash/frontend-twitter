@@ -97,8 +97,8 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
                                 return <NavLink className={classes.user} to={`/profile/${item?._id}`}>
                                     <AvatarComponent user={item} />
                                     <Box className={classes.userinfo}>
-                                        <Typography variant="body1" color="text.secondary" className={classes.fullname}>{item?.fullname}</Typography>
-                                        <Typography variant="body1" color="text.secondary" className={classes.username}>@{item?.username}</Typography>
+                                        <Typography variant="body1" color="text.secondary">{item?.fullname}</Typography>
+                                        <Typography variant="body1" color="text.secondary">@{item?.username}</Typography>
                                     </Box>
                                 </NavLink>
                             }) : <Typography variant="body2" color="text.secondary" style={{ textAlign: 'center', fontWeight: 600, paddingBottom: 30 }}>Попробуйте поискать людей, темы или ключевые слова</Typography>}
@@ -109,7 +109,7 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
 
 
                     <Paper elevation={3} className={classes.listUsersFooter}>
-                        <Typography variant="h5">Кого читать</Typography>
+                        <Typography variant="h5" ml={2}>Кого читать</Typography>
                         {users !== undefined && users?.map((item) => {
                             return <Card key={item._id}  className={classes.card} onClick={() => navigateToprofile(item._id)}>
                                 <CardHeader

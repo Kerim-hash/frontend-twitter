@@ -96,7 +96,7 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
         transition: 'all .2s',
         cursor: 'pointer',
         "&:hover":{
-            background: '#eee',
+            background: theme.palette.tonalOffset
         }
     },
     userinfo: {
