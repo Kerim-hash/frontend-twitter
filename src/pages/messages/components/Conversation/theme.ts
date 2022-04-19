@@ -10,8 +10,7 @@ export const useStylesMessageUser = makeStyles((theme: Theme) => ({
         textDecoration: 'none',
         cursor: 'pointer',
         "&:hover": {
-            background: '#eee',
-          
+            background: theme.palette.tonalOffset
         }
     },
     wrappeActive: {

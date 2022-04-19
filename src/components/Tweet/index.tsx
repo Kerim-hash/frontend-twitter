@@ -55,6 +55,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const classes = TweetStyle()
     const dispatch = useDispatch()
     let navigate = useNavigate();
+    
     const userData = useSelector(selectData)
     const bookmarksStateData = useSelector(selectBookmarksState)
 
@@ -65,13 +66,11 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const shareOpen = Boolean(shareEl);
 
     const handleClose = (event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault()
         event.stopPropagation();
         setAnchorEl(null);
     };
 
     const handleCloseShare = (event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault()
         event.stopPropagation();
         setShareEl(null);
     };
@@ -148,7 +147,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const navigateToProfile = (event) => {
         event.preventDefault()
         event.stopPropagation();
-        navigate(`/home/profile/${user._id}`)
+        navigate(`/profile/${user._id}`)
     }
 
     const bookmarksAdd = (event) => {
@@ -203,7 +202,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                         </div>
                         <div>
                             <IconButton onClick={onClickLike}>
-                                {likes?.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} className={classes.likeIcon} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} className={classes.icon} />}
+                                {likes?.includes(userData?._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} className={classes.likeIcon} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} className={classes.icon} />}
                             </IconButton>
                             <span>{likes?.length}</span>
                         </div>
@@ -265,7 +264,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                     open={open}
                     onClose={handleClose}
                 >
-                    {userData._id === user?._id && <MenuItem onClick={(e) => deleteTweetById(e)} sx={{ color: '#EA5561' }}>
+                    {userData?._id === user?._id && <MenuItem onClick={(e) => deleteTweetById(e)} sx={{ color: '#EA5561' }}>
                         <DeleteOutlinedIcon sx={{ color: '#EA5561' }} />  Удалить твит
                     </MenuItem>}
                     <MenuItem onClick={handleClose}>

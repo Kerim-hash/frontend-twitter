@@ -71,12 +71,12 @@ const ProfileFollowers = () => {
                 </Tabs>
             </Box>
             <TabPanel className={classes.tab} value={value} index={0}>
-                {profile.followers?.map((item => {
+                {profile.followings?.map((item => {
                     return <ReadUser user={item} />
                 }))}
             </TabPanel>
             <TabPanel className={classes.tab} value={value} index={1}>
-                {profile.followings?.map((item => {
+                {profile.followers?.map((item => {
                     return <ReadUser user={item} />
                 }))}
             </TabPanel>

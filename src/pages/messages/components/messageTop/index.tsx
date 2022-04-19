@@ -19,7 +19,7 @@ const MessageTop: React.FC<MessageTopProps> = ({ receiverId }: MessageTopProps):
     const [user, setUser] = React.useState<UserType>(null)
 
     const toUserInfo = () => {
-        navigate(`/home/profile/${user?._id}`)
+        navigate(`/profile/${user?._id}`)
     }
 
     React.useEffect(() => {

@@ -30,7 +30,7 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
             break
         case UserActionType.SET_FOLLOW_STATE:
             if (action.payload.status) {
-                action.payload.followed ? draft.data.followings.push(action.payload.follower) : draft.data.followings.pop()
+                action.payload.followed ? draft.data.followers.push(action.payload.follower) : draft.data.followers.pop()
             }
             break
         case UserActionType.SET_SEARCH_USER_BY_NAME:
@@ -41,5 +41,12 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
         case UserActionType.SET_USERS:
             draft.users = action.payload
             break
+        // case UserActionType.FETCH_FOLLOW:
+        //     if (action.payload.followState === 'follow') {
+        //         draft.data.followers.push(action.payload.id)
+        //     }else {
+        //         draft.data.followers.pop()
+        //     }
+        //     break
     }
 }, initialstate)

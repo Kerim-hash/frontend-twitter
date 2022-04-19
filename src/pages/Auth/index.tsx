@@ -26,12 +26,12 @@ const Auth: React.FC = () => {
     return (
         <div className={classes.wrapper}>
             <div className={classes.blueSide}>
-                <TwitterIcon className={classes.icon} sx={{ fontSize: 160 }} color="action" />
+                <TwitterIcon className={classes.icon} sx={{ fontSize: 160 }} color="icon" />
             </div>
             <div className={classes.loginSide}>
                 <TwitterIcon sx={{ fontSize: 50 }} color="primary" />
-                <Typography className={classes.title} variant="h2">В курсе происходящего</Typography>
-                <Typography className={classes.desc} variant="h4">Присоединяйтесь к Твиттеру прямо сейчас!</Typography>
+                <Typography className={classes.title} variant="h2" color="text.secondary" >В курсе происходящего</Typography>
+                <Typography className={classes.desc} variant="h4" color="text.secondary" >Присоединяйтесь к Твиттеру прямо сейчас!</Typography>
                 <div className={classes.buttons}>
                     <Button onClick={handleClickOpenSignUp} style={{ marginBottom: 20 }} variant="contained" color="primary">Зарегистрироваться</Button>
                     <Button onClick={handleClickOpenSignIn} variant="outlined">Войти</Button>

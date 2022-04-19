@@ -44,8 +44,9 @@ export const useStylesProfile = makeStyles((theme: Theme) => ({
         padding: '20px 10px 15px 10px',
         fontSize: '20px',
         resize: 'none',
+        backgroundColor : theme.palette.secondary.dark,
+        color: theme.palette.text.secondary,
         fontFamily: ['Rubik', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),
-
     },
     settingsWrapper: {
         marginTop: 10,

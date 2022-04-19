@@ -82,36 +82,33 @@ const Index = () => {
     }, [value])
 
     const handleFollow = () => {
-        dispatch(fetchFollow({ id: params.id, userID: user._id, followState: 'follow' }))
+        dispatch(fetchFollow({ id: params.id, userID: user?._id, followState: 'follow' }))
     }
     const handleUnFollow = () => {
-        dispatch(fetchFollow({ id: params.id, userID: user._id, followState: 'unfollow' }))
+        dispatch(fetchFollow({ id: params.id, userID: user?._id, followState: 'unfollow' }))
     }
-
-
-
 
     return (
         <div>
             <Box display='flex' alignItems="center" style={{ padding: 10, top: 0, backdropFilter: 'blur(9px)', position: 'sticky', zIndex: 1 }} >
                 <BackButton /><Box display="flex" flexDirection="column"> <Typography variant="body1" style={{ fontWeight: 800, fontSize: 18 }}>{profile?.fullname}</Typography> <Typography variant="caption" style={{ fontWeight: 300, fontSize: 14, lineHeight: 1 }}>{tweets?.length} твит</Typography></Box>
             </Box>
-
             <div className={classes.profileHeader} style={{backgroundImage: `url(${profile?.bgImage})`}}></div>
             <Box display='flex' justifyContent="space-between" style={{ padding: '0 15px', position: 'relative' }}>
-                <Box className={classes.profileInfo}>
-                    <Avatar sx={{ width: 143, height: 143, border:'5px solid #fff' }} src={profile?.avatar} />
+                {console.log(profile)}
+               {profile !== undefined &&  <Box className={classes.profileInfo}>
+                    <Avatar sx={{ width: 143, height: 143, border:'5px solid #fff' }} src={profile.avatar} />
                     <Typography variant="body1" style={{ fontWeight: 800, fontSize: 20, marginTop: 25 }}>{profile?.fullname}</Typography>
                     <Typography variant="caption" style={{ fontWeight: 500, fontSize: 14, color: '#536471', lineHeight: 1, }}>@{profile?.username}</Typography>
                     <Typography variant="caption" style={{ fontWeight: 500, fontSize: 14, marginTop: 15 }}>{profile?.about}</Typography>
                     <Box display="flex" alignItems="center" style={{ marginTop: 15 }} > <EventOutlinedIcon sx={{ fill: '#536471', marginRight: '5px', fontSize: 18 }} /><Typography variant="caption" style={{ fontWeight: 400, fontSize: 14, color: '#536471' }}>Регистрация: {profile?.createdAt && format(new Date(profile?.createdAt), 'MMMM yyyy г.', { locale: ruLand })}</Typography></Box>
                     <Box display="flex" alignItems="center" style={{ marginTop: 15 }} > <Location sx={{ fill: '#536471', marginRight: '5px', fontSize: 18 }} /><Typography variant="caption" style={{ fontWeight: 400, fontSize: 14, color: '#536471' }}>{profile?.location}</Typography></Box>
                     <Box display="flex" alignItems="center" style={{ marginTop: 15 }} > <PublicOutlinedIcon sx={{ fill: '#536471', marginRight: '5px', fontSize: 18 }} /><Typography variant="caption" style={{ fontWeight: 400, fontSize: 14, color: '#536471' }}><a style={{ color: "#359BF0" }} href={profile?.website}>{profile?.website}</a></Typography></Box>
-                    <Box display="flex" alignItems="center" style={{ marginTop: 15 }} ><NavLink className={classes.link} to={`/home/profile/${params.id}/followers`}><span>{profile?.followings?.length}</span>в читаемых</NavLink> <NavLink to="#" className={classes.link} style={{ marginLeft: 10 }}><span>{profile?.followers?.length}</span>читателя</NavLink>  </Box>
-                </Box>
-                {user._id !== params.id ? <>
-                    {!user.followings?.includes(params.id) ? <Button onClick={handleFollow} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }}>Читать</Button> :
-                        <Button onClick={handleUnFollow} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }}>Читаемые</Button>}
+                    <Box display="flex" alignItems="center" style={{ marginTop: 15 }} ><NavLink className={classes.link} to={`/profile/${params.id}/followers`}><Typography variant="subtitle1" color="text.secondary" style={{display: 'inline', marginRight: 5}}>{profile?.followings?.length}</Typography>в читаемых</NavLink> <NavLink to="#" className={classes.link} style={{ marginLeft: 10 }}><Typography variant="subtitle1" color="text.secondary" style={{display: 'inline', marginRight: 5}}>{profile?.followers?.length}</Typography>читателя</NavLink>  </Box>
+                </Box>}
+                {user?._id !== params.id ? <>
+                    {!user?.followers?.includes(params.id) ? <Button onClick={handleFollow} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }} className={classes.settingsButton}>Читать</Button> :
+                        <Button onClick={handleUnFollow} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }} className={classes.settingsButton}>Читаемые</Button>}
                 </> : <Button onClick={handleSettings} color="inherit" size="small" variant="outlined" className={classes.settingsButton}>Изменить профиль</Button>}
             </Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>

@@ -18,7 +18,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Logout from '@mui/icons-material/Logout';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { signOut } from '../../store/ducks/user/actions'
+import { FetchGetMe, signOut } from '../../store/ducks/user/actions'
 import AddIcon from '@mui/icons-material/Add';
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Theme } from '@mui/material';
@@ -26,26 +26,33 @@ import AvatarComponent from '../avatar';
 import { selectIsTweetAdded } from '../../store/ducks/tweets/selectors';
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import SettingTheme from './setting';
+import { UserType } from '../../store/ducks/user/contracts/state';
 
-export const Sidebar: React.FC = (): React.ReactElement => {
+interface sidebarProps {
+    user: UserType
+}
+
+ const Sidebar: React.FC<sidebarProps> = ({user}: sidebarProps): React.ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesSidebar()
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-    const user = useSelector(selectData)
+
+
     const stateForm = useSelector(selectIsTweetAdded)
 
     const [visibleAddTweetModal, setVisibleAddTweetModal] = useState<boolean>(false)
     const handleToggleClick = () => {
         setVisibleAddTweetModal(!visibleAddTweetModal)
     }
-
     const [visibleSettingTheme, setVisibleSettingTheme] = useState<boolean>(false)
     const handleToggleSettingTheme = () => {
         setVisibleSettingTheme(!visibleSettingTheme)
+        visibleSettingTheme === true && setMoreEl(false)
     }
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+
     const open = Boolean(anchorEl);
     const handleClickProfile = (event) => {
         setAnchorEl(event.currentTarget);
@@ -56,15 +63,12 @@ export const Sidebar: React.FC = (): React.ReactElement => {
 
     const [moreEL, setMoreEl] = React.useState(null);
     const openMore = Boolean(moreEL);
-
     const handleClickMore = (event) => {
         setMoreEl(event.currentTarget);
     };
     const handleCloseMore = () => {
         setMoreEl(null);
     };
-
-
 
     const signOutClick = () => {
         dispatch(signOut())
@@ -133,7 +137,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                         </Link>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Link to={`/home/bookmarks`}>
+                        <Link to={`/bookmarks`}>
                             <svg width="18" height="21"className={classes.icon} viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.9 20.5C16.743 20.5 16.588 20.45 16.458 20.356L9 14.928L1.542 20.358C1.314 20.522 1.012 20.548 0.759999 20.418C0.509999 20.291 0.349998 20.033 0.349998 19.751V2.6C0.349998 1.36 1.36 0.35 2.6 0.35H15.398C16.638 0.35 17.648 1.36 17.648 2.6V19.75C17.648 20.032 17.49 20.29 17.238 20.418C17.132 20.473 17.015 20.5 16.898 20.5H16.9ZM9 13.25C9.155 13.25 9.31 13.298 9.44 13.394L16.15 18.277V2.6C16.15 2.188 15.813 1.85 15.4 1.85H2.6C2.187 1.85 1.85 2.188 1.85 2.6V18.277L8.56 13.394C8.69 13.298 8.845 13.25 9 13.25Z" fill="#D9D9D9" />
                             </svg>
@@ -156,7 +160,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Link to={`/home/profile/${user._id}`}>
+                        <Link to={`/profile/${user?._id}`}>
                             <svg width="18" height="21" className={classes.icon} viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9 10.816C10.355 10.816 11.872 10.666 12.84 9.56C13.654 8.63 13.918 7.192 13.646 5.168C13.266 2.343 11.529 0.655998 9 0.655998C6.471 0.655998 4.734 2.343 4.354 5.17C4.082 7.192 4.346 8.63 5.16 9.56C6.128 10.667 7.645 10.816 9 10.816V10.816ZM5.84 5.368C6.002 4.168 6.627 2.156 9 2.156C11.373 2.156 11.998 4.169 12.16 5.368C12.367 6.918 12.217 7.995 11.71 8.573C11.255 9.093 10.444 9.316 9 9.316C7.556 9.316 6.745 9.093 6.29 8.573C5.783 7.995 5.633 6.917 5.84 5.368ZM17.28 18.236C16.403 14.71 12.998 12.246 9 12.246C5.002 12.246 1.597 14.71 0.720001 18.236C0.548001 18.928 0.692 19.636 1.115 20.176C1.523 20.696 2.155 20.996 2.848 20.996H15.152C15.845 20.996 16.477 20.696 16.885 20.176C17.309 19.636 17.452 18.929 17.279 18.236H17.28ZM15.704 19.252C15.578 19.412 15.388 19.498 15.152 19.498H2.848C2.613 19.498 2.422 19.413 2.296 19.252C2.159 19.078 2.116 18.84 2.176 18.598C2.886 15.743 5.693 13.748 9 13.748C12.307 13.748 15.114 15.742 15.824 18.598C15.884 18.84 15.841 19.078 15.704 19.252V19.252Z" fill="#D9D9D9" />
                             </svg>
@@ -201,13 +205,13 @@ export const Sidebar: React.FC = (): React.ReactElement => {
                     <MenuItem onClick={handleToggleSettingTheme}><FormatColorFillIcon sx={{ marginRight: '10px' }} /> Оформление</MenuItem>
                 </Menu>
                 <Box className={classes.profile} onClick={handleClickProfile}>
-                    <Box display="flex" alignItems="center">
+                   {user &&  <Box display="flex" alignItems="center">
                         <AvatarComponent size={34} user={user} />
                         {matches && <div className={classes.profileInfo}>
                             <Typography variant="body1" color="text.secondary" style={{ fontSize: 14, fontWeight: 500 }}>{user.fullname}</Typography>
                             <Typography variant="body2" className={classes.tweetUserName} >@{user.username}</Typography>
                         </div>}
-                    </Box>
+                    </Box>}
                     {matches && <MoreHorizIcon sx={{ marginLeft: '80px' }} />}
                 </Box>
 
@@ -252,7 +256,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
 
                 >
                     <MenuItem className={classes.menuItem}>
-                        <Link to={`/home/profile/${user._id}`}>
+                        <Link to={`/profile/${user?._id}`}>
                             <Avatar /> Профиль
                         </Link>
                     </MenuItem>
@@ -278,3 +282,5 @@ export const Sidebar: React.FC = (): React.ReactElement => {
     )
 }
 
+
+export default React.memo(Sidebar)

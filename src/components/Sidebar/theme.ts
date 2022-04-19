@@ -26,7 +26,7 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
     sidebarItem: {
         display: 'flex',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 8,
         cursor: 'pointer',
         "&:hover": {
             "& div": {
@@ -109,8 +109,8 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
         borderRadius: '20px !important'
     },
     icon: {
-        width: 24,
-        height: 24,
+        width: 20,
+        height: 20,
         "& path": {
             fill: theme.palette.icon.main
         }

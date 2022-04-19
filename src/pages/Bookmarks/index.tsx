@@ -5,16 +5,14 @@ import { selectData } from '../../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux'
 import { Tweet } from '../../store/ducks/tweets/contracts/state';
 import { TweetComponent } from '../../components/Tweet';
-import { FetchGetMe } from '../../store/ducks/user/actions';
 
 const Bookmarks = () => {
-    const dispatch = useDispatch()
     const user = useSelector(selectData)
     return (
         <>
             <Box display='flex' alignItems="flex-start" flexDirection="column" style={{ padding: 15,  }} >
                 <Typography variant="body1" style={{ fontWeight: 800, fontSize: 19, lineHeight: 1 }}>Закладки</Typography>
-                <Typography variant="body2" color="#536471" style={{ fontWeight: 500, fontSize: 14, }}>@{user.username}</Typography>
+                <Typography variant="body2" color="#536471" style={{ fontWeight: 500, fontSize: 14, }}>@{user?.username}</Typography>
             </Box>
             {
                 true ? <div style={{ width: 330, margin: '40px auto 0', height: '100vh' }}>

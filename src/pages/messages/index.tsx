@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Sidebar } from '../../components/Sidebar';
 import { useStylesMessages } from './theme';
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 import IconButton from '@mui/material/IconButton';
@@ -55,9 +54,9 @@ const Messages = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
-    const socket = useRef(io("ws://localhost:8900"));
+    const socket = useRef(io("ws://twitterchat-node-2020.herokuapp.com/"));
     const [onlineUsers, setOnlineUsers] = useState([]);
-
+    // https://twitterchat-node-2020.herokuapp.com/
     // socket
     useEffect(() => {
         socket.current.on("getMessage", (data) => {
@@ -178,7 +177,7 @@ const Messages = () => {
 
     const deleteConversation = async (id: string) => {
         // event.stopPropagation()
-         const deleteConversation = async () => {
+        const deleteConversation = async () => {
             try {
                 const res = await istance.delete(`/conversation/${id}`);
                 setConversations(conversations.filter(item => item._id !== id));
@@ -189,75 +188,69 @@ const Messages = () => {
         await deleteConversation();
         setCurrentChat(null)
     }
-    
-    return (
-        <section className={classes.wrapper}>
-            <Grid container spacing={1}>
-                <Grid item xs={1} md={2.5} >
-                    <Sidebar />
-                </Grid>
-                <Grid item xs={11} md={3.75} >
-                    <Box style={{ borderLeft: '1px solid #EFF3F4', height: '100vh' }}>
-                        <div style={{ padding: '8px 15px', }}>
-                            <Box display='flex' alignItems="center" justifyContent="space-between" >
-                                <Typography variant="body1" color="text.secondary" style={{ fontWeight: 800, fontSize: 19, lineHeight: 1 }}>Сообщения</Typography>
-                                <IconButton onClick={searchNewPerson}>
-                                    <PersonAddAlt1OutlinedIcon />
-                                </IconButton>
-                            </Box>
-                            {conversations.length >= 1 ? <OutlinedInput
-                                fullWidth
-                                className={classes.outlinedInput}
-                                placeholder="Поиск в Твитерре"
-                                startAdornment={
-                                    <InputAdornment position="start">
-                                        <SearchIcon />
-                                    </InputAdornment>
-                                }
-                            /> : <Box style={{ paddingLeft: 14, marginTop: 35 }}>
-                                <Typography variant="h4" style={{ fontWeight: 800, lineHeight: 1 }}> Отправил сообщение — получил сообщение</Typography>
-                                <Typography variant="body2" color="#74828C" style={{ fontWeight: 500, marginTop: 10, marginBottom: 30 }}>Личные сообщения — это приватная переписка в Твиттере. В них можно делиться твитами, медиафайлами и другим контентом.</Typography>
-                                <Button variant="contained" color="primary" size="large" onClick={searchNewPerson}>Начните переписку</Button>
-                            </Box>}
-                        </div>
 
-                        <Box className={classes.messageUsers}>
-                            {conversations && conversations?.map((item, index) => {
-                                return <div onClick={() => openChat(item)}>
-                                    <Conversation setCurrentChat={setCurrentChat} conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} deleteConversation={deleteConversation} />
-                                </div>
-                            })
+    return (
+        <>
+            <Grid item xs={11} md={3.75} >
+                <Box style={{ borderLeft: '1px solid #EFF3F4', height: '100vh' }}>
+                    <div style={{ padding: '8px 15px', }}>
+                        <Box display='flex' alignItems="center" justifyContent="space-between" >
+                            <Typography variant="body1" color="text.secondary" style={{ fontWeight: 800, fontSize: 19, lineHeight: 1 }}>Сообщения</Typography>
+                            <IconButton onClick={searchNewPerson}>
+                                <PersonAddAlt1OutlinedIcon />
+                            </IconButton>
+                        </Box>
+                        {conversations.length >= 1 ? <OutlinedInput
+                            fullWidth
+                            className={classes.outlinedInput}
+                            placeholder="Поиск в Твитерре"
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
                             }
+                        /> : <Box style={{ paddingLeft: 14, marginTop: 35 }}>
+                            <Typography variant="h4" color="text.secondary" style={{ fontWeight: 800, lineHeight: 1 }}> Отправил сообщение — получил сообщение</Typography>
+                            <Typography variant="body2" color="#74828C" style={{ fontWeight: 500, marginTop: 10, marginBottom: 30 }}>Личные сообщения — это приватная переписка в Твиттере. В них можно делиться твитами, медиафайлами и другим контентом.</Typography>
+                            <Button variant="contained" color="primary" size="large" onClick={searchNewPerson}>Начните переписку</Button>
+                        </Box>}
+                    </div>
+
+                    <Box className={classes.messageUsers}>
+                        {conversations && conversations?.map((item, index) => {
+                            return <div onClick={() => openChat(item)}>
+                                <Conversation setCurrentChat={setCurrentChat} conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} deleteConversation={deleteConversation} />
+                            </div>
+                        })
+                        }
+                    </Box>
+                </Box>
+
+            </Grid>
+            <Grid item xs={11} md={5.75} style={{ borderLeft: '1px solid #EFF3F4', borderRight: '1px solid #EFF3F4', height: '100vh', }} >
+                {!currentChat ?
+                    <Box style={{ padding: 15, height: '100vh', display: "flex", justifyContent: "center", flexDirection: 'column', alignItems: 'center', }}>
+                        <Box style={{ maxWidth: 295 }}>
+                            <Typography variant="h4" color="text.secondary" style={{ fontWeight: 800, lineHeight: 1 }}>Вы не выбрали сообщение</Typography>
+                            <Typography variant="body2" color="#74828C" style={{ fontWeight: 500, marginTop: 10, marginBottom: 30 }}>Выберите одно из своих сообщений или напишите новое.</Typography>
+                            <Button variant="contained" color="primary" size="large" onClick={searchNewPerson}>Новое сообщение</Button>
                         </Box>
                     </Box>
-
-                </Grid>
-                <Grid item xs={11} md={5.75} style={{ borderLeft: '1px solid #EFF3F4', borderRight: '1px solid #EFF3F4', height: '100vh', }} >
-                    {!currentChat ?
-                        <Box style={{ padding: 15, height: '100vh', display: "flex", justifyContent: "center", flexDirection: 'column', alignItems: 'center', }}>
-                            <Box style={{ maxWidth: 295 }}>
-                                <Typography variant="h4" color="text.secondary" style={{ fontWeight: 800, lineHeight: 1 }}>Вы не выбрали сообщение</Typography>
-                                <Typography variant="body2" color="#74828C" style={{ fontWeight: 500, marginTop: 10, marginBottom: 30 }}>Выберите одно из своих сообщений или напишите новое.</Typography>
-                                <Button variant="contained" color="primary" size="large" onClick={searchNewPerson}>Новое сообщение</Button>
-                            </Box>
+                    :
+                    <Box>
+                        <MessageTop receiverId={receiverId} />
+                        <Box display="flex" flexDirection="column" style={{ height: '82vh', overflow: 'scroll' }}>
+                            {Array.isArray(messages) && messages?.map((item) => {
+                                return <div ref={scrollRef} className={classNames(classes.messageWrapper, { [classes.messageWrapperOwn]: item.sender === user._id })} >
+                                    <Message text={item.text} own={item.sender === user._id} createdAt={item.createdAt} />
+                                </div>
+                            })}
                         </Box>
-                        :
-                        <Box>
-                            <MessageTop receiverId={receiverId} />
-                            <Box display="flex" flexDirection="column" style={{ height: '82vh', overflow: 'scroll' }}>
-                                {Array.isArray(messages) && messages?.map((item) => {
-                                    return <div ref={scrollRef} className={classNames(classes.messageWrapper, { [classes.messageWrapperOwn]: item.sender === user._id })} >
-                                        <Message text={item.text} own={item.sender === user._id} createdAt={item.createdAt} />
-                                    </div>
-                                })}
-                            </Box>
-                            <MessageForm handleSubmit={handleSubmit} setNewMessage={setNewMessage} newMessage={newMessage} />
-                        </Box>
-                    }
+                        <MessageForm handleSubmit={handleSubmit} setNewMessage={setNewMessage} newMessage={newMessage} />
+                    </Box>
+                }
 
-                </Grid>
             </Grid>
-
             <Dialog open={open} onClose={handleClose} maxWidth={'sm'} fullWidth scroll={'paper'} className={classes.dialog}>
                 <Box display="flex" alignItems="center">
                     <IconButton onClick={handleClose}>
@@ -300,7 +293,7 @@ const Messages = () => {
                     })}
                 </div>
             </Dialog>
-        </section>
+        </>
     )
 }
 

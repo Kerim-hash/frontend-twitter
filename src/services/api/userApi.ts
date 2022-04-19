@@ -31,7 +31,7 @@ export const UserApi = {
         return data.data
     },
     async fetchFollow(payload): Promise<Response> {
-        const { data } = await istance.put(`/users/follow/${payload.id}`, {userID: payload.userID})
+        const { data } = await istance.put(`/users/${payload.followState}/${payload.id}`, {userID: payload.userID})
         return data
     },
     async fetchSearchUser(payload): Promise<Response> {

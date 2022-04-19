@@ -12,20 +12,24 @@ import Hidden from '@mui/material/Hidden';
 import SearchIcon from '@mui/icons-material/Search';
 import { useDebounce } from '../../hook/useDebounce';
 import { useDispatch, useSelector } from 'react-redux';
-import { FetchSearchUser, fetchUsers, SetSearchUser } from '../../store/ducks/user/actions';
-import { selectSearchUser, selectUsers } from '../../store/ducks/user/selectors';
-import { NavLink } from 'react-router-dom';
+import { fetchFollow,FetchSearchUser, fetchUsers, SetSearchUser } from '../../store/ducks/user/actions';
+import { selectData, selectSearchUser, selectUsers } from '../../store/ducks/user/selectors';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useStylesAside } from './theme';
 import { UserType } from '../../store/ducks/user/contracts/state';
 import AvatarComponent from '../avatar'
 
-const Aside: React.FC = (): ReactElement => {
+interface asideProps {
+    user: UserType
+}
+
+const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesAside()
+    const navigate = useNavigate()
     const [search, setSearch] = React.useState<string>("");
     let handleChange = (search) => setSearch(search)
     const debounceChange = useDebounce(handleChange, 500);
-
     const handleChangeSearch = (e) => {
         debounceChange(e.target.value);
     };
@@ -40,7 +44,9 @@ const Aside: React.FC = (): ReactElement => {
     }, [search])
 
     React.useEffect(() => {
-        dispatch(SetSearchUser([]))
+        if (search) {
+            dispatch(SetSearchUser([]))
+        }
     }, [window.location.pathname, search === ''])
 
     React.useEffect(() => {
@@ -51,11 +57,23 @@ const Aside: React.FC = (): ReactElement => {
     const rootEl = React.useRef(null);
 
     React.useEffect(() => {
-        if(focus){
+        if (focus) {
             const onClick = e => rootEl.current.contains(e.target) || setFocus(false)
             document.addEventListener('click', onClick);
         }
     }, [focus]);
+
+    const handleFollow = (event: React.MouseEvent<HTMLElement>, id: string) => {
+        event.stopPropagation();
+        dispatch(fetchFollow({ id: id, userID: user._id, followState: 'follow' }))
+    }
+    const handleUnFollow = (event: React.MouseEvent<HTMLElement>, id: string) => {
+        event.stopPropagation();
+        dispatch(fetchFollow({ id: id, userID: user._id, followState: 'unfollow' }))
+    }
+    const navigateToprofile = (id) => {
+        navigate(`/profile/${id}`)
+    }
 
     return (
         <Hidden lgDown>
@@ -76,11 +94,11 @@ const Aside: React.FC = (): ReactElement => {
                         />
                         {focus && <Box className={classes.listUsers}>
                             {userData !== undefined && userData?.length > 0 ? userData.map((item: UserType) => {
-                                return <NavLink className={classes.user} to={`/home/profile/${item?._id}`}>
+                                return <NavLink className={classes.user} to={`/profile/${item?._id}`}>
                                     <AvatarComponent user={item} />
                                     <Box className={classes.userinfo}>
                                         <Typography variant="body1" color="text.secondary" className={classes.fullname}>{item?.fullname}</Typography>
-                                        <Typography variant="body1" color="text.secondary"  className={classes.username}>@{item?.username}</Typography>
+                                        <Typography variant="body1" color="text.secondary" className={classes.username}>@{item?.username}</Typography>
                                     </Box>
                                 </NavLink>
                             }) : <Typography variant="body2" color="text.secondary" style={{ textAlign: 'center', fontWeight: 600, paddingBottom: 30 }}>Попробуйте поискать людей, темы или ключевые слова</Typography>}
@@ -90,14 +108,14 @@ const Aside: React.FC = (): ReactElement => {
 
 
 
-
                     <Paper elevation={3} className={classes.listUsersFooter}>
                         <Typography variant="h5">Кого читать</Typography>
-                        {users !== undefined && users.map((item) => {
-                            return <Card sx={{ maxWidth: 345, background: 'transparent', boxShadow: 'none', borderColor: 'transparent', cursor: 'pointer', transition: 'background .4s', "&:hover": { background: '#E1E8ED' }, margin: "0 -11px 0 -11px", alignItems: 'center' }}>
+                        {users !== undefined && users?.map((item) => {
+                            return <Card key={item._id}  className={classes.card} onClick={() => navigateToprofile(item._id)}>
                                 <CardHeader
                                     avatar={<AvatarComponent user={item} />}
-                                    action={<Button color="inherit" size="small" variant="contained" >Читать</Button>}
+                                    action={!user?.followers?.includes(item._id) ? <Button onClick={(e) => handleFollow(e, item._id)} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }}>Читать</Button> :
+                                        <Button onClick={(e) => handleUnFollow(e, item._id)} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }}>Читаемые</Button>}
                                     title={<Typography color="text.secondary">{item?.fullname}</Typography>}
                                     subheader={<Typography color="text.grey.light">@{item?.username}</Typography>}
                                 />
@@ -110,4 +128,4 @@ const Aside: React.FC = (): ReactElement => {
     )
 }
 
-export default Aside
+export default React.memo(Aside)

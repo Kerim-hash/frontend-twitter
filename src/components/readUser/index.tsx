@@ -36,7 +36,7 @@ const ReadUser: React.FC<ReadUserProps> = ({ user }: ReadUserProps): ReactElemen
 
 
     return (
-        <NavLink to={`/home/profile/${user._id}`} className={classes.wrapper}>
+        <NavLink to={`/profile/${user._id}`} className={classes.wrapper}>
             <Box display="flex">
                 <Avatar alt={user.fullname} src="/static/images/avatar/1.jpg" />
                 <Box display="flex" flexDirection="column"  style={{marginLeft: 10}}>

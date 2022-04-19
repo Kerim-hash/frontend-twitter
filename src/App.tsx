@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import React, { lazy, Suspense } from 'react';
 import {
   Routes,
@@ -7,43 +6,29 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { selectData } from './store/ducks/user/selectors';
-import { FetchGetMe } from './store/ducks/user/actions';
 import NotFound from './pages/NotFound';
 import CircularProgress from '@mui/material/CircularProgress';
 import { createTheme, ThemeProvider } from '@mui/material';
-
-import { selectTheme } from './store/ducks/theme/selectors';
+import Layout from './layout';
+import { FullTweet } from './pages/Home/components/FullTweet';
+import { isAuthenticated } from './utils/isAuthenticated';
+import { useSelector } from 'react-redux';
+import {selectTheme} from './store/ducks/theme/selectors'
+import Index from './pages/Home/components/Index/';
+import Video from './pages/video';
+const Profile = lazy(() => import("./pages/Profile").then((module) => ({ default: module.default, })));
+const Bookmarks = lazy(() => import("./pages/Bookmarks").then((module) => ({ default: module.default, })));
 const Auth = lazy(() => import("./pages/Auth").then((module) => ({ default: module.default, })));
 const Home = lazy(() => import("./pages/Home/Home").then((module) => ({ default: module.default, })));
 const Messages = lazy(() => import("./pages/messages").then((module) => ({ default: module.default, })));
 
 function App() {
-  const dispatch = useDispatch()
-  const user: any = useSelector(selectData)
   let navigate = useNavigate();
 
   React.useEffect(() => {
-    if(user?.data === undefined){
-      dispatch(FetchGetMe())
-    }
     if (window.location.pathname === '/') navigate("/home");
-  }, [user?.data])
-
-  const isAuthenticated = () => {
-    try {
-      if (user.data !== null) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    } catch (error) {
-      return false;
-    }
-  }
-
+  }, [])
+  // private route
   const ProtectedRoute = ({
     isAllowed,
     redirectPath = '/auth',
@@ -55,10 +40,10 @@ function App() {
     return children
   };
 
-    const color = useSelector(selectTheme)
-    
-    const theme = React.useMemo(
-      () =>
+  // theme
+  const color = useSelector(selectTheme)
+  const theme = React.useMemo(
+    () =>
       createTheme({
         typography: {
           fontFamily: ['Rubik', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),
@@ -96,8 +81,8 @@ function App() {
               primary: {
                 main: 'rgb(29, 161, 242)',
                 dark: 'rgb(26, 145, 218)',
-                contrastText: '#fff',
               },
+              tonalOffset: '#eee',
               secondary: {
                 main: '#f7f9f9',
                 dark: '#fff',
@@ -106,17 +91,17 @@ function App() {
               icon: {
                 main: '#0F1419'
               },
-              action: {
-                main: '#fff',
-                dark: '#f7f9f9',
+              textarea: {
+                main: '#fff'
               },
+
               background: {
                 default: '#fff',
               },
               text: {
                 primary: '#1d9bfo',
                 secondary: '#000',
-                grey:{
+                grey: {
                   light: '#474B4E',
                   main: '#3f50b5',
                   dark: '#74828C',
@@ -125,6 +110,11 @@ function App() {
               },
             }
             : {
+              tonalOffset: '#16181C',
+              primary: {
+                main: '#359BF0',
+                dark: 'rgb(26, 145, 218)',
+              },
               secondary: {
                 main: '#16181C',
                 dark: '#000',
@@ -133,11 +123,14 @@ function App() {
               icon: {
                 main: '#E7E9EA'
               },
+              textarea: {
+                main: '#383838'
+              },
               text: {
                 primary: '#fff',
                 secondary: '#fff',
                 lightBlue: 'rgb(29, 161, 242)',
-                grey:  {
+                grey: {
                   light: '#71767B',
                   main: '#3f50b5',
                   dark: '#74828C',
@@ -147,7 +140,7 @@ function App() {
               background: {
                 default: '#121212',
               },
-              grey:  {
+              grey: {
                 light: '#536471',
                 dark: '#74828C',
               },
@@ -162,31 +155,42 @@ function App() {
                 borderRadius: 30,
                 fontSize: 16,
                 fontWeight: 700,
+                color: '#fff' ,
                 "&.MuiButton-contained.MuiButton-containedInherit": {
                   background: '#000',
-                  color: '#fff'
+                  color: '#fff',
                 },
                 "&.MuiButton-outlined.MuiButton-outlinedSizeSmall": {
                   height: 35,
                 },
                 "&.MuiButton-contained.MuiButton-sizeSmall": {
                   height: 35,
+                },
+                "&.MuiButton-outlined": {
+                  color: color.theme === 'dark' ? '#fff' : '#359BF0',
+                },
+                "&.MuiButton-outlined.MuiButton-outlinedInherit": {
+                  color: color.theme === 'dark' ? '#fff' : '#000',
                 }
               },
             },
           },
-          MuiDialog: {
-            styleOverrides: {
-              root: {
-              }
-            }
-          },
-      
+          // MuiDialog: {
+          //   styleOverrides: {
+          //       ".MuiDialog-container .MuiDialog-scrollPaper": {
+          //         background: 'rgba(91, 112, 131, 0.4);'
+          //       }
+          //   },
+          // },
           MuiPaper: {
             styleOverrides: {
               root: {
                 borderRadius: 0,
-                // border: `1px solid rgb(${'#fff'}, / 40%)`,
+                backgroundColor: color.theme === 'dark' && '#000',
+                "&.MuiDialog-paper": {
+                  backgroundImage: 'none'
+                },
+
               }
             }
           },
@@ -208,7 +212,7 @@ function App() {
                 fontSize: 16,
                 fontWeight: 700,
               },
-      
+
             },
           }
         },
@@ -237,55 +241,50 @@ function App() {
               }
             }
           }
-        }  
+        }
       }),
-      
-      [color.theme],
-   );
-   
-  if(color.theme === 'dark'){
+
+    [color.theme],
+  );
+  if (color.theme === 'dark') {
     document.body.classList.add('App-dark');
-  }else {
+  } else {
     document.body.classList.remove('App-dark');
   }
+
   return (
     <ThemeProvider theme={theme}>
       <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}><CircularProgress color="primary" /></div>}>
         <div className={color.theme === 'light' ? 'App' : 'App-dark'}>
           <Routes>
-            <Route
-              path="/home/*"
-              element={
-                <ProtectedRoute
-                  isAllowed={isAuthenticated()}
-                  redirectPath="/auth"
-                >
-                  <Home />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/home" element={<Layout children={<Index />} />} />
+            <Route path="/home/tweet/:id" element={<Layout children={<FullTweet />} />} />
+            <Route path="/profile/:id/*" element={<Layout children={<Profile />} />} />
+            <Route path="/bookmarks/" element={<Layout children={<Bookmarks />} />} />
+            <Route path="/messages/*" element={<Layout children={<Messages />} messages />} />
+       
             <Route
               path="/messages/*"
               element={
                 <ProtectedRoute
-                  isAllowed={isAuthenticated()}
-                  redirectPath="/auth"
-                >
-                  <Messages />
-                </ProtectedRoute>
+                isAllowed={isAuthenticated()}
+                redirectPath="/auth/"
+              >
+                <Messages />
+              </ProtectedRoute>
               }
             />
             {/* <Route
-            path="/video/*"
-            element={
-              <ProtectedRoute
-              isAllowed={isAuthenticated()}
-              redirectPath="/auth"
+              path="/video/*"
+              element={
+                <ProtectedRoute
+                isAllowed={isAuthenticated()}
+                redirectPath="/auth/"
               >
-              <Video />
+                <Video />
               </ProtectedRoute>
-            }
-          /> */}
+              }
+            /> */}
             <Route
               path="/auth"
               element={
@@ -297,7 +296,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="*"
               element={

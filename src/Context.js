@@ -1,11 +1,13 @@
 import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
+import { useSelector } from 'react-redux';
+import { selectData } from './store/ducks/user/selectors';
 
 const SocketContext = createContext();
 
 // const socket = io('http://localhost:5000');
-const socket = io('http://localhost:8900');
+const socket = io('https://video-chat-jsm.herokuapp.com');
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
@@ -14,20 +16,21 @@ const ContextProvider = ({ children }) => {
   const [name, setName] = useState('');
   const [call, setCall] = useState({});
   const [me, setMe] = useState('');
-
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
+
+  const user = useSelector(selectData)
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-
         myVideo.current.srcObject = currentStream;
       });
 
-    socket.on('me', (id) => setMe(id));
+    // socket.on('me', (id) => setMe(id));
+    setMe(user?._id)
 
     socket.on('callUser', ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });

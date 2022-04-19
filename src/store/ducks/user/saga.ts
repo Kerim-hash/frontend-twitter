@@ -32,6 +32,7 @@ export function* LoginRequest({ payload }: FetchSignInActionInterface) {
     istance.defaults.headers.common['token'] = `${data.token}`;
     yield put(setUserData(data))
     yield put(setUserLoadingState(LoadingState.SUCCESS))
+    window.location.href = '/home'
   } catch (e) {
     yield put(setUserLoadingState(LoadingState.ERROR))
   }
@@ -62,6 +63,7 @@ export function* SignOut() {
   try {
     localStorage.clear();
     yield put(setUserData(undefined))
+    window.location.href = '/auth'
   } catch (e) {
     yield put(setUserLoadingState(LoadingState.ERROR))
   }
@@ -70,11 +72,9 @@ export function* SignOut() {
 export function* FetchFollow({payload}: FetchFollowActionInterface) {
   try {
     const data = yield call(UserApi.fetchFollow, payload)
-    // console.log(data)
     yield put(setFollowState(data))
   } catch (e) {
     alert('oops')
-    // yield put(setUserLoadingState(LoadingState.ERROR))
   }
 }
 

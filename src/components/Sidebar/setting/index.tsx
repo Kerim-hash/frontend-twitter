@@ -16,22 +16,20 @@ interface SettingThemeProps {
 
 
 const SettingTheme: React.FC<SettingThemeProps> = ({ visibleAddTweetModal, handleToggleClick }: SettingThemeProps): ReactElement => {
-
     const dispatch = useDispatch()
-
-
     return (
         <ModalBlock title="Настройте оформление" visible={visibleAddTweetModal} onClose={handleToggleClick}>
             <div style={{ width: 540 }}>
                 <Typography variant="subtitle1" color="text.grey.light" style={{ textAlign: "center" }}>Управляйте размером шрифта, цветами и фоном. Эти настройки влияют на все учетные записи Твиттера на этом устройстве.</Typography>
-                <Typography variant="body1" color="text.grey.light">фон</Typography>
+                <Typography variant="body1" color="text.grey.light" mb={3}>фон</Typography>
                 <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
+                    style={{justifyContent: 'space-between'}} 
                 >
-                    <FormControlLabel  onClick={() => dispatch(setTheme(ThemeStatus.LIGHT))} value="light" control={<Radio />} label="По умолчанию" />
-                    <FormControlLabel onClick={() => dispatch(setTheme(ThemeStatus.DARK))} value="dark" control={<Radio />} label="Ночь" />
+                    <FormControlLabel style={{backgroundColor: '#B9CAD3',width: '49%', color: '#000', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}}  onClick={() => dispatch(setTheme(ThemeStatus.LIGHT))} value="light" control={<Radio />} label="По умолчанию" />
+                    <FormControlLabel style={{backgroundColor: '#000',width: '49%', color: '#fff', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}} onClick={() => dispatch(setTheme(ThemeStatus.DARK))} value="dark" control={<Radio />} label="Ночь" />
                 </RadioGroup>
 
             </div>

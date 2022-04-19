@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -13,25 +13,31 @@ import { AddTweetForm } from '../../../../components/AddTweetForm';
 import { AddFormState, Tweet } from '../../../../store/ducks/tweets/contracts/state';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTweetsItems, selectIsTweetLoading, selectIsTweetDeleted } from '../../../../store/ducks/tweets/selectors';
-import { selectUser } from '../../../../store/ducks/user/selectors';
 import { TransitionGroup } from 'react-transition-group';
 import Collapse from '@mui/material/Collapse';
 const Index = () => {
     const dispatch = useDispatch()
     const classes = useStylesHome()
+
     const tweets = useSelector(selectTweetsItems)
     const loading = useSelector(selectIsTweetLoading)
     const isDeleted = useSelector(selectIsTweetDeleted)
+
     const [snackbarState, setSnackbarState] = useState<{ text: string, type: 'error' | 'success' | 'info' }>()
 
-    React.useEffect(() => {
+ 
+
+    useEffect(() => {
         dispatch(fetchTweets())
         // eslint-disable-next-line
-    }, [])
+    }, [dispatch])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (isDeleted) {
             setSnackbarState({ text: 'Ваш твит удален', type: 'info' })
+            setTimeout(() => {
+                dispatch(setAddFormLoadingState(AddFormState.NEVER))
+            }, 3000)
         }
     }, [isDeleted])
 
@@ -41,8 +47,7 @@ const Index = () => {
 
     return (
         <section className={classes.wrapper}>
-
-            <Snackbar open={isDeleted} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+            <Snackbar open={isDeleted} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
                 <Alert onClose={handleClose} severity={snackbarState?.type} sx={{ width: '100%' }}>
                     {snackbarState?.text}
                 </Alert>

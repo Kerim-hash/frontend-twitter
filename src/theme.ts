@@ -2,7 +2,8 @@
 import { createTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { selectTheme } from './store/ducks/theme/selectors';
-
+const color = localStorage.getItem('theme')
+console.log(color)
 export const theme =  createTheme({
   typography: {
     fontFamily: ['Rubik', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),

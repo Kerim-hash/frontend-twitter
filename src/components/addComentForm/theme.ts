@@ -19,7 +19,7 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         fontFamily: ['Rubik', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),
         color: theme.palette.text.secondary,
         fontWeight: 500,
-        backgroundColor : theme.palette.background.default,
+        backgroundColor : theme.palette.secondary.dark,
         "&::placeholder": {
             color: theme.palette.text.secondary,
             fontWeight: 500,

@@ -65,7 +65,7 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         borderLeft: 'none !important',
         borderRight: 'none !important',
         "&:hover": {
-            background: `rgba(#444, .5)`
+            background: theme.palette.tonalOffset
         },
     },
     tweetUserName: {

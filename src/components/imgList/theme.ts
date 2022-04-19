@@ -20,7 +20,7 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         position: 'relative',
-        borderRadius: 10,
+        borderRadius: 20,
         backgroundPosition: 'center',
     },
     singleImage: {
@@ -31,10 +31,10 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         width: 'auto',
         height: '280px',
         "&:nth-child(1)": {
-            borderRadius: '15px 0 0 15px',
+            borderRadius: '20px 0 0 20px',
         },
         "&:nth-child(2)": {
-            borderRadius: '0 15px 15px 0',
+            borderRadius: '0 20px 20px 0',
         }
     },
     coupleImageEdit: {
@@ -43,30 +43,30 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
     },
     treeImage: {
         "&:nth-child(1)": {
-            borderRadius: '15px 0 0 0',
+            borderRadius: '20px 0 0 0',
             height: '150px'
         },
         "&:nth-child(3)": {
-            borderRadius: '0 0 0 15px',
+            borderRadius: '0 0 0 20px',
             height: '145.3px',
         },
         "&:nth-child(2)": {
             height: '295px',
-            borderRadius: '0 15px 15px 0',
+            borderRadius: '0 20px 20px 0',
         }
     },
     FullImage: {
         "&:nth-child(1)": {
-            borderRadius: '15px 0 0 0',
+            borderRadius: '20px 0 0 0',
         },
         "&:nth-child(3)": {
-            borderRadius: '0 0 0 15px',
+            borderRadius: '0 0 0 20px',
         },
         "&:nth-child(2)": {
-            borderRadius: '0 15px 0 0',
+            borderRadius: '0 20px 0 0',
         },
         "&:nth-child(4)": {
-            borderRadius: '0 0 15px 0',
+            borderRadius: '0 0 20px 0',
         }
     },
     treeImageEdit: {

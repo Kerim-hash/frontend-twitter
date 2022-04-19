@@ -22,7 +22,7 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         fontFamily: "inherit",
         color: theme.palette.text.secondary,
         fontWeight: 500,
-        backgroundColor : theme.palette.background.default,
+        backgroundColor : theme.palette.secondary.dark,
         "&::placeholder": {
             color: theme.palette.text.secondary,
             fontWeight: 500,

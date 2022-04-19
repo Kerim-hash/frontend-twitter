@@ -12,13 +12,14 @@ export const useStylesAside = makeStyles((theme: Theme) => ({
         margin: '10px 0',
         height: 45,
         position: 'relative',
+        border: 'none',
         background: theme.palette.secondary.light,
         "&.Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root": {
             color: theme.palette.primary.main,
         },
     },
     listUsers: {
-        background: theme.palette.secondary.light,
+        background: theme.palette.secondary.dark,
         padding: '15px 10px 0 10px',
         borderRadius: 10,
         boxShadow: 'rgb(149 157 171 / 30%) 0px -4px 9px',
@@ -46,10 +47,18 @@ export const useStylesAside = makeStyles((theme: Theme) => ({
         flexDirection: 'column',
         marginLeft: 10,
     },
-    username: {
-    },
-    fullname: {
-    },
+    card: {
+        maxWidth: 345,
+        background: 'transparent',
+        boxShadow: 'none',
+        borderColor: 'transparent',
+        cursor: 'pointer',
+        transition: 'background .4s',
+        "&:hover": { background: theme.palette.tonalOffset },
+        margin: "0 -11px 0 -11px",
+        alignItems: 'center'
+    }
+
 
 
 }));

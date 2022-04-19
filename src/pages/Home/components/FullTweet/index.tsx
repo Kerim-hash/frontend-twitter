@@ -30,6 +30,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkRemoveOutlinedIcon from '@mui/icons-material/BookmarkRemoveOutlined';
 import AvatarComponent from '../../../../components/avatar'
+import BackButton from '../../../../components/BackButton'
 
 export const FullTweet: React.FC = (): React.ReactElement | null => {
     const dispatch = useDispatch()
@@ -65,14 +66,14 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
     const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
         event.stopPropagation();
-        dispatch(fetchLikeToggleTweet({ id: tweetData._id, userID: userData._id, liked: !tweetData.likes.includes(userData._id) }))
+        dispatch(fetchLikeToggleTweet({ id: tweetData?._id, userID: userData?._id, liked: !tweetData.likes.includes(userData?._id) }))
     }
 
     const imagesList = tweetData.images.map((obj: any) => ({
         source: obj.url ? obj.url : obj
     }));
 
- 
+
 
     const shareOpen = Boolean(shareEl);
 
@@ -89,7 +90,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
     const bookmarksAdd = (event) => {
         event.preventDefault()
         event.stopPropagation();
-    dispatch(fetchBookmarks({ userID: userData?._id, tweetID: tweetData._id }))
+        dispatch(fetchBookmarks({ userID: userData?._id, tweetID: tweetData._id }))
     }
     const bookmarksRemove = (event) => {
         event.preventDefault()
@@ -97,7 +98,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
         dispatch(fetchBookmarks({ userID: userData?._id, tweetID: tweetData._id }))
     }
 
-    const bookmarksState = userData.bookmarks.map((item: any) => item._id.includes(tweetData.bookmarks?.join()))
+    // const bookmarksState = userData.bookmarks.map((item: any) => item._id.includes(tweetData.bookmarks?.join()))
 
     const copyShare = (event) => {
         event.preventDefault()
@@ -106,10 +107,13 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
         setShareEl(null);
     }
     return (
-        <Paper variant="outlined" style={{ width: '-webkit-fill-available', }}>
+        <Box style={{ width: '-webkit-fill-available', minHeight: '100vh' }}>
+            <div style={{ padding: 10, display: "flex", alignItems: 'center', top: 0, backdropFilter: 'blur(9px)', position: 'sticky', zIndex: 1 }} >
+                <BackButton /> <Typography variant="body1" style={{ fontWeight: 800, fontSize: 18 }}>Твит</Typography>
+            </div>
             <Box style={{ width: '-webkit-fill-available', padding: '20px 13px' }}>
-                <Link to={`/home/profile/${tweetData.user._id}`} className={classes.tweetsHeaderLink}>
-                    <AvatarComponent user={tweetData.user}/>
+                <Link to={`/profile/${tweetData.user._id}`} className={classes.tweetsHeaderLink}>
+                    <AvatarComponent user={tweetData.user} />
                     <Box className={classes.tweetFullHeader}><Typography variant="body1">{tweetData.user.fullname}</Typography><Typography variant="body2" className={classes.tweetFullUserName}>@{tweetData.user.username}</Typography></Box>
                 </Link>
 
@@ -131,24 +135,24 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
 
                     <Box display="flex" >
                         <Typography variant="body1" color={'#7F8C95'}>{format(new Date(tweetData.createdAt), 'H:mm ', { locale: ruLand })}</Typography>
-                        <Typography variant="body1" color={'#7F8C95'} style={{marginLeft: 3}}>{format(new Date(tweetData.createdAt),  'dd MMM yyyy г.', { locale: ruLand })}</Typography>
+                        <Typography variant="body1" color={'#7F8C95'} style={{ marginLeft: 3 }}>{format(new Date(tweetData.createdAt), 'dd MMM yyyy г.', { locale: ruLand })}</Typography>
                     </Box>
 
                     <Box className={classes.tweetActions} style={{ maxWidth: '100%', borderTop: '1px solid #EFF3F4', borderBottom: '1px solid #EFF3F4', padding: '7px 40px' }}>
                         <div>
                             <IconButton>
-                            <ModeCommentOutlinedIcon sx={{ ":hover": { color: '#3CA3F1' } }} />
+                                <ModeCommentOutlinedIcon sx={{ ":hover": { color: '#3CA3F1' } }} />
                             </IconButton>
                             <span>{tweetData.comment?.length}</span>
                         </div>
                         <div>
                             <IconButton>
-                            <RepeatIcon sx={{ ":hover": { color: '#7FDCBD' } }} />
+                                <RepeatIcon sx={{ ":hover": { color: '#7FDCBD' } }} />
                             </IconButton>
                         </div>
                         <div>
                             <IconButton onClick={onClickLike}>
-                                {tweetData.likes.includes(userData._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} />}
+                                {tweetData.likes.includes(userData?._id) ? <FavoriteIcon sx={{ color: '#E8467F' }} /> : <LikeIcon sx={{ ":hover": { color: '#E8467F' } }} />}
                             </IconButton>
                             <span>{tweetData.likes.length}</span>
                         </div>
@@ -189,7 +193,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                          </MenuItem>
                     } */}
                 </Menu>
-                <AddComentForm id={params.id} fullname={userData.fullname} username={userData.username} />
+                <AddComentForm id={params.id} fullname={userData?.fullname} username={userData?.username} />
 
             </Box>
             {tweetData.comment && tweetData.comment.map((item) => {
@@ -203,7 +207,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                     fullname={item.fullname}
                 />
             })}
-        </Paper>
+        </Box>
     )
 }
 
