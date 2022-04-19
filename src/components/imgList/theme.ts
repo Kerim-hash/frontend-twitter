@@ -85,7 +85,7 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         top: 5,
         width: '30px',
         height: '30px',
-        right: -5,
+        left: '10px',
         background: 'rgb(143 143 143 / 81%) !important'
     }
 }));
