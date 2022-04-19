@@ -82,7 +82,7 @@ function App() {
                 main: 'rgb(29, 161, 242)',
                 dark: 'rgb(26, 145, 218)',
               },
-              tonalOffset: '#eee',
+              tonalOffset: 'rgba(0,0,0, 0.03)',
               secondary: {
                 main: '#f7f9f9',
                 dark: '#fff',

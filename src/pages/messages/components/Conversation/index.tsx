@@ -99,7 +99,7 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
     return (
         <Box className={classes.wrapper}>
             <Box className={classes.item}>
-                {user?._id === onlineUsers[index]?.userId ? <StyledBadge
+                {onlineUsers?.map(item => item.userId)?.includes(user?._id) ? <StyledBadge
                     overlap="circular"
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     variant="dot"

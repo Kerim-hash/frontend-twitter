@@ -176,7 +176,6 @@ const Messages = () => {
     }
 
     const deleteConversation = async (id: string) => {
-        // event.stopPropagation()
         const deleteConversation = async () => {
             try {
                 const res = await istance.delete(`/conversation/${id}`);
@@ -189,6 +188,7 @@ const Messages = () => {
         setCurrentChat(null)
     }
 
+    
     return (
         <>
             <Grid item xs={11} md={3.75} >
