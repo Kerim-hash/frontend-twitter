@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useStylesMessages } from './theme';
@@ -14,12 +13,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import MessageTop from './components/messageTop';
-import Avatar from '@mui/material/Avatar';
 import MessageForm from './components/addFormMessage';
 import Message from './components/Message';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectData, selectSearchUser } from '../../store/ducks/user/selectors';
-import { Routes, useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { Route } from 'react-router';
 import { io } from 'socket.io-client'
 import { istance } from '../../core/axios';
@@ -56,7 +54,6 @@ const Messages = () => {
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const socket = useRef(io("ws://twitterchat-node-2020.herokuapp.com/"));
     const [onlineUsers, setOnlineUsers] = useState([]);
-    // https://twitterchat-node-2020.herokuapp.com/
     // socket
     useEffect(() => {
         socket.current.on("getMessage", (data) => {
@@ -69,7 +66,7 @@ const Messages = () => {
     }, []);
 
     useEffect(() => {
-        socket.current.emit("addUser", user._id);
+        socket.current.emit("addUser", user?._id);
         socket.current.on("getUsers", (users) => {
             setOnlineUsers(
                 users
@@ -94,7 +91,7 @@ const Messages = () => {
             }
         };
         getConversations();
-    }, [user._id]);
+    }, [user?._id]);
 
     useEffect(() => {
         const getMessages = async () => {
@@ -109,7 +106,7 @@ const Messages = () => {
     }, [currentChat]);
 
     const receiverId = Array.isArray(currentChat?.members) && currentChat?.members?.find(
-        (member) => member !== user._id
+        (member) => member !== user?._id
     );
 
     const handleSubmit = async (e) => {
@@ -188,11 +185,11 @@ const Messages = () => {
         setCurrentChat(null)
     }
 
-    
+
     return (
         <>
             <Grid item xs={11} md={3.75} >
-                <Box style={{ borderLeft: '1px solid #EFF3F4', height: '100vh' }}>
+                <Box className={classes.itemConversation}>
                     <div style={{ padding: '8px 15px', }}>
                         <Box display='flex' alignItems="center" justifyContent="space-between" >
                             <Typography variant="body1" color="text.secondary" style={{ fontWeight: 800, fontSize: 19, lineHeight: 1 }}>Сообщения</Typography>
@@ -218,16 +215,15 @@ const Messages = () => {
 
                     <Box className={classes.messageUsers}>
                         {conversations && conversations?.map((item, index) => {
-                            return <div onClick={() => openChat(item)}>
+                            return <div onClick={() => openChat(item)} key={item._id}>
                                 <Conversation setCurrentChat={setCurrentChat} conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} deleteConversation={deleteConversation} />
                             </div>
                         })
                         }
                     </Box>
                 </Box>
-
             </Grid>
-            <Grid item xs={11} md={5.75} style={{ borderLeft: '1px solid #EFF3F4', borderRight: '1px solid #EFF3F4', height: '100vh', }} >
+            <Grid item xs={11} md={5.75} className={classes.itemMessage} >
                 {!currentChat ?
                     <Box style={{ padding: 15, height: '100vh', display: "flex", justifyContent: "center", flexDirection: 'column', alignItems: 'center', }}>
                         <Box style={{ maxWidth: 295 }}>

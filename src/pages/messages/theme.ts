@@ -11,6 +11,15 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
             minHeight: 650
         }
     },
+    itemConversation: {
+        borderLeft: `1px solid  ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : "#EFF3F4" }`,
+        height: '100vh'
+    },
+    itemMessage: {
+        borderLeft: `1px solid  ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : "#EFF3F4" }`,
+        borderRight: `1px solid  ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : "#EFF3F4"}`,
+        height: '100vh',
+    },
     messageUsers: {
         display: 'flex',
         flexDirection: 'column',

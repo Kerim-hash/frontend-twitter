@@ -3,6 +3,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 
 const NotFound = () => {
+    
     return (
         <div style={{textAlign: 'center'}}>
             <Typography color={'#14518D'} variant="h2">404</Typography>

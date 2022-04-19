@@ -28,8 +28,8 @@ const SettingTheme: React.FC<SettingThemeProps> = ({ visibleAddTweetModal, handl
                     name="row-radio-buttons-group"
                     style={{justifyContent: 'space-between'}} 
                 >
-                    <FormControlLabel style={{backgroundColor: '#B9CAD3',width: '49%', color: '#000', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}}  onClick={() => dispatch(setTheme(ThemeStatus.LIGHT))} value="light" control={<Radio />} label="По умолчанию" />
-                    <FormControlLabel style={{backgroundColor: '#000',width: '49%', color: '#fff', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}} onClick={() => dispatch(setTheme(ThemeStatus.DARK))} value="dark" control={<Radio />} label="Ночь" />
+                    <FormControlLabel style={{backgroundColor: '#fff',width: '49%', color: '#000', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}}  onClick={() => dispatch(setTheme(ThemeStatus.LIGHT))} value="light" control={<Radio color="info" />} label="По умолчанию" />
+                    <FormControlLabel style={{backgroundColor: '#000',width: '49%', color: '#fff', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}} onClick={() => dispatch(setTheme(ThemeStatus.DARK))} value="dark" control={<Radio color="info" />} label="Ночь" />
                 </RadioGroup>
 
             </div>

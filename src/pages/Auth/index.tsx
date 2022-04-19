@@ -26,7 +26,7 @@ const Auth: React.FC = () => {
     return (
         <div className={classes.wrapper}>
             <div className={classes.blueSide}>
-                <TwitterIcon className={classes.icon} sx={{ fontSize: 160 }} color="icon" />
+                <TwitterIcon className={classes.icon} sx={{ fontSize: 160 }} style={{fill: '#fff'}} />
             </div>
             <div className={classes.loginSide}>
                 <TwitterIcon sx={{ fontSize: 50 }} color="primary" />

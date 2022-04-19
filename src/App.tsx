@@ -13,13 +13,12 @@ import Layout from './layout';
 import { FullTweet } from './pages/Home/components/FullTweet';
 import { isAuthenticated } from './utils/isAuthenticated';
 import { useSelector } from 'react-redux';
-import {selectTheme} from './store/ducks/theme/selectors'
+import { selectTheme } from './store/ducks/theme/selectors'
 import Index from './pages/Home/components/Index/';
 import Video from './pages/video';
 const Profile = lazy(() => import("./pages/Profile").then((module) => ({ default: module.default, })));
 const Bookmarks = lazy(() => import("./pages/Bookmarks").then((module) => ({ default: module.default, })));
 const Auth = lazy(() => import("./pages/Auth").then((module) => ({ default: module.default, })));
-const Home = lazy(() => import("./pages/Home/Home").then((module) => ({ default: module.default, })));
 const Messages = lazy(() => import("./pages/messages").then((module) => ({ default: module.default, })));
 
 function App() {
@@ -39,6 +38,9 @@ function App() {
     }
     return children
   };
+  function PrivateRoute({ children }) {
+    return isAuthenticated() ? children : <Navigate to="/auth" />;
+  }
 
   // theme
   const color = useSelector(selectTheme)
@@ -155,7 +157,7 @@ function App() {
                 borderRadius: 30,
                 fontSize: 16,
                 fontWeight: 700,
-                color: '#fff' ,
+                color: '#fff',
                 "&.MuiButton-contained.MuiButton-containedInherit": {
                   background: '#000',
                   color: '#fff',
@@ -257,21 +259,21 @@ function App() {
       <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}><CircularProgress color="primary" /></div>}>
         <div className={color.theme === 'light' ? 'App' : 'App-dark'}>
           <Routes>
-            <Route path="/home" element={<Layout children={<Index />} />} />
+            <Route path="/home" element={<Layout children={<Index />} />} /> 
             <Route path="/home/tweet/:id" element={<Layout children={<FullTweet />} />} />
             <Route path="/profile/:id/*" element={<Layout children={<Profile />} />} />
             <Route path="/bookmarks/" element={<Layout children={<Bookmarks />} />} />
             <Route path="/messages/*" element={<Layout children={<Messages />} messages />} />
-       
+
             <Route
               path="/messages/*"
               element={
                 <ProtectedRoute
-                isAllowed={isAuthenticated()}
-                redirectPath="/auth/"
-              >
-                <Messages />
-              </ProtectedRoute>
+                  isAllowed={isAuthenticated()}
+                  redirectPath="/auth/"
+                >
+                  <Messages />
+                </ProtectedRoute>
               }
             />
             {/* <Route
