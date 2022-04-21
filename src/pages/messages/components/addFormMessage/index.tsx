@@ -19,10 +19,11 @@ interface MessageFormProps {
     newMessage: string, 
     setNewMessage:  any,
     callMeVideo: () => void,
-    handleSubmit: (e: any) => Promise<void>
+    handleSubmit: (e: any) => Promise<void>,
+    videocall: string,
 }
 
-const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , handleSubmit, callMeVideo}: MessageFormProps): ReactElement => {
+const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , handleSubmit, callMeVideo, videocall}: MessageFormProps): ReactElement => {
     const classes = useStylesMessages()
     const [images, setImages] = useState<fileImg[]>([] || undefined)
     const [showPicker, setShowPicker] = useState<boolean>(false)
@@ -35,6 +36,8 @@ const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , ha
             setNewMessage(event.currentTarget.value)
         }
     }
+
+    
     return (
         <Box className={classes.messageForm}>
             <UploadImage setImages={setImages} images={images} />
@@ -59,10 +62,10 @@ const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , ha
                     </InputAdornment>
                 }
             />
-            <IconButton onClick={handleSubmit}>
+            <IconButton onClick={(e) => handleSubmit(e)}>
                 <SendOutlinedIcon color="primary" />
             </IconButton>
-            <NavLink to="/messages/video">
+            <NavLink to={`/messages/video/${videocall}`}>
             <IconButton onClick={callMeVideo}>
                 <CallOutlinedIcon color="primary" />
             </IconButton>

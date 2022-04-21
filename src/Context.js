@@ -12,7 +12,6 @@ const socket = io("ws://localhost:8000");
 
 const ContextProvider = ({ children }) => {
   // const socket = useRef(io("ws://localhost:8900"));
-  console.log(socket);
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
@@ -22,11 +21,6 @@ const ContextProvider = ({ children }) => {
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
-
-  console.log(call);
-  console.log(me);
-  console.log(stream);
-  console.log(callAccepted);
 
   useEffect(() => {
     navigator.mediaDevices
@@ -63,7 +57,6 @@ const ContextProvider = ({ children }) => {
 
   const callUser = (id) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
-
     peer.on("signal", (data) => {
       socket.emit("callUser", {
         userToCall: id,
@@ -91,7 +84,8 @@ const ContextProvider = ({ children }) => {
 
     connectionRef.current.destroy();
 
-    window.location.reload();
+    window.location.href = "/messages";
+
   };
 
   return (

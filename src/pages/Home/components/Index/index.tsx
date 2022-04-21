@@ -18,15 +18,10 @@ import Collapse from '@mui/material/Collapse';
 const Index = () => {
     const dispatch = useDispatch()
     const classes = useStylesHome()
-
     const tweets = useSelector(selectTweetsItems)
     const loading = useSelector(selectIsTweetLoading)
     const isDeleted = useSelector(selectIsTweetDeleted)
-
     const [snackbarState, setSnackbarState] = useState<{ text: string, type: 'error' | 'success' | 'info' }>()
-
- 
-
     useEffect(() => {
         dispatch(fetchTweets())
         // eslint-disable-next-line
@@ -44,7 +39,6 @@ const Index = () => {
     const handleClose = () => {
         dispatch(setAddFormLoadingState(AddFormState.NEVER))
     }
-
     return (
         <section className={classes.wrapper}>
             <Snackbar open={isDeleted} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>

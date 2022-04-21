@@ -46,7 +46,7 @@ const Messages = () => {
     const [onlineUsers, setOnlineUsers] = useState([]);
     // socket  
     const { socket } = useContext(SocketContext);
-    const videocall = onlineUsers?.find((item) => item.userId === "62593dcfbf83effc1dbccab8")?.socketId
+ 
 
     useEffect(() => {
         socket.on("getMessage", (data) => {
@@ -57,7 +57,6 @@ const Messages = () => {
             });
         });
     }, []);
-
     useEffect(() => {
         socket.emit("addUser", user?._id);
         socket.on("getUsers", (users) => {
@@ -101,7 +100,8 @@ const Messages = () => {
     const receiverId = Array.isArray(currentChat?.members) && currentChat?.members?.find(
         (member) => member !== user?._id
     );
-
+    const videocall = onlineUsers?.find((item) => item.userId === receiverId)?.socketId
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         const message = {
@@ -109,7 +109,7 @@ const Messages = () => {
             text: newMessage,
             conversationId: currentChat._id,
         };
-        socket.current.emit("sendMessage", {
+        socket.emit("sendMessage", {
             senderId: user._id,
             receiverId,
             text: newMessage,
@@ -160,6 +160,7 @@ const Messages = () => {
     const callMeVideo = () => {
         setOpenVideoChat(true)
     }
+
     return (
         <>
             <Grid item xs={11} md={3.75} >
@@ -216,12 +217,12 @@ const Messages = () => {
                                 </div>
                             })}
                         </Box>
-                        <MessageForm handleSubmit={handleSubmit} setNewMessage={setNewMessage} newMessage={newMessage} callMeVideo={callMeVideo} />
+                        <MessageForm handleSubmit={handleSubmit} setNewMessage={setNewMessage} newMessage={newMessage} callMeVideo={callMeVideo} videocall={videocall} />
                     </Box>
                 }
             </Grid>
             <Routes>
-                <Route path="/video" element={<VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} videocall={videocall} />} />
+                <Route path="/video/:id" element={<VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} />} />
             </Routes>
             <AddConversationDialog open={open} handleClose={handleClose} addConversations={addConversations} />
         </>

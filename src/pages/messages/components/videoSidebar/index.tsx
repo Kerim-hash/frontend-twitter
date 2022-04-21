@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { Container,  Paper, Button, Theme } from '@mui/material';
 import { SocketContext } from '../../../../Context';
 import { makeStyles } from '@mui/styles';
@@ -6,6 +6,7 @@ import CallEndIcon from '@mui/icons-material/CallEnd';
 import PhoneCallbackIcon from '@mui/icons-material/PhoneCallback';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { useParams } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -39,9 +40,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const VideoChat = ({videocall}) => {
-  const { myVideo, userVideo, stream, answerCall ,call, callAccepted, name, callEnded, leaveCall, callUser, socket } = useContext(SocketContext);
+const VideoChat = () => {
+  const { userVideo, stream, answerCall ,call, callAccepted, name, callEnded, leaveCall, callUser } = useContext(SocketContext);
   const classes = useStyles();
+  const params: { id?: string } = useParams()
+  const myVideo = useRef();
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        myVideo.current.srcObject = currentStream;
+      });
+  }, []);
   return (
     <Container className={classes.container}>
         <Grid container className={classes.gridContainer} mb={3}>
@@ -69,7 +79,7 @@ const VideoChat = ({videocall}) => {
               <CallEndIcon />
             </Button>
           ) : (
-            <Button variant="contained" color="primary" size="small" onClick={() => callUser(videocall)}>
+            <Button variant="contained" color="primary" size="small" onClick={() => callUser(params.id)}>
               Call
             </Button>
           )}
