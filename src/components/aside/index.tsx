@@ -12,13 +12,14 @@ import Hidden from '@mui/material/Hidden';
 import SearchIcon from '@mui/icons-material/Search';
 import { useDebounce } from '../../hook/useDebounce';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFollow,FetchSearchUser, fetchUsers, SetSearchUser } from '../../store/ducks/user/actions';
-import { selectData, selectSearchUser, selectUsers } from '../../store/ducks/user/selectors';
+import { fetchFollow,FetchSearchUser, fetchUsers, setFollowState, SetSearchUser } from '../../store/ducks/user/actions';
+import { selectData, selectFollowState, selectSearchUser, selectUsers } from '../../store/ducks/user/selectors';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useStylesAside } from './theme';
-import { UserType } from '../../store/ducks/user/contracts/state';
+import { FollowState, UserType } from '../../store/ducks/user/contracts/state';
 import AvatarComponent from '../avatar'
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 interface asideProps {
     user: UserType
 }
@@ -36,6 +37,7 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
 
     const userData = useSelector(selectSearchUser)
     const users = useSelector(selectUsers)
+    const followState = useSelector(selectFollowState)
 
     React.useEffect(() => {
         if (search) {
@@ -75,8 +77,17 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
         navigate(`/profile/${id}`)
     }
 
+    const handleCloseAlert = () => {
+        dispatch(setFollowState(FollowState.NEVER))
+    }
+
     return (
         <Hidden lgDown>
+             <Snackbar open={followState === FollowState.ERROR} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+                Что-то пошло не так, но не беспокойтесь — давайте попробуем еще раз.
+                </Alert>
+            </Snackbar>
             <Grid item xs={0} lg={0} md={3.4} >
                 <div style={{ position: 'sticky', top: 0 }}>
                     <div ref={rootEl} >
@@ -114,8 +125,8 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
                             return <Card key={item._id}  className={classes.card} onClick={() => navigateToprofile(item._id)}>
                                 <CardHeader
                                     avatar={<AvatarComponent user={item} />}
-                                    action={!user?.followers?.includes(item._id) ? <Button onClick={(e) => handleFollow(e, item._id)} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }}>Читать</Button> :
-                                        <Button onClick={(e) => handleUnFollow(e, item._id)} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }}>Читаемые</Button>}
+                                    action={!user?.followers?.includes(item._id) ? <Button disabled={followState === FollowState.LOADING} onClick={(e) => handleFollow(e, item._id)} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }}>Читать</Button> :
+                                        <Button disabled={followState === FollowState.LOADING} onClick={(e) => handleUnFollow(e, item._id)} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }}>Читаемые</Button>}
                                     title={<Typography color="text.secondary">{item?.fullname}</Typography>}
                                     subheader={<Typography color="text.grey.light">@{item?.username}</Typography>}
                                 />

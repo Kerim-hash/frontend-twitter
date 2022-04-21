@@ -9,7 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, useParams } from 'react-router';
 import { fetchFollow, fetchProfile } from '../../../../store/ducks/user/actions';
-import { selectData, selectProfile } from '../../../../store/ducks/user/selectors';
+import { selectData, selectFollowState, selectProfile } from '../../../../store/ducks/user/selectors';
 import { fetchTweets } from '../../../../store/ducks/tweets/actionCreators';
 import { selectIsTweetLoading, selectTweetsItems } from '../../../../store/ducks/tweets/selectors';
 import { TweetComponent } from '../../../../components/Tweet';
@@ -24,6 +24,7 @@ import Settings from '../settings';
 import { ModalBlock } from '../../../../components/Modal';
 import Location from '@mui/icons-material/LocationOnOutlined';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
+import { FollowState } from '../../../../store/ducks/user/contracts/state';
 const Index = () => {
     const dispatch = useDispatch()
     const classes = useStylesProfile()
@@ -32,8 +33,7 @@ const Index = () => {
     const tweets = useSelector(selectTweetsItems)
     const loading = useSelector(selectIsTweetLoading)
     const params: { id?: string } = useParams()
-
-
+    const followState = useSelector(selectFollowState)
     // modal 
     const [open, setOpen] = React.useState(false);
 
@@ -107,8 +107,8 @@ const Index = () => {
                     <Box display="flex" alignItems="center" style={{ marginTop: 15 }} ><NavLink className={classes.link} to={`/profile/${params.id}/followers`}><Typography variant="subtitle1" color="text.secondary" style={{display: 'inline', marginRight: 5}}>{profile?.followings?.length}</Typography>в читаемых</NavLink> <NavLink to="#" className={classes.link} style={{ marginLeft: 10 }}><Typography variant="subtitle1" color="text.secondary" style={{display: 'inline', marginRight: 5}}>{profile?.followers?.length}</Typography>читателя</NavLink>  </Box>
                 </Box>}
                 {user?._id !== params.id ? <>
-                    {!user?.followers?.includes(params.id) ? <Button onClick={handleFollow} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }} className={classes.settingsButton}>Читать</Button> :
-                        <Button onClick={handleUnFollow} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }} className={classes.settingsButton}>Читаемые</Button>}
+                    {!user?.followers?.includes(params.id) ? <Button disabled={followState === FollowState.LOADING} onClick={handleFollow} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }} className={classes.settingsButton}>Читать</Button> :
+                        <Button disabled={followState === FollowState.LOADING} onClick={handleUnFollow} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }} className={classes.settingsButton}>Читаемые</Button>}
                 </> : <Button onClick={handleSettings} color="inherit" size="small" variant="outlined" className={classes.settingsButton}>Изменить профиль</Button>}
             </Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>

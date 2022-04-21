@@ -1,6 +1,6 @@
 import produce, { Draft } from 'immer'
 import { UserActions, UserActionType } from './actions'
-import { LoadingState, User } from './contracts/state'
+import { FollowState, LoadingState, User } from './contracts/state'
 
 export const initialstate: User = {
     loadingState: LoadingState.NEVER,
@@ -9,6 +9,7 @@ export const initialstate: User = {
     link: undefined,
     searchUser: undefined,
     users: undefined,
+    followState: FollowState.NEVER
 }
 
 export const userReducer = produce((draft: Draft<User>, action: UserActions) => {
@@ -29,6 +30,17 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
             draft.link = action.payload
             break
         case UserActionType.SET_FOLLOW_STATE:
+                console.log()
+            if(action.payload === "LOADING"){
+                draft.followState = FollowState.LOADING
+            }
+            if(action.payload === "ERROR"){
+                draft.followState = FollowState.ERROR
+            }
+            if(action.payload === "NEVER"){
+                draft.followState = FollowState.NEVER
+            }
+          
             if (action.payload.status) {
                 action.payload.followed ? draft.data.followers.push(action.payload.follower) : draft.data.followers.pop()
             }
@@ -41,12 +53,6 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
         case UserActionType.SET_USERS:
             draft.users = action.payload
             break
-        // case UserActionType.FETCH_FOLLOW:
-        //     if (action.payload.followState === 'follow') {
-        //         draft.data.followers.push(action.payload.id)
-        //     }else {
-        //         draft.data.followers.pop()
-        //     }
-        //     break
+    
     }
 }, initialstate)

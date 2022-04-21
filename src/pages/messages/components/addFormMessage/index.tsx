@@ -12,23 +12,20 @@ import Picker from 'emoji-picker-react';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { selectData } from '../../../../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendMessage } from '../../../../store/ducks/Messages/actions';
 import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 interface MessageFormProps {
     newMessage: string, 
     setNewMessage:  any,
+    callMeVideo: () => void,
     handleSubmit: (e: any) => Promise<void>
 }
 
-const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , handleSubmit,}: MessageFormProps): ReactElement => {
+const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , handleSubmit, callMeVideo}: MessageFormProps): ReactElement => {
     const classes = useStylesMessages()
-    const dispatch = useDispatch()
     const [images, setImages] = useState<fileImg[]>([] || undefined)
-    const [Textarea, setTextarea] = useState<string>("")
     const [showPicker, setShowPicker] = useState<boolean>(false)
-    const user = useSelector(selectData)
-
     const onEmojiClick = (_, emojiObject) => {
         setNewMessage(prevInput => prevInput + emojiObject.emoji)
         setShowPicker(false)
@@ -38,8 +35,6 @@ const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , ha
             setNewMessage(event.currentTarget.value)
         }
     }
-    const params: { "*"?: string } = useParams()
-
     return (
         <Box className={classes.messageForm}>
             <UploadImage setImages={setImages} images={images} />
@@ -67,9 +62,11 @@ const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , ha
             <IconButton onClick={handleSubmit}>
                 <SendOutlinedIcon color="primary" />
             </IconButton>
-            <IconButton>
+            <NavLink to="/messages/video">
+            <IconButton onClick={callMeVideo}>
                 <CallOutlinedIcon color="primary" />
             </IconButton>
+            </NavLink>
         </Box>
     )
 }

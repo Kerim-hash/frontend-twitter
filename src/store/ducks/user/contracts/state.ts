@@ -47,6 +47,13 @@ export enum LoadingState {
     NEVER = "NEVER"
 }
 
+export enum FollowState {
+    SUCCESS = "SUCCESS",
+    ERROR = "ERROR",
+    LOADING = "LOADING",
+    NEVER = "NEVER"
+}
+
 
 export interface User {
     loadingState: LoadingState,
@@ -55,5 +62,6 @@ export interface User {
     searchUser: UserType[] | undefined,
     link: string,
     users: UserType[] | undefined,
+    followState: FollowState
 }
 

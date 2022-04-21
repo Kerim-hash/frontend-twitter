@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { UserApi } from '../../../services/api/userApi'
 import { FetchSignInActionInterface, FetchSignUpActionInterface, setProfile, setUserData, setUserLoadingState, UserActionType , FetchProfileActionInterface, setLink, setFollowState, FetchFollowActionInterface, FetchSearchUserActionInterface, SetSearchUser, FetchUserUpdateActionInterface, setUsers} from './actions'
-import { LoadingState } from './contracts/state'
+import { FollowState, LoadingState } from './contracts/state'
 import {istance} from '../../../core/axios'
 
 export function* GetMeRequest() {
@@ -71,10 +71,12 @@ export function* SignOut() {
 
 export function* FetchFollow({payload}: FetchFollowActionInterface) {
   try {
+    yield put(setFollowState(FollowState.LOADING))
     const data = yield call(UserApi.fetchFollow, payload)
     yield put(setFollowState(data))
+    yield put(setFollowState(FollowState.NEVER))
   } catch (e) {
-    alert('oops')
+    yield put(setFollowState(FollowState.ERROR))
   }
 }
 

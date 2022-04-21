@@ -1,62 +1,55 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useContext } from 'react'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useStylesMessages } from './theme';
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-import DialogTitle from '@mui/material/DialogTitle';
-import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import MessageTop from './components/messageTop';
 import MessageForm from './components/addFormMessage';
 import Message from './components/Message';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectData, selectSearchUser } from '../../store/ducks/user/selectors';
-import { useParams } from 'react-router';
-import { Route } from 'react-router';
-import { io } from 'socket.io-client'
+import { Route, Routes, useParams } from 'react-router';
 import { istance } from '../../core/axios';
 import classNames from 'classnames';
 import { Button } from '@mui/material';
 import Conversation from './components/Conversation';
-import { useDebounce } from '../../hook/useDebounce';
-import { FetchSearchUser } from '../../store/ducks/user/actions';
-import { UserType } from '../../store/ducks/user/contracts/state';
-import AvatarComponent from '../../components/avatar';
+import { SocketContext } from '../../Context';
+import VideoDialog from './components/VideoDialog';
+import AddConversationDialog from './components/addConversation';
+import VideoChat from './components/videoSidebar';
+
 const Messages = () => {
-    const dispatch = useDispatch()
     const classes = useStylesMessages()
     // state
     const [open, setOpen] = useState(false);
-    const [search, setSearch] = React.useState<string>("");
-    // 
-    const scrollRef = useRef<HTMLDivElement>(null);
-
-    // state
     const handleClose = () => {
         setOpen(false);
     };
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+
     const searchNewPerson = () => {
         setOpen(true);
     }
 
     const user = useSelector(selectData)
-    const params: { "*"?: string } = useParams()
     const [conversations, setConversations] = useState<any>([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
-    const socket = useRef(io("ws://twitterchat-node-2020.herokuapp.com/"));
     const [onlineUsers, setOnlineUsers] = useState([]);
-    // socket
+    // socket  
+    const { socket } = useContext(SocketContext);
+    const videocall = onlineUsers?.find((item) => item.userId === "62593dcfbf83effc1dbccab8")?.socketId
+
     useEffect(() => {
-        socket.current.on("getMessage", (data) => {
+        socket.on("getMessage", (data) => {
             setArrivalMessage({
                 sender: data.senderId,
                 text: data.text,
@@ -66,8 +59,8 @@ const Messages = () => {
     }, []);
 
     useEffect(() => {
-        socket.current.emit("addUser", user?._id);
-        socket.current.on("getUsers", (users) => {
+        socket.emit("addUser", user?._id);
+        socket.on("getUsers", (users) => {
             setOnlineUsers(
                 users
             );
@@ -84,7 +77,7 @@ const Messages = () => {
     useEffect(() => {
         const getConversations = async () => {
             try {
-                const res = await istance.get("/conversation/" + user._id);
+                const res = await istance.get("/conversation/" + user?._id);
                 setConversations(res.data.data);
             } catch (err) {
                 console.log(err);
@@ -134,30 +127,9 @@ const Messages = () => {
         setCurrentChat(item)
         // navigate(`/messages/${id}`)
     }
-
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
-
-    let handleChange = (search) => setSearch(search)
-    const debounceChange = useDebounce(handleChange, 500);
-    useEffect(() => {
-
-    })
-
-    const handleChangeSearch = (e) => {
-        debounceChange(e.target.value);
-    };
-
-    const userData = useSelector(selectSearchUser)
-
-    React.useEffect(() => {
-        if (search) {
-            dispatch(FetchSearchUser(search))
-        }
-    }, [search])
-
-    console.log(currentChat)
 
     const addConversations = (item) => {
         const addConversation = async () => {
@@ -171,7 +143,6 @@ const Messages = () => {
         addConversation();
         handleClose()
     }
-
     const deleteConversation = async (id: string) => {
         const deleteConversation = async () => {
             try {
@@ -184,8 +155,11 @@ const Messages = () => {
         await deleteConversation();
         setCurrentChat(null)
     }
-
-
+    // video chat
+    const [openVideoChat, setOpenVideoChat] = React.useState(true);
+    const callMeVideo = () => {
+        setOpenVideoChat(true)
+    }
     return (
         <>
             <Grid item xs={11} md={3.75} >
@@ -237,61 +211,25 @@ const Messages = () => {
                         <MessageTop receiverId={receiverId} />
                         <Box display="flex" flexDirection="column" style={{ height: '82vh', overflow: 'scroll' }}>
                             {Array.isArray(messages) && messages?.map((item) => {
-                                return <div ref={scrollRef} className={classNames(classes.messageWrapper, { [classes.messageWrapperOwn]: item.sender === user._id })} >
+                                return <div ref={scrollRef} key={item.sender} className={classNames(classes.messageWrapper, { [classes.messageWrapperOwn]: item.sender === user._id })} >
                                     <Message text={item.text} own={item.sender === user._id} createdAt={item.createdAt} />
                                 </div>
                             })}
                         </Box>
-                        <MessageForm handleSubmit={handleSubmit} setNewMessage={setNewMessage} newMessage={newMessage} />
+                        <MessageForm handleSubmit={handleSubmit} setNewMessage={setNewMessage} newMessage={newMessage} callMeVideo={callMeVideo} />
                     </Box>
                 }
-
             </Grid>
-            <Dialog open={open} onClose={handleClose} maxWidth={'sm'} fullWidth scroll={'paper'} className={classes.dialog}>
-                <Box display="flex" alignItems="center">
-                    <IconButton onClick={handleClose}>
-                        <CloseIcon />
-                    </IconButton>
-                    <DialogTitle style={{ padding: 10, fontWeight: 600 }}>Новое сообщение</DialogTitle>
-                </Box>
-                <div style={{ padding: '0 0 20px 0' }}>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        type="email"
-                        placeholder="Поиск людей"
-                        onChange={handleChangeSearch}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start" style={{ padding: '0 0 0 16px' }}>
-                                    <SearchIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                        fullWidth
-                        style={{ marginTop: '10px' }}
-                        variant="standard"
-                    />
-                    <div>
-
-                    </div>
-                </div>
-                <div>
-                    {userData !== undefined && userData?.length > 0 && userData.map((item: UserType) => {
-                        return <Box className={classes.searchUser} onClick={() => addConversations(item)}>
-                            <AvatarComponent user={item} />
-                            <Box className={classes.userinfo}>
-                                <Typography variant="body1" className={classes.fullname}>{item?.fullname}</Typography>
-                                <Typography variant="body1" className={classes.username}>@{item?.username}</Typography>
-                            </Box>
-                        </Box>
-                    })}
-                </div>
-            </Dialog>
+            <Routes>
+                <Route path="/video" element={<VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} videocall={videocall} />} />
+            </Routes>
+            <AddConversationDialog open={open} handleClose={handleClose} addConversations={addConversations} />
         </>
     )
 }
 
 export default Messages
+
+
+
 

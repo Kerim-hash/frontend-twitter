@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import { LoginFormProps } from "../../../components/auth/Signin";
 import { RegisterFormProps } from "../../../components/auth/SignUp";
-import { LoadingState, UserType } from "./contracts/state";
+import { FollowState, LoadingState, UserType } from "./contracts/state";
 
 export enum UserActionType {
     FETCH_GET_ME = "User/FETCH_GET_ME",
@@ -138,10 +138,10 @@ export const fetchFollow = (payload?: {id: string, userID: string, followState: 
 // // SET FOLLOW STATE // --------------------------------`// // // SET FOLLOW STATE 
 export interface SetFollowStateActionInterface extends Action<UserActionType> {
     type: UserActionType.SET_FOLLOW_STATE,
-    payload: any
+    payload: any | FollowState
 }
 
-export const setFollowState = (payload: any): SetFollowStateActionInterface => ({
+export const setFollowState = (payload: any | FollowState): SetFollowStateActionInterface => ({
     type: UserActionType.SET_FOLLOW_STATE,
     payload
 })

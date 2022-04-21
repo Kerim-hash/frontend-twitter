@@ -15,7 +15,7 @@ import { isAuthenticated } from './utils/isAuthenticated';
 import { useSelector } from 'react-redux';
 import { selectTheme } from './store/ducks/theme/selectors'
 import Index from './pages/Home/components/Index/';
-import Video from './pages/video';
+import VideoChat from './pages/messages/components/videoSidebar';
 const Profile = lazy(() => import("./pages/Profile").then((module) => ({ default: module.default, })));
 const Bookmarks = lazy(() => import("./pages/Bookmarks").then((module) => ({ default: module.default, })));
 const Auth = lazy(() => import("./pages/Auth").then((module) => ({ default: module.default, })));
@@ -77,8 +77,8 @@ function App() {
           }
         },
         palette: {
-          mode: color.theme,
-          ...(color.theme === 'light'
+          mode: 'dark',
+          ...('dark' === 'light'
             ? {
               primary: {
                 main: 'rgb(29, 161, 242)',
@@ -248,7 +248,7 @@ function App() {
 
     [color.theme],
   );
-  if (color.theme === 'dark') {
+  if ('dark' === 'dark') {
     document.body.classList.add('App-dark');
   } else {
     document.body.classList.remove('App-dark');
@@ -264,29 +264,7 @@ function App() {
             <Route path="/profile/:id/*" element={<Layout children={<Profile />} />} />
             <Route path="/bookmarks/" element={<Layout children={<Bookmarks />} />} />
             <Route path="/messages/*" element={<Layout children={<Messages />} messages />} />
-
-            <Route
-              path="/messages/*"
-              element={
-                <ProtectedRoute
-                  isAllowed={isAuthenticated()}
-                  redirectPath="/auth/"
-                >
-                  <Messages />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/video/*"
-              element={
-                <ProtectedRoute
-                isAllowed={isAuthenticated()}
-                redirectPath="/auth/"
-              >
-                <Video />
-              </ProtectedRoute>
-              }
-            />
+          
             <Route
               path="/auth"
               element={

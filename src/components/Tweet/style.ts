@@ -57,7 +57,7 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         }
     },
     tweet: {
-        transition: 'all .3s',
+        transition: 'background .3s',
         cursor: 'pointer',
         display: 'flex',
         padding: 10,
