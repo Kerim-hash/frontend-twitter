@@ -222,7 +222,7 @@ const Messages = () => {
                 }
             </Grid>
             <Routes>
-                <Route path="/video/:id" element={<VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} />} />
+                <Route path="/video/:id" element={<VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} name={user?.username} />} />
             </Routes>
             <AddConversationDialog open={open} handleClose={handleClose} addConversations={addConversations} />
         </>

@@ -31,20 +31,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   paper: {
     padding: '10px 20px',
-    border: '1px solid black',
+    border: '2px solid #359BF0',
     borderRadius: '25px'
   },
   video: {
-    maxWidth: '500px',
+    maxWidth: '480px',
     borderRadius: '10px'
   },
 }));
 
-const VideoChat = () => {
-  const { userVideo, stream, answerCall ,call, callAccepted, name, callEnded, leaveCall, callUser } = useContext(SocketContext);
+const VideoChat = ({name}) => {
+  const { userVideo, stream, answerCall ,call, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
   const classes = useStyles();
   const params: { id?: string } = useParams()
-  const myVideo = useRef();
+  const myVideo = useRef<HTMLVideoElement>();
+
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
@@ -52,6 +53,8 @@ const VideoChat = () => {
         myVideo.current.srcObject = currentStream;
       });
   }, []);
+
+
   return (
     <Container className={classes.container}>
         <Grid container className={classes.gridContainer} mb={3}>

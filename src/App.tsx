@@ -77,8 +77,8 @@ function App() {
           }
         },
         palette: {
-          mode: 'dark',
-          ...('dark' === 'light'
+          mode: color.theme,
+          ...(color.theme === 'light'
             ? {
               primary: {
                 main: 'rgb(29, 161, 242)',
@@ -96,7 +96,6 @@ function App() {
               textarea: {
                 main: '#fff'
               },
-
               background: {
                 default: '#fff',
               },
@@ -248,7 +247,7 @@ function App() {
 
     [color.theme],
   );
-  if ('dark' === 'dark') {
+  if (color.theme === 'dark') {
     document.body.classList.add('App-dark');
   } else {
     document.body.classList.remove('App-dark');

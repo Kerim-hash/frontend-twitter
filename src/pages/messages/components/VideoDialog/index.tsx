@@ -10,9 +10,10 @@ import { SocketContext } from '../../../../Context';
 interface VideoDialogProps {
     open: boolean,
     setOpenVideoChat: (boolean) => void,
+    name: string
 }
 
-const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat, }: VideoDialogProps): ReactElement=> {
+const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat,name }: VideoDialogProps): ReactElement=> {
     return (
         <Dialog
         fullWidth
@@ -27,7 +28,7 @@ const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat, }: Vid
          </DialogTitle>
          <DialogContent>
              <DialogContentText id="alert-dialog-description">
-              <VideoChat  />
+              <VideoChat  name={name} />
              </DialogContentText>
          </DialogContent>
      </Dialog>
