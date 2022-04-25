@@ -21,7 +21,12 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
         padding: 0,
         margin: 0,
         position: 'relative',
-        left: -10
+        left: -10,
+        display: 'flex',
+        flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            alignItems: 'center'
+        },
     },
     sidebarItem: {
         display: 'flex',

@@ -13,7 +13,7 @@ aside.emoji-picker-react {
   right: 50px;
 }
 .css-1sep8xo-MuiDialog-container{
-  background-color: rgba(91, 112, 131, 0.4);
+  background-color: rgba(91, 112, 131, 0.4) !important;
 }
 
 .App-dark{

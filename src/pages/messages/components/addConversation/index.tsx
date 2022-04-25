@@ -15,14 +15,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectSearchUser } from '../../../../store/ducks/user/selectors';
 import { useDebounce } from '../../../../hook/useDebounce';
 import { FetchSearchUser } from '../../../../store/ducks/user/actions';
+import { FetchAddConversation } from '../../../../store/ducks/Messages/actions';
 
 interface AddConversationDialogProps {
     handleClose: () => void,
     open: boolean,
-    addConversations: (any) => void
+    userID: string
 }
 
-const AddConversationDialog: React.FC<AddConversationDialogProps> = ({handleClose, open, addConversations}: AddConversationDialogProps): ReactElement => {
+const AddConversationDialog: React.FC<AddConversationDialogProps> = ({handleClose, open, userID}: AddConversationDialogProps): ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesMessages()
     const userData = useSelector(selectSearchUser)
@@ -37,8 +38,13 @@ const AddConversationDialog: React.FC<AddConversationDialogProps> = ({handleClos
         if (search) {
             dispatch(FetchSearchUser(search))
         }
+        // eslint-disable-next-line
     }, [search])
 
+    const addConversations = (item) => {
+        dispatch(FetchAddConversation({ senderId: userID, receiverId: item._id }))
+        handleClose()
+    }
     return (
         <Dialog open={open} onClose={handleClose} maxWidth={'sm'} fullWidth scroll={'paper'} className={classes.dialog}>
         <Box display="flex" alignItems="center">

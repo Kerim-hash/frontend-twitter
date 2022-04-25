@@ -12,42 +12,47 @@ import MessageTop from './components/messageTop';
 import MessageForm from './components/addFormMessage';
 import Message from './components/Message';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectData, selectSearchUser } from '../../store/ducks/user/selectors';
-import { Route, Routes, useParams } from 'react-router';
-import { istance } from '../../core/axios';
+import { selectData } from '../../store/ducks/user/selectors';
+import { useParams } from 'react-router';
 import classNames from 'classnames';
 import { Button } from '@mui/material';
 import Conversation from './components/Conversation';
 import { SocketContext } from '../../Context';
 import VideoDialog from './components/VideoDialog';
 import AddConversationDialog from './components/addConversation';
-import VideoChat from './components/videoSidebar';
-
+import { FetchConversation, FetchConversationById, FetchMessage, setAddMessage } from '../../store/ducks/Messages/actions';
+import { selectConversation, selectCurrentConversation, selectMessages } from '../../store/ducks/Messages/selectors';
+import BackButton from '../../components/BackButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
 const Messages = () => {
+    const dispatch = useDispatch()
     const classes = useStylesMessages()
+    const md = useMediaQuery('(max-width:900px)');
     // state
     const [open, setOpen] = useState(false);
     const handleClose = () => {
         setOpen(false);
     };
-
     const scrollRef = useRef<HTMLDivElement>(null);
-
     const searchNewPerson = () => {
         setOpen(true);
     }
-
     const user = useSelector(selectData)
-    const [conversations, setConversations] = useState<any>([]);
-    const [currentChat, setCurrentChat] = useState(null);
-    const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const params = useParams()
     // socket  
     const { socket } = useContext(SocketContext);
- 
-
+    // useSelector
+    const conversations = useSelector(selectConversation)
+    const messages = useSelector(selectMessages)
+    const CurrentConversation = useSelector(selectCurrentConversation)
+    useEffect(() => {
+        if (params["*"]) {
+            dispatch(FetchConversationById(params["*"]))
+        }
+        // eslint-disable-next-line
+    }, [params["*"]])
     useEffect(() => {
         socket.on("getMessage", (data) => {
             setArrivalMessage({
@@ -56,6 +61,7 @@ const Messages = () => {
                 createdAt: Date.now(),
             });
         });
+        // eslint-disable-next-line
     }, []);
     useEffect(() => {
         socket.emit("addUser", user?._id);
@@ -64,106 +70,36 @@ const Messages = () => {
                 users
             );
         });
-    }, [user]);
-
+        dispatch(FetchConversation(user?._id))
+        // eslint-disable-next-line
+    }, [user?._id]);
     useEffect(() => {
         arrivalMessage &&
-            currentChat?.members.includes(arrivalMessage.sender) &&
-            setMessages((prev) => [...prev, arrivalMessage]);
-    }, [arrivalMessage, currentChat]);
-
-    // request get
+            CurrentConversation?.members.includes(arrivalMessage.sender) &&
+            dispatch(setAddMessage(arrivalMessage));
+        // eslint-disable-next-line
+    }, [arrivalMessage, CurrentConversation]);
     useEffect(() => {
-        const getConversations = async () => {
-            try {
-                const res = await istance.get("/conversation/" + user?._id);
-                setConversations(res.data.data);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        getConversations();
-    }, [user?._id]);
+        dispatch(FetchMessage(CurrentConversation?._id))
+        // eslint-disable-next-line
+    }, [CurrentConversation]);
 
-    useEffect(() => {
-        const getMessages = async () => {
-            try {
-                const res = await istance.get("/message/" + currentChat?._id);
-                setMessages(res.data.data);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        getMessages();
-    }, [currentChat]);
 
-    const receiverId = Array.isArray(currentChat?.members) && currentChat?.members?.find(
-        (member) => member !== user?._id
-    );
-    const videocall = onlineUsers?.find((item) => item.userId === receiverId)?.socketId
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const message = {
-            sender: user._id,
-            text: newMessage,
-            conversationId: currentChat._id,
-        };
-        socket.emit("sendMessage", {
-            senderId: user._id,
-            receiverId,
-            text: newMessage,
-        });
-        try {
-            const res = await istance.post("/message", message);
-            setMessages([...messages, res.data.data]);
-            setNewMessage("");
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    const openChat = (item) => {
-        setCurrentChat(item)
-        // navigate(`/messages/${id}`)
-    }
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
-
-    const addConversations = (item) => {
-        const addConversation = async () => {
-            try {
-                const res = await istance.post("/conversation/", { senderId: user._id, receiverId: item._id });
-                setConversations([...conversations, res.data.data]);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        addConversation();
-        handleClose()
-    }
-    const deleteConversation = async (id: string) => {
-        const deleteConversation = async () => {
-            try {
-                const res = await istance.delete(`/conversation/${id}`);
-                setConversations(conversations.filter(item => item._id !== id));
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        await deleteConversation();
-        setCurrentChat(null)
-    }
+    const receiverId = Array.isArray(CurrentConversation?.members) && CurrentConversation?.members?.find((member) => member !== user?._id);
+    const participantID = onlineUsers?.find((item) => item.userId === receiverId)?.socketId
     // video chat
-    const [openVideoChat, setOpenVideoChat] = React.useState(true);
+    const [openVideoChat, setOpenVideoChat] = React.useState(false);
+
     const callMeVideo = () => {
         setOpenVideoChat(true)
     }
 
     return (
         <>
-            <Grid item xs={11} md={3.75} >
+            {(md ? !CurrentConversation : true) && <Grid item xs={10.20} sm={11} md={3.75} >
                 <Box className={classes.itemConversation}>
                     <div style={{ padding: '8px 15px', }}>
                         <Box display='flex' alignItems="center" justifyContent="space-between" >
@@ -190,16 +126,17 @@ const Messages = () => {
 
                     <Box className={classes.messageUsers}>
                         {conversations && conversations?.map((item, index) => {
-                            return <div onClick={() => openChat(item)} key={item._id}>
-                                <Conversation setCurrentChat={setCurrentChat} conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} deleteConversation={deleteConversation} />
+                            return <div key={item._id}>
+                                <Conversation conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} />
                             </div>
                         })
                         }
                     </Box>
                 </Box>
-            </Grid>
-            <Grid item xs={11} md={5.75} className={classes.itemMessage} >
-                {!currentChat ?
+            </Grid>}
+
+            {(md ? CurrentConversation && params["*"] : true) && <Grid item xs={10.20} sm={11}  md={5.75} className={classes.itemMessage} >
+                {!CurrentConversation ?
                     <Box style={{ padding: 15, height: '100vh', display: "flex", justifyContent: "center", flexDirection: 'column', alignItems: 'center', }}>
                         <Box style={{ maxWidth: 295 }}>
                             <Typography variant="h4" color="text.secondary" style={{ fontWeight: 800, lineHeight: 1 }}>Вы не выбрали сообщение</Typography>
@@ -209,22 +146,22 @@ const Messages = () => {
                     </Box>
                     :
                     <Box>
+
                         <MessageTop receiverId={receiverId} />
-                        <Box display="flex" flexDirection="column" style={{ height: '82vh', overflow: 'scroll' }}>
+                        <Box display="flex" flexDirection="column" style={{ height: '83vh', overflow: 'scroll' }}>
                             {Array.isArray(messages) && messages?.map((item) => {
-                                return <div ref={scrollRef} key={item.sender} className={classNames(classes.messageWrapper, { [classes.messageWrapperOwn]: item.sender === user._id })} >
+                                return <div ref={scrollRef} key={item._id} className={classNames(classes.messageWrapper, { [classes.messageWrapperOwn]: item.sender === user._id })} >
                                     <Message text={item.text} own={item.sender === user._id} createdAt={item.createdAt} />
                                 </div>
                             })}
                         </Box>
-                        <MessageForm handleSubmit={handleSubmit} setNewMessage={setNewMessage} newMessage={newMessage} callMeVideo={callMeVideo} videocall={videocall} />
+                        <MessageForm CurrentConversation={CurrentConversation?._id} receiverId={receiverId} user={user} callMeVideo={callMeVideo} />
                     </Box>
                 }
-            </Grid>
-            <Routes>
-                <Route path="/video/:id" element={<VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} name={user?.username} />} />
-            </Routes>
-            <AddConversationDialog open={open} handleClose={handleClose} addConversations={addConversations} />
+            </Grid>}
+
+            <VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} name={user?.username} participantID={participantID} />
+            <AddConversationDialog open={open} handleClose={handleClose} userID={user?._id} />
         </>
     )
 }

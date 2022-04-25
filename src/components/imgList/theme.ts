@@ -10,6 +10,11 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         marginBottom: 10,
         maxWidth: '100%',
         gridGap: '2px',
+        [theme.breakpoints.down('sm')]: {
+            maxHeight: 160,
+            marginTop: 5,
+            marginBottom: 0,
+        },
     },
     ImagesListEdit: {
         gridGap: '7px',
@@ -24,12 +29,15 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         backgroundPosition: 'center',
     },
     singleImage: {
-        width: '500px',
-        height: '280px',
+        maxWidth: '500px',
+        maxHeight: '280px',
     },
     coupleImage: {
         width: 'auto',
         height: '280px',
+        [theme.breakpoints.down('sm')]: {
+            height: '160px',
+        },
         "&:nth-child(1)": {
             borderRadius: '20px 0 0 20px',
         },
@@ -40,44 +48,100 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
     coupleImageEdit: {
         width: 'auto',
         height: '280px',
+        [theme.breakpoints.down('sm')]: {
+            height: '160px',
+        },
     },
     treeImage: {
         "&:nth-child(1)": {
             borderRadius: '20px 0 0 0',
-            height: '150px'
+            height: '150px',
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
         },
         "&:nth-child(3)": {
             borderRadius: '0 0 0 20px',
             height: '145.3px',
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
         },
         "&:nth-child(2)": {
             height: '295px',
             borderRadius: '0 20px 20px 0',
+            [theme.breakpoints.down('sm')]: {
+                height: '160px',
+            },
+         
+        }
+    },
+    FullImageEdit: {
+        "&:nth-child(1)": {
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
+        },
+        "&:nth-child(3)": {
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
+        },
+        "&:nth-child(2)": {
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
+        },
+        "&:nth-child(4)": {
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
         }
     },
     FullImage: {
         "&:nth-child(1)": {
             borderRadius: '20px 0 0 0',
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
         },
         "&:nth-child(3)": {
             borderRadius: '0 0 0 20px',
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
         },
         "&:nth-child(2)": {
             borderRadius: '0 20px 0 0',
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
         },
         "&:nth-child(4)": {
             borderRadius: '0 0 20px 0',
+            [theme.breakpoints.down('sm')]: {
+                height: '80px',
+            },
         }
     },
     treeImageEdit: {
         "&:nth-child(1)": {
             height: '147px',
+            [theme.breakpoints.down('sm')]: {
+                height: '74px',
+            },
         },
         "&:nth-child(3)": {
-            height: '147px%',
+            height: '147px',
+            [theme.breakpoints.down('sm')]: {
+                height: '73px',
+            },
         },
         "&:nth-child(2)": {
             height: '297px',
+            [theme.breakpoints.down('sm')]: {
+                height: '160px',
+            },
         }
     },
     closeIcon: {

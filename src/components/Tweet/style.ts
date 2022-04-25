@@ -14,7 +14,7 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         color: 'inherit',
         alignItems: 'center',
         textDecoration: 'none',
-        "& .MuiTypography-body1:hover":{
+        "& .MuiTypography-body1:hover": {
             textDecoration: 'underline'
         }
     },
@@ -44,7 +44,13 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
             fontWeight: 500,
         }
     },
-
+    itemContent: {
+        flex: 1,
+        marginLeft: 20,
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: 10,
+        },
+    },
     tweetHeaderFormActions: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -68,19 +74,43 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
             background: theme.palette.tonalOffset
         },
     },
+    tweetfullName: {
+        [theme.breakpoints.down('sm')]: {
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '70px',
+        }
+    },
     tweetUserName: {
         margin: '0 8px 0 5px !important',
+        [theme.breakpoints.down('sm')]: {
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '70px',
+        }
     },
     tweettimeUploded: {
         display: 'block',
         marginLeft: '8px !important',
+        [theme.breakpoints.down('sm')]: {
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '40px',
+        }
+
     },
     tweetActions: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: "space-between",
         maxWidth: 430,
-        marginTop: 15
+        marginTop: 15,
+        [theme.breakpoints.down('sm')]: {
+            marginTop: 10,
+        }
     },
     tweetFullHeader: {
         display: 'flex',
@@ -102,28 +132,28 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
         objectFit: 'contain'
     },
     likeIcon: {
-            animation: `$myEffect 1700ms ${theme.transitions.easing.easeInOut}`
+        animation: `$myEffect 1700ms ${theme.transitions.easing.easeInOut}`
     },
     "@keyframes myEffect": {
         "0%": {
-          transform: "scale(0.8)"
+            transform: "scale(0.8)"
         },
         "5%": {
-          transform: "scale(0.9)"
+            transform: "scale(0.9)"
         },
         "10%": {
-          transform: "scale(0.8)"
+            transform: "scale(0.8)"
         },
         "15%": {
-          transform: "scale(1)"
+            transform: "scale(1)"
         },
         "50%": {
-          transform: "scale(0.9)"
+            transform: "scale(0.9)"
         },
         "100%": {
-          transform: "scale(1)"
+            transform: "scale(1)"
         }
-      },
+    },
     icon: {
         [theme.breakpoints.down('sm')]: {
             fontSize: '1rem',

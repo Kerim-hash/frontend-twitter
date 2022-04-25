@@ -9,11 +9,13 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useStylesMessageUser } from './theme'
 import { istance } from '../../../../core/axios';
 import { UserType } from '../../../../store/ducks/user/contracts/state';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectData } from '../../../../store/ducks/user/selectors';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import AvatarComponent from '../../../../components/avatar';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { FetchDeleteConversation } from '../../../../store/ducks/Messages/actions';
 
 interface conversationProps {
     conversations?: {
@@ -26,10 +28,11 @@ interface conversationProps {
     setCurrentChat?: any,
     index: number,
     onlineUsers: any[],
-    deleteConversation: (id: string) => void
 }
 
-const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversations, onlineUsers, index, deleteConversation}: conversationProps): ReactElement => {
+const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversations, onlineUsers, index}: conversationProps): ReactElement => {
+    const dispatch = useDispatch()
+    const navigate= useNavigate()
     const classes = useStylesMessageUser()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     
@@ -51,8 +54,9 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
     };
 
 
+    // console.log(conversations.members)
     React.useEffect(() => {
-        const friendId = conversations && conversations.members.find(m => m !== userData._id)
+        const friendId = conversations && conversations.members?.find(m => m !== userData._id)
         const getUser = async () => {
             try {
                 const res = await istance.get(`users/withoutDetails/${friendId}`)
@@ -65,6 +69,10 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
     }, [userData, conversations])
 
 
+    const deleteConversation = async (id: string) => {
+        await dispatch(FetchDeleteConversation({ id }))
+        navigate('/messages')
+    }
     
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
@@ -96,7 +104,7 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
     }));
 
     return (
-        <Box className={classes.wrapper}>
+        <NavLink to={`/messages/${conversations._id}`} className={classes.wrapper}>
             <Box className={classes.item}>
                 {onlineUsers?.map(item => item.userId)?.includes(user?._id) ? <StyledBadge
                     overlap="circular"
@@ -131,11 +139,11 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem sx={{ color: '#EA5561' }} onClick={(e) => deleteConversation(conversations._id)}>
+                <MenuItem sx={{ color: '#EA5561' }} onClick={(e) => deleteConversation(conversations?._id)}>
                     <DeleteOutlinedIcon sx={{ color: '#EA5561' }} />  Удалить переписку
                 </MenuItem>
             </Menu>
-        </Box>
+        </NavLink>
     )
 }
 

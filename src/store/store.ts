@@ -5,6 +5,7 @@ import rootSaga from './ducks/rootSaga';
 import { TweetsState } from './ducks/tweets/contracts/state';
 import { User } from './ducks/user/contracts/state';
 import { ThemeState } from './ducks/theme/contracts/state';
+import { Message } from './ducks/Messages/contracts/state';
 
 declare global {
     interface Window {
@@ -20,6 +21,7 @@ export interface RootState {
     tweets: TweetsState,
     theme: ThemeState,
     user: User,
+    message: Message,
 }
 
 

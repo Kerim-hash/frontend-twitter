@@ -63,14 +63,19 @@ function App() {
             fontWeight: 700,
             fontSize: 20
           },
-          body1: {
-            fontWeight: 600,
-            fontSize: 16,
-          },
+        
           body2: {
             fontWeight: 400,
             fontSize: 14,
             // color: '#536471'
+          },
+          body1: {
+            fontWeight: 600,
+            fontSize: 16,
+            "@media (max-width: 600px)": {
+              fontSize: 14,
+              fontWeight: 700
+            },
           },
           button: {
             textTransform: "none"
@@ -247,6 +252,8 @@ function App() {
 
     [color.theme],
   );
+
+  
   if (color.theme === 'dark') {
     document.body.classList.add('App-dark');
   } else {

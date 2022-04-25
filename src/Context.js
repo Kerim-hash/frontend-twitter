@@ -6,9 +6,9 @@ import { selectData } from "./store/ducks/user/selectors";
 
 const SocketContext = createContext();
 
-const socket = io("ws://localhost:8000");
+// const socket = io("ws://localhost:8000");
 
-// const socket = io('https://video-chat-jsm.herokuapp.com');
+const socket = io('https://twitterchat-node-2020.herokuapp.com/');
 
 const ContextProvider = ({ children }) => {
   // const socket = useRef(io("ws://localhost:8900"));

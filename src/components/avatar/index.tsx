@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react'
 import Avatar from '@mui/material/Avatar';
 import { UserType } from '../../store/ducks/user/contracts/state';
+import { useMediaQuery } from '@mui/material';
 
 interface AvatarProps {
     user?: {
@@ -16,7 +17,7 @@ interface AvatarProps {
 
 
 const AvatarComponent: React.FC<AvatarProps> = ({ user, fullname, size  }: AvatarProps): ReactElement => {
-
+    const sm = useMediaQuery('(max-width:600px)');
     function stringToColor(string: string) {
         let hash = 0;
         let i;
@@ -40,8 +41,8 @@ const AvatarComponent: React.FC<AvatarProps> = ({ user, fullname, size  }: Avata
         return {
             sx: {
                 bgcolor: stringToColor(name),
-                width: !!size ? size : 48,
-                height: !!size ? size : 48,
+                width: !!size ? size : sm ? 44: 48,
+                height: !!size ? size : sm ? 44: 48,
                
             },
             children: `${name?.split(' ')[0][0]}${name?.split(' ')?.length >= 2 ? name.split(' ')[1][0] : ''}`,

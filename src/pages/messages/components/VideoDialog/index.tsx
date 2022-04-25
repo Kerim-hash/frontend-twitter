@@ -1,24 +1,23 @@
-import React, { ReactElement, useContext } from 'react'
+import React, { ReactElement } from 'react'
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 import VideoChat from '../videoSidebar';
-import { SocketContext } from '../../../../Context';
 interface VideoDialogProps {
     open: boolean,
     setOpenVideoChat: (boolean) => void,
-    name: string
+    name: string,
+    participantID: string
 }
 
-const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat,name }: VideoDialogProps): ReactElement=> {
+const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat,name, participantID }: VideoDialogProps): ReactElement=> {
     return (
         <Dialog
         fullWidth
          maxWidth="lg"
-         open={true}
+         open={open}
          onClose={() => setOpenVideoChat(false)}
          aria-labelledby="alert-dialog-title"
          aria-describedby="alert-dialog-description"
@@ -28,7 +27,7 @@ const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat,name }:
          </DialogTitle>
          <DialogContent>
              <DialogContentText id="alert-dialog-description">
-              <VideoChat  name={name} />
+              <VideoChat  name={name} participantID={participantID} />
              </DialogContentText>
          </DialogContent>
      </Dialog>

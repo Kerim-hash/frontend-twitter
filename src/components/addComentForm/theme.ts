@@ -23,7 +23,10 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
         "&::placeholder": {
             color: theme.palette.text.secondary,
             fontWeight: 500,
-        }
+        },
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 18,
+        },
     },
     tweetHeaderFormActions: {
         display: 'flex',

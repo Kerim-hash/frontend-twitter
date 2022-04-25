@@ -97,7 +97,7 @@ const Index = () => {
             <Box display='flex' justifyContent="space-between" style={{ padding: '0 15px', position: 'relative' }}>
                 {console.log(profile)}
                {profile !== undefined &&  <Box className={classes.profileInfo}>
-                    <Avatar sx={{ width: 143, height: 143, border:'5px solid #fff' }} src={profile.avatar} />
+                    <Avatar className={classes.avatar} src={profile.avatar} />
                     <Typography variant="body1" style={{ fontWeight: 800, fontSize: 20, marginTop: 25 }}>{profile?.fullname}</Typography>
                     <Typography variant="caption" style={{ fontWeight: 500, fontSize: 14, color: '#536471', lineHeight: 1, }}>@{profile?.username}</Typography>
                     <Typography variant="caption" style={{ fontWeight: 500, fontSize: 14, marginTop: 15 }}>{profile?.about}</Typography>

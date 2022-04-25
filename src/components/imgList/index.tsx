@@ -31,7 +31,7 @@ const ImgList: React.FC<imgListProps> = ({ edit = false, images, setImages, setT
             {images.map((obj, i) => {
                 return (
                     <div key={i} onClick={(e) => setToggle(e, i)}
-                        className={classnames(classes.image, { [classes.coupleImage]: images.length === 2 && !edit,[classes.FullImage]: images.length === 4 && !edit,  [classes.singleImage]: images.length === 1, [classes.treeImage]: images.length === 3 && !edit, [classes.coupleImageEdit]: images.length === 2 , [classes.treeImageEdit]: images.length === 3 && edit  })} style={{ backgroundImage: `url(${obj.url ? obj.url : obj})` }}>
+                        className={classnames(classes.image, { [classes.coupleImage]: images.length === 2 && !edit,[classes.FullImage]: images.length === 4 && !edit, [classes.FullImageEdit]: images.length === 4 && edit, [classes.singleImage]: images.length === 1, [classes.treeImage]: images.length === 3 && !edit, [classes.coupleImageEdit]: images.length === 2 , [classes.treeImageEdit]: images.length === 3 && edit  })} style={{ backgroundImage: `url(${obj.url ? obj.url : obj})` }}>
                         {edit && <IconButton color="inherit" className={classes.closeIcon} onClick={() => removeImg(obj.url)}>
                             <CloseIcon />
                         </IconButton>}

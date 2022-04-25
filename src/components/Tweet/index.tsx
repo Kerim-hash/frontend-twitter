@@ -170,8 +170,8 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
             </Snackbar>
             <Paper color="action.main"  variant="outlined" className={classNames(classes.tweet)}>
                 <AvatarComponent fullname={fullname} user={user} />
-                <Box style={{ marginLeft: 20, flex: 1, maxWidth: '75%' }}>
-                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1">{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" color="text.grey.light" className={classes?.tweetUserName}>@{user?.username ? user?.username : username}</Typography><span>·</span><Typography variant="caption" color="text.grey.light" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
+                <Box className={classes.itemContent}>
+                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1" className={classes.tweetfullName}>{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" color="text.grey.light" className={classes?.tweetUserName}>@{user?.username ? user?.username : username}</Typography><span>·</span><Typography variant="caption" color="text.grey.light" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
                     <Typography variant="body2" color="text.primary" style={{ marginTop: 5, wordBreak: 'break-word' }}>
                         {text}
                     </Typography>

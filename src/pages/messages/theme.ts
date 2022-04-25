@@ -52,11 +52,9 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
         display:"flex",
         justifyContent: 'space-between',
         alignItems: 'center',
-        position: 'fixed',
         borderTop: '1px solid #eee',
         bottom: 0,
-        width: '40%',
-        padding: '4px 5px'
+        padding: '0'
     },
     messageWrapper: {
         display: 'inline-flex',

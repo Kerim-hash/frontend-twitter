@@ -82,13 +82,13 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
     }
 
     return (
-        <Hidden lgDown>
+        <Hidden mdDown>
              <Snackbar open={followState === FollowState.ERROR} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
                 <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
                 Что-то пошло не так, но не беспокойтесь — давайте попробуем еще раз.
                 </Alert>
             </Snackbar>
-            <Grid item xs={0} lg={0} md={3.4} >
+            <Grid item xs={0} lg={0} sm={0} md={3.4} >
                 <div style={{ position: 'sticky', top: 0 }}>
                     <div ref={rootEl} >
                         <OutlinedInput

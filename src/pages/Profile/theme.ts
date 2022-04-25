@@ -1,14 +1,33 @@
+// @ts-nocheck
 import { makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material';
 export const useStylesProfile = makeStyles((theme: Theme) => ({
     profileHeader: {
         height: 200,
         background: '#CFD9DE',
+        [theme.breakpoints.down('sm')]: {
+            height: 120,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat'
+          },
+    },
+    avatar: {
+        width: 143,
+        height: 143,
+        border: '5px solid #fff',
+        [theme.breakpoints.down('sm')]: {
+            width: 73,
+            height: 73,
+            border: '2px solid #fff',
+          },
     },
     profileInfo: {
         display: 'flex',
         flexDirection: 'column',
         marginTop: -70,
+        [theme.breakpoints.down('sm')]: {
+            marginTop: -25,
+          },
     },
     tab: {
         '& .MuiBox-root': {

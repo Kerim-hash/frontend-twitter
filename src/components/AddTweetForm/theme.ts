@@ -28,9 +28,9 @@ export const useStylesAddForm = makeStyles((theme: Theme) => ({
             fontWeight: 500,
         }
     },
-    icon: {
+    iconButton: {
         [theme.breakpoints.down('sm')]: {
-            fontSize: '1rem',
+            padding: '0 5px',
         },
     },
     tweetHeaderFormActions: {

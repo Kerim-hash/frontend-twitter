@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useState, useContext } from 'react'
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -10,23 +10,26 @@ import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSati
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import Picker from 'emoji-picker-react';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
-import { selectData } from '../../../../store/ducks/user/selectors';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { useDispatch} from 'react-redux';
+import { SocketContext } from '../../../../Context';
+import { sendMessage } from '../../../../store/ducks/Messages/actions';
+import { UserType } from '../../../../store/ducks/user/contracts/state';
 
 interface MessageFormProps {
-    newMessage: string, 
-    setNewMessage:  any,
     callMeVideo: () => void,
-    handleSubmit: (e: any) => Promise<void>,
-    videocall: string,
+    user: UserType,
+    receiverId: string,
+    CurrentConversation?: string
 }
 
-const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , handleSubmit, callMeVideo, videocall}: MessageFormProps): ReactElement => {
+const MessageForm: React.FC<MessageFormProps> = ({callMeVideo, user, receiverId, CurrentConversation}: MessageFormProps): ReactElement => {
     const classes = useStylesMessages()
+    const dispatch = useDispatch()
+    const { socket } = useContext(SocketContext);
     const [images, setImages] = useState<fileImg[]>([] || undefined)
     const [showPicker, setShowPicker] = useState<boolean>(false)
+    const [newMessage, setNewMessage] = useState("");
+
     const onEmojiClick = (_, emojiObject) => {
         setNewMessage(prevInput => prevInput + emojiObject.emoji)
         setShowPicker(false)
@@ -37,12 +40,27 @@ const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , ha
         }
     }
 
-    
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const message = await {
+            sender: user._id,
+            text: newMessage,
+            conversationId: CurrentConversation,
+        };
+        await socket.emit("sendMessage", {
+            senderId: user._id,
+            receiverId,
+            text: newMessage,
+        });
+        dispatch(sendMessage(message))
+        setNewMessage("");
+    };
     return (
         <Box className={classes.messageForm}>
             <UploadImage setImages={setImages} images={images} />
             <div className="emojiIcon">
-            {showPicker && <Picker onEmojiClick={onEmojiClick} />}
+                {showPicker && <Picker onEmojiClick={onEmojiClick} />}
             </div>
             <OutlinedInput
                 fullWidth
@@ -65,11 +83,9 @@ const MessageForm :React.FC<MessageFormProps> = ({newMessage, setNewMessage , ha
             <IconButton onClick={(e) => handleSubmit(e)}>
                 <SendOutlinedIcon color="primary" />
             </IconButton>
-            <NavLink to={`/messages/video/${videocall}`}>
             <IconButton onClick={callMeVideo}>
                 <CallOutlinedIcon color="primary" />
             </IconButton>
-            </NavLink>
         </Box>
     )
 }

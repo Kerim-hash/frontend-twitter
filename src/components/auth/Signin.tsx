@@ -26,7 +26,7 @@ export interface LoginFormProps {
 
 const LoginFormSchema = yup.object({
     username: yup.string().required('Введите имя'),
-    password: yup.string().min(6).required(),
+    password: yup.string().min(8).required("пароль должен быть не менее 8 символов"),
 }).required();
 
 const Signin = ({ open, onClose }: SigninProps) => {
@@ -54,7 +54,7 @@ const Signin = ({ open, onClose }: SigninProps) => {
             setSnackbarState({ text: 'авторизация успешно пройдена', type: 'success' })
         }
         else if (loadingData === LoadingState.ERROR) {
-            setSnackbarState({ text: 'авторизация неуспешна', type: 'error' })
+            setSnackbarState({ text: 'Неверный логин или пароль', type: 'error' })
         }
        
     }, [loadingData])
@@ -78,7 +78,7 @@ const Signin = ({ open, onClose }: SigninProps) => {
                 <TextField
                     margin="dense"
                     id="name"
-                    label="Email Address"
+                    label="Email Address or Login"
                     type="text"
                     fullWidth
                     variant="outlined"
