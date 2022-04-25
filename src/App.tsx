@@ -15,7 +15,6 @@ import { isAuthenticated } from './utils/isAuthenticated';
 import { useSelector } from 'react-redux';
 import { selectTheme } from './store/ducks/theme/selectors'
 import Index from './pages/Home/components/Index/';
-import VideoChat from './pages/messages/components/videoSidebar';
 const Profile = lazy(() => import("./pages/Profile").then((module) => ({ default: module.default, })));
 const Bookmarks = lazy(() => import("./pages/Bookmarks").then((module) => ({ default: module.default, })));
 const Auth = lazy(() => import("./pages/Auth").then((module) => ({ default: module.default, })));
@@ -38,9 +37,7 @@ function App() {
     }
     return children
   };
-  function PrivateRoute({ children }) {
-    return isAuthenticated() ? children : <Navigate to="/auth" />;
-  }
+ 
 
   // theme
   const color = useSelector(selectTheme)
@@ -73,7 +70,6 @@ function App() {
             fontWeight: 700,
             fontSize: 20
           },
-        
           body2: {
             fontWeight: 400,
             fontSize: 14,

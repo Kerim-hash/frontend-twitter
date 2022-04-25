@@ -6,7 +6,7 @@ import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import { ModalBlock } from '../Modal';
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { AddTweetForm } from '../AddTweetForm';
 import { useStylesSidebar } from './theme';
 import { useDispatch, useSelector } from 'react-redux';
@@ -90,15 +90,17 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                         </Link>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Link to="/home">
-                            <svg width="24" height="22" className={classes.icon} viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M22.58 6.34999L12.475 0.896993C12.178 0.736993 11.821 0.736993 11.525 0.896993L1.425 6.34999C0.938999 6.61399 0.757999 7.21999 1.02 7.70599C1.2 8.04099 1.545 8.23099 1.9 8.23099C2.06 8.23099 2.224 8.19299 2.375 8.11099L3.109 7.71499L4.699 18.965C4.915 20.179 6.009 21.027 7.359 21.027H16.641C17.991 21.027 19.085 20.179 19.303 18.939L20.891 7.71399L21.628 8.11199C22.113 8.37499 22.72 8.19399 22.982 7.70799C23.245 7.22199 23.062 6.61499 22.578 6.35299L22.58 6.34999ZM12 14.435C10.205 14.435 8.75 12.98 8.75 11.185C8.75 9.38999 10.205 7.93499 12 7.93499C13.795 7.93499 15.25 9.38999 15.25 11.185C15.25 12.98 13.795 14.435 12 14.435Z" fill="#fff" />
+                        <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to="/home">
+                            <svg  className={classes.icon}  width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.3317 6.20084L12.3868 0.291256C12.1452 0.161256 11.8559 0.161256 11.6143 0.291256L0.671596 6.20084C0.277263 6.41426 0.12993 6.90717 0.343346 7.30259C0.489597 7.57342 0.77018 7.72834 1.05835 7.72834C1.18835 7.72834 1.3216 7.69584 1.44401 7.63084L2.32693 7.15417L4.09168 19.6266C4.32351 20.9428 5.50868 21.8604 6.97118 21.8604H17.0267C18.4913 21.8604 19.6754 20.9418 19.9116 19.5995L21.6731 7.15201L22.5593 7.63084C22.9536 7.83992 23.4476 7.69584 23.661 7.30151C23.8733 6.90826 23.726 6.41534 23.3317 6.20084ZM18.3072 19.3449C18.1913 20.0014 17.5456 20.2354 17.0288 20.2354H6.97335C6.45335 20.2354 5.80876 20.0014 5.69718 19.3709L3.85335 6.33084L12 1.93034L20.1488 6.32867L18.3072 19.3449Z" fill="black" />
+                                <path d="M7.90503 11.1993C7.90503 13.457 9.74128 15.2943 12 15.2943C14.2588 15.2943 16.095 13.457 16.095 11.1993C16.095 8.94167 14.2588 7.10434 12 7.10434C9.74128 7.10434 7.90503 8.94167 7.90503 11.1993ZM14.47 11.1993C14.47 12.5622 13.3629 13.6693 12 13.6693C10.6372 13.6693 9.53003 12.5622 9.53003 11.1993C9.53003 9.83651 10.6372 8.72934 12 8.72934C13.3629 8.72934 14.47 9.83651 14.47 11.1993Z" fill="black" />
                             </svg>
+
 
                             <Hidden mdDown>
                                 <Typography variant="h6" color="text.secondary">Главная</Typography>
                             </Hidden>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
@@ -112,7 +114,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Link to={`/video`}>
+                        <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to={`/video`}>
                             <svg width="20" height="21" className={classes.icon} viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M19.697 15.468C19.677 15.452 17.557 13.828 17.594 9.438C17.614 6.906 16.782 4.656 15.247 3.103C13.872 1.71 12.01 0.94 10.005 0.93H9.992C7.988 0.94 6.126 1.71 4.75 3.104C3.216 4.657 2.382 6.906 2.404 9.438C2.441 13.768 0.384001 15.405 0.302002 15.468C0.0420015 15.661 -0.0639986 15.998 0.0370014 16.306C0.139001 16.614 0.427002 16.821 0.749002 16.821H5.669C5.771 19.131 7.666 20.981 9.999 20.981C12.332 20.981 14.225 19.131 14.326 16.821H19.248C19.57 16.821 19.858 16.615 19.958 16.307C20.061 16 19.955 15.662 19.695 15.469L19.697 15.468ZM10 19.478C8.495 19.478 7.27 18.301 7.172 16.82H12.828C12.728 18.3 11.505 19.48 10 19.48V19.478ZM2.38 15.32C3.12 14.188 3.928 12.292 3.904 9.424C3.886 7.264 4.548 5.442 5.817 4.157C6.91 3.05 8.397 2.437 10 2.43C11.603 2.438 13.087 3.05 14.18 4.158C15.45 5.443 16.113 7.264 16.095 9.425C16.071 12.293 16.88 14.19 17.62 15.321H2.38V15.32Z" fill="#D9D9D9" />
                             </svg>
@@ -120,30 +122,27 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                             <Hidden mdDown>
                                 <Typography variant="h6" color="text.secondary">Уведомления</Typography>
                             </Hidden>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Link to={`/messages`}>
+                        <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to={`/messages`}>
                             <svg width="20" height="19" className={classes.icon} viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.25 0.0180016H2.75C1.233 0.0180016 0 1.252 0 2.77V15.265C0 16.783 1.233 18.018 2.75 18.018H17.25C18.767 18.018 20 16.783 20 15.265V2.77C20 1.252 18.767 0.0180016 17.25 0.0180016ZM2.75 1.518H17.25C17.94 1.518 18.5 2.078 18.5 2.768V3.482L10.45 8.849C10.177 9.029 9.824 9.031 9.55 8.847L1.5 3.482V2.768C1.5 2.078 2.06 1.518 2.75 1.518ZM17.25 16.516H2.75C2.06 16.516 1.5 15.956 1.5 15.266V5.24L8.74 10.07C9.123 10.326 9.562 10.454 10 10.454C10.44 10.454 10.877 10.326 11.26 10.071L18.5 5.241V15.263C18.5 15.953 17.94 16.513 17.25 16.513V16.516Z" fill="#D9D9D9" />
                             </svg>
-
-
                             <Hidden mdDown>
                                 <Typography variant="h6" color="text.secondary">Сообщения</Typography>
                             </Hidden>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Link to={`/bookmarks`}>
+                        <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to={`/bookmarks`}>
                             <svg width="18" height="21" className={classes.icon} viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.9 20.5C16.743 20.5 16.588 20.45 16.458 20.356L9 14.928L1.542 20.358C1.314 20.522 1.012 20.548 0.759999 20.418C0.509999 20.291 0.349998 20.033 0.349998 19.751V2.6C0.349998 1.36 1.36 0.35 2.6 0.35H15.398C16.638 0.35 17.648 1.36 17.648 2.6V19.75C17.648 20.032 17.49 20.29 17.238 20.418C17.132 20.473 17.015 20.5 16.898 20.5H16.9ZM9 13.25C9.155 13.25 9.31 13.298 9.44 13.394L16.15 18.277V2.6C16.15 2.188 15.813 1.85 15.4 1.85H2.6C2.187 1.85 1.85 2.188 1.85 2.6V18.277L8.56 13.394C8.69 13.298 8.845 13.25 9 13.25Z" fill="#D9D9D9" />
                             </svg>
-
                             <Hidden mdDown>
                                 <Typography variant="h6" color="text.secondary">Закладки</Typography>
                             </Hidden>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className={classes.sidebarItem}>
                         <div>
@@ -158,7 +157,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Link to={`/profile/${user?._id}`}>
+                        <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to={`/profile/${user?._id}`}>
                             <svg width="18" height="21" className={classes.icon} viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9 10.816C10.355 10.816 11.872 10.666 12.84 9.56C13.654 8.63 13.918 7.192 13.646 5.168C13.266 2.343 11.529 0.655998 9 0.655998C6.471 0.655998 4.734 2.343 4.354 5.17C4.082 7.192 4.346 8.63 5.16 9.56C6.128 10.667 7.645 10.816 9 10.816V10.816ZM5.84 5.368C6.002 4.168 6.627 2.156 9 2.156C11.373 2.156 11.998 4.169 12.16 5.368C12.367 6.918 12.217 7.995 11.71 8.573C11.255 9.093 10.444 9.316 9 9.316C7.556 9.316 6.745 9.093 6.29 8.573C5.783 7.995 5.633 6.917 5.84 5.368ZM17.28 18.236C16.403 14.71 12.998 12.246 9 12.246C5.002 12.246 1.597 14.71 0.720001 18.236C0.548001 18.928 0.692 19.636 1.115 20.176C1.523 20.696 2.155 20.996 2.848 20.996H15.152C15.845 20.996 16.477 20.696 16.885 20.176C17.309 19.636 17.452 18.929 17.279 18.236H17.28ZM15.704 19.252C15.578 19.412 15.388 19.498 15.152 19.498H2.848C2.613 19.498 2.422 19.413 2.296 19.252C2.159 19.078 2.116 18.84 2.176 18.598C2.886 15.743 5.693 13.748 9 13.748C12.307 13.748 15.114 15.742 15.824 18.598C15.884 18.84 15.841 19.078 15.704 19.252V19.252Z" fill="#D9D9D9" />
                             </svg>
@@ -166,7 +165,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                             <Hidden mdDown>
                                 <Typography variant="h6" color="text.secondary">Профиль</Typography>
                             </Hidden>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className={classes.sidebarItem}>
                         <div onClick={(e) => handleClickMore(e)}>
@@ -183,7 +182,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <Button onClick={handleToggleClick} variant="contained" fullWidth style={{minWidth: !matches && '15px' }}>{matches ? 'Твитнуть' : <svg width="15" height="15" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <Button onClick={handleToggleClick} variant="contained" fullWidth style={{ minWidth: !matches && '15px' }}>{matches ? 'Твитнуть' : <svg width="15" height="15" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M3.7764 3.02957C3.97191 3.02957 4.13041 3.18806 4.13041 3.38357V5.86163H6.60846C6.80397 5.86163 6.96247 6.02012 6.96247 6.21563C6.96247 6.41115 6.80397 6.56964 6.60846 6.56964H4.13041V9.0477C4.13041 9.24321 3.97191 9.4017 3.7764 9.4017C3.58089 9.4017 3.42239 9.24321 3.42239 9.0477V6.56964H0.94434C0.748827 6.56964 0.590332 6.41115 0.590332 6.21563C0.590332 6.02012 0.748827 5.86163 0.94434 5.86163L3.42239 5.86163V3.38357C3.42239 3.18806 3.58089 3.02957 3.7764 3.02957Z" fill="white" />
                             <path d="M20.9322 0.551471C7.4254 3.25282 3.20454 16.3094 2.36037 22.4999C4.89289 13.2141 9.95792 12.3699 12.4904 12.3699C15.023 12.3699 17.5555 9.83736 15.8671 9.83736C13.275 9.83736 12.7169 8.14902 13.3346 8.14902C21.4387 6.79834 24.511 -0.164254 20.9322 0.551471Z" fill="white" />
                         </svg>
@@ -276,7 +275,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
             <SettingTheme handleToggleClick={handleToggleSettingTheme} visibleAddTweetModal={visibleSettingTheme} />
 
             <ModalBlock title="" visible={visibleAddTweetModal} onClose={handleToggleClick}>
-                    <AddTweetForm maxRows={15} minRows={4} />
+                <AddTweetForm maxRows={15} minRows={4} />
             </ModalBlock>
         </>
     )

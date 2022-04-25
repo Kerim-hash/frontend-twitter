@@ -31,7 +31,8 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkRemoveOutlinedIcon from '@mui/icons-material/BookmarkRemoveOutlined';
 import AvatarComponent from '../../../../components/avatar'
 import BackButton from '../../../../components/BackButton'
-
+import { TransitionGroup } from 'react-transition-group'
+import Collapse from '@mui/material/Collapse';
 export const FullTweet: React.FC = (): React.ReactElement | null => {
     const dispatch = useDispatch()
     const params: { id?: string } = useParams()
@@ -198,19 +199,21 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                 <AddComentForm id={params.id} fullname={userData?.fullname} username={userData?.username} avatar={userData?.avatar} />
 
             </Box>
-            {tweetData.comment && tweetData.comment.map((item) => {
-                return <TweetComponent
-                    key={item._id}
-                    _id={item._id}
-                    text={item.text}
-                    createdAt={item.createdAt}
-                    images={item?.images}
-                    username={item.username}
-                    avatar={item.avatar}
-                    fullname={item.fullname}
-                    user={item.user}
-                />
+            {tweetData.comment && <TransitionGroup>{tweetData.comment.map((item) => {
+                return <Collapse key={item._id}>
+                    <TweetComponent
+                        _id={item._id}
+                        text={item.text}
+                        createdAt={item.createdAt}
+                        images={item?.images}
+                        username={item.username}
+                        avatar={item.avatar}
+                        fullname={item.fullname}
+                        user={item.user}
+                    />
+                </Collapse>
             })}
+            </TransitionGroup>}
         </Box>
     )
 }

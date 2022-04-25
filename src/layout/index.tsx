@@ -35,7 +35,6 @@ const Layout: React.FC<LayoutProps> = ({ children, messages = false }: LayoutPro
                 </Paper>
             </Grid>}
             {messages && children}
-            {/* 3.4 */}
             {!messages && <Aside user={user} />}
         </Grid>
     </section>) : (
