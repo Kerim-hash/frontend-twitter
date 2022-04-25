@@ -96,10 +96,11 @@ const Messages = () => {
     const callMeVideo = () => {
         setOpenVideoChat(true)
     }
-
+    
+    console.log(CurrentConversation)
     return (
         <>
-            {(md ? !CurrentConversation : true) && <Grid item xs={10.20} sm={11} md={3.75} >
+            {(md ? !CurrentConversation : true) && <Grid item xs={10.20} md={3.75} >
                 <Box className={classes.itemConversation}>
                     <div style={{ padding: '8px 15px', }}>
                         <Box display='flex' alignItems="center" justifyContent="space-between" >
@@ -135,7 +136,7 @@ const Messages = () => {
                 </Box>
             </Grid>}
 
-            {(md ? CurrentConversation && params["*"] : true) && <Grid item xs={10.20} sm={11}  md={5.75} className={classes.itemMessage} >
+            {(md ? CurrentConversation && params["*"] : true) && <Grid item xs={10.20} md={5.75} className={classes.itemMessage} >
                 {!CurrentConversation ?
                     <Box style={{ padding: 15, height: '100vh', display: "flex", justifyContent: "center", flexDirection: 'column', alignItems: 'center', }}>
                         <Box style={{ maxWidth: 295 }}>
@@ -148,7 +149,7 @@ const Messages = () => {
                     <Box>
 
                         <MessageTop receiverId={receiverId} />
-                        <Box display="flex" flexDirection="column" style={{ height: '83vh', overflow: 'scroll' }}>
+                        <Box display="flex" flexDirection="column" style={{ height: '82vh', overflow: 'scroll' }}>
                             {Array.isArray(messages) && messages?.map((item) => {
                                 return <div ref={scrollRef} key={item._id} className={classNames(classes.messageWrapper, { [classes.messageWrapperOwn]: item.sender === user._id })} >
                                     <Message text={item.text} own={item.sender === user._id} createdAt={item.createdAt} />

@@ -53,8 +53,6 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
         setAnchorEl(event.currentTarget);
     };
 
-
-    // console.log(conversations.members)
     React.useEffect(() => {
         const friendId = conversations && conversations.members?.find(m => m !== userData._id)
         const getUser = async () => {
@@ -67,7 +65,6 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
         }
         getUser()
     }, [userData, conversations])
-
 
     const deleteConversation = async (id: string) => {
         await dispatch(FetchDeleteConversation({ id }))

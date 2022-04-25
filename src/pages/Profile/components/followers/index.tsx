@@ -6,17 +6,14 @@ import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { selectData, selectProfile } from '../../../../store/ducks/user/selectors';
-import { fetchTweets } from '../../../../store/ducks/tweets/actionCreators';
-import { selectIsTweetLoading, selectTweetsItems } from '../../../../store/ducks/tweets/selectors';
 import BackButton from '../../../../components/BackButton';
-import { fetchProfile, fetchFollow } from '../../../../store/ducks/user/actions';
+import { fetchProfile } from '../../../../store/ducks/user/actions';
 import { useStylesProfile } from '../../theme';
 import ReadUser from '../../../../components/readUser';
 const ProfileFollowers = () => {
     const dispatch = useDispatch()
     const user = useSelector(selectData)
     const profile = useSelector(selectProfile)
-    const loading = useSelector(selectIsTweetLoading)
     const params: { id?: string } = useParams()
     const classes = useStylesProfile()
 

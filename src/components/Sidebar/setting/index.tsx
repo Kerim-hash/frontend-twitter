@@ -19,7 +19,7 @@ const SettingTheme: React.FC<SettingThemeProps> = ({ visibleAddTweetModal, handl
     const dispatch = useDispatch()
     return (
         <ModalBlock title="Настройте оформление" visible={visibleAddTweetModal} onClose={handleToggleClick}>
-            <div style={{ width: 540 }}>
+            <div>
                 <Typography variant="subtitle1" color="text.grey.light" style={{ textAlign: "center" }}>Управляйте размером шрифта, цветами и фоном. Эти настройки влияют на все учетные записи Твиттера на этом устройстве.</Typography>
                 <Typography variant="body1" color="text.grey.light" mb={3}>фон</Typography>
                 <RadioGroup
@@ -28,8 +28,8 @@ const SettingTheme: React.FC<SettingThemeProps> = ({ visibleAddTweetModal, handl
                     name="row-radio-buttons-group"
                     style={{justifyContent: 'space-between'}} 
                 >
-                    <FormControlLabel style={{backgroundColor: '#fff',width: '49%', color: '#000', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}}  onClick={() => dispatch(setTheme(ThemeStatus.LIGHT))} value="light" control={<Radio color="info" />} label="По умолчанию" />
-                    <FormControlLabel style={{backgroundColor: '#000',width: '49%', color: '#fff', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}} onClick={() => dispatch(setTheme(ThemeStatus.DARK))} value="dark" control={<Radio color="info" />} label="Ночь" />
+                    <FormControlLabel style={{backgroundColor: '#fff',width: '45%', color: '#000', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}}  onClick={() => dispatch(setTheme(ThemeStatus.LIGHT))} value="light" control={<Radio color="info" />} label="light" />
+                    <FormControlLabel style={{backgroundColor: '#000',width: '45%', color: '#fff', border: '1px solid #359BF0', borderRadius: '5px', padding: '10px'}} onClick={() => dispatch(setTheme(ThemeStatus.DARK))} value="dark" control={<Radio color="info" />} label="dark" />
                 </RadioGroup>
 
             </div>

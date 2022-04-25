@@ -52,9 +52,6 @@ const VideoChat = ({name, participantID}) => {
       });
   }, []);
 
-  // const off = () => {
-  //   myVideo.current.muted = false
-  // }
   return (
     <Container className={classes.container}>
         <Grid container className={classes.gridContainer} mb={3}>

@@ -63,7 +63,7 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
     messageWrapperOwn: {
         display: 'inline-flex',
         flexDirection: 'column',
-        alignItems: 'end',
+        alignItems: 'flex-end',
         paddingRight: '5px',
     },
     message: {

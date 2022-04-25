@@ -5,11 +5,12 @@ import Button from '@mui/material/Button';
 import { ModalBlock } from '../../components/Modal';
 import Signin from '../../components/auth/Signin';
 import SignUp from '../../components/auth/SignUp';
-import  {useStylesAuth} from './theme'
+import { useStylesAuth } from './theme'
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Auth: React.FC = () => {
     const classes = useStylesAuth()
-
+    const sm = useMediaQuery('(max-width:600px)');
     const [open, setOpen] = useState<"signin" | "signup">();
 
     const handleClickOpenSignIn = () => {
@@ -26,7 +27,7 @@ const Auth: React.FC = () => {
     return (
         <div className={classes.wrapper}>
             <div className={classes.blueSide}>
-                <TwitterIcon className={classes.icon} sx={{ fontSize: 160 }} style={{fill: '#fff'}} />
+                <TwitterIcon className={classes.icon} style={{ fill: '#fff' }} />
             </div>
             <div className={classes.loginSide}>
                 <TwitterIcon sx={{ fontSize: 50 }} color="primary" />
@@ -43,4 +44,4 @@ const Auth: React.FC = () => {
     )
 }
 
-export default  Auth
+export default Auth

@@ -276,9 +276,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
             <SettingTheme handleToggleClick={handleToggleSettingTheme} visibleAddTweetModal={visibleSettingTheme} />
 
             <ModalBlock title="" visible={visibleAddTweetModal} onClose={handleToggleClick}>
-                <div style={{ width: 540 }}>
                     <AddTweetForm maxRows={15} minRows={4} />
-                </div>
             </ModalBlock>
         </>
     )

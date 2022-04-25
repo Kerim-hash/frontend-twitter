@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { setConversationCurrent } from '../../../../store/ducks/Messages/actions';
 
 interface MessageTopProps {
-    receiverId?: any
+    receiverId?: string
 }
 
 const MessageTop: React.FC<MessageTopProps> = ({ receiverId }: MessageTopProps): ReactElement => {

@@ -28,7 +28,7 @@ const MessageForm: React.FC<MessageFormProps> = ({callMeVideo, user, receiverId,
     const { socket } = useContext(SocketContext);
     const [images, setImages] = useState<fileImg[]>([] || undefined)
     const [showPicker, setShowPicker] = useState<boolean>(false)
-    const [newMessage, setNewMessage] = useState("");
+    const [newMessage, setNewMessage] = useState<string>("");
 
     const onEmojiClick = (_, emojiObject) => {
         setNewMessage(prevInput => prevInput + emojiObject.emoji)
@@ -41,7 +41,7 @@ const MessageForm: React.FC<MessageFormProps> = ({callMeVideo, user, receiverId,
     }
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         const message = await {
             sender: user._id,
@@ -62,12 +62,14 @@ const MessageForm: React.FC<MessageFormProps> = ({callMeVideo, user, receiverId,
             <div className="emojiIcon">
                 {showPicker && <Picker onEmojiClick={onEmojiClick} />}
             </div>
+
             <OutlinedInput
                 fullWidth
                 className={classes.outlinedInput}
                 placeholder="Напишите сообщение"
                 value={newMessage}
                 onChange={handleChange}
+                required
                 endAdornment={
                     <InputAdornment position="end">
                         <IconButton
@@ -80,7 +82,7 @@ const MessageForm: React.FC<MessageFormProps> = ({callMeVideo, user, receiverId,
                     </InputAdornment>
                 }
             />
-            <IconButton onClick={(e) => handleSubmit(e)}>
+            <IconButton onClick={(e) => handleSubmit(e)} disabled={newMessage === ''}>
                 <SendOutlinedIcon color="primary" />
             </IconButton>
             <IconButton onClick={callMeVideo}>

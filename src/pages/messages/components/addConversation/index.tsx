@@ -28,10 +28,10 @@ const AddConversationDialog: React.FC<AddConversationDialogProps> = ({handleClos
     const classes = useStylesMessages()
     const userData = useSelector(selectSearchUser)
     const [search, setSearch] = React.useState<string>("");
-    let handleChange = (search) => setSearch(search)
+    let handleChange = (search: string) => setSearch(search)
     const debounceChange = useDebounce(handleChange, 500);
 
-    const handleChangeSearch = (e) => {
+    const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         debounceChange(e.target.value);
     };
     React.useEffect(() => {
@@ -41,10 +41,11 @@ const AddConversationDialog: React.FC<AddConversationDialogProps> = ({handleClos
         // eslint-disable-next-line
     }, [search])
 
-    const addConversations = (item) => {
+    const addConversations = (item: UserType) => {
         dispatch(FetchAddConversation({ senderId: userID, receiverId: item._id }))
         handleClose()
     }
+
     return (
         <Dialog open={open} onClose={handleClose} maxWidth={'sm'} fullWidth scroll={'paper'} className={classes.dialog}>
         <Box display="flex" alignItems="center">

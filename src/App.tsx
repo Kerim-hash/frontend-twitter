@@ -53,11 +53,21 @@ function App() {
             fontWeight: 800,
             fontSize: 64,
             lineHeight: "80px",
+            "@media (max-width: 1020px)": {
+              fontSize: 48,
+            },
+            "@media (max-width: 600px)": {
+              fontSize: 32,
+            },
           },
           h4: {
             fontWeight: 800,
             fontSize: 31,
             lineHeight: "40px",
+            "@media (max-width: 600px)": {
+              fontSize: 22,
+              fontWeight: 500,
+            },
           },
           h5: {
             fontWeight: 700,
@@ -181,30 +191,27 @@ function App() {
               },
             },
           },
-          // MuiDialog: {
-          //   styleOverrides: {
-          //       ".MuiDialog-container .MuiDialog-scrollPaper": {
-          //         background: 'rgba(91, 112, 131, 0.4);'
-          //       }
-          //   },
-          // },
           MuiPaper: {
             styleOverrides: {
               root: {
                 borderRadius: 0,
+                minWidth: '300 !important',
                 backgroundColor: color.theme === 'dark' && '#000',
                 "&.MuiDialog-paper": {
                   backgroundImage: 'none'
                 },
-
-              }
+              },
             }
           },
+         
           MuiDialog: {
             styleOverrides: {
               paper: {
                 borderRadius: 20,
-                minWidth: 500
+                minWidth: 300
+              },
+              container: {
+                backgroundColor: 'rgba(91, 112, 131, 0.4) !important'
               }
             }
           },
