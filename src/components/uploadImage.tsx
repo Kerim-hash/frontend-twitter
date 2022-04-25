@@ -42,7 +42,6 @@ const UploadImage: React.FC<UploadImageProps> = ({ setImages , images}: UploadIm
                 <CollectionsIcon />
             </IconButton>
             <input ref={inputRef} type="file" hidden />
-
         </div>
     )
 }

@@ -47,11 +47,12 @@ interface TweetProps {
     likes?: string[],
     comment?: string[] | Comment[],
     fullname?: string,
+    avatar?: string,
     username?: string,
     bookmarks?: string[] | Tweet[]
 }
 
-export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes, comment, fullname, username, bookmarks }: TweetProps): React.ReactElement => {
+export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdAt, images, likes, comment, fullname, username, avatar }: TweetProps): React.ReactElement => {
     const classes = TweetStyle()
     const dispatch = useDispatch()
     let navigate = useNavigate();
@@ -169,7 +170,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                 </Alert>
             </Snackbar>
             <Paper color="action.main"  variant="outlined" className={classNames(classes.tweet)}>
-                <AvatarComponent fullname={fullname} user={user} />
+                <AvatarComponent fullname={fullname} user={user} avatar={avatar} />
                 <Box className={classes.itemContent}>
                     <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1" className={classes.tweetfullName}>{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" color="text.grey.light" className={classes?.tweetUserName}>@{user?.username ? user?.username : username}</Typography><span>·</span><Typography variant="caption" color="text.grey.light" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
                     <Typography variant="body2" color="text.primary" style={{ marginTop: 5, wordBreak: 'break-word' }}>

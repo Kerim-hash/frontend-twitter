@@ -36,7 +36,7 @@ export const TweetsApi = {
     }, 
   
     async AddCommnet(payload) {
-        const { data } = await istance.post(`/tweet/comment/${payload.tweetID}`, {userId: payload.userID, text: payload.text, images: payload.photo, fullname: payload.author.fullname, username: payload.author.username})
+        const { data } = await istance.post(`/tweet/comment/${payload.tweetID}`, {userId: payload.userID, text: payload.text, images: payload.photo, fullname: payload.author.fullname, username: payload.author.username, avatar: payload.author.avatar})
         return data
     }, 
     async bookmarksToggleTweet(payload) {

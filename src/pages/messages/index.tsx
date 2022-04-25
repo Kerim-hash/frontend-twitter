@@ -97,7 +97,6 @@ const Messages = () => {
         setOpenVideoChat(true)
     }
     
-    console.log(CurrentConversation)
     return (
         <>
             {(md ? !CurrentConversation : true) && <Grid item xs={10.20} md={3.75} >

@@ -13,10 +13,11 @@ interface AvatarProps {
     } | UserType,
     fullname?: string,
     size?: number,
+    avatar?: string,
 }
 
 
-const AvatarComponent: React.FC<AvatarProps> = ({ user, fullname, size  }: AvatarProps): ReactElement => {
+const AvatarComponent: React.FC<AvatarProps> = ({ user, fullname, size, avatar  }: AvatarProps): ReactElement => {
     const sm = useMediaQuery('(max-width:600px)');
     function stringToColor(string: string) {
         let hash = 0;
@@ -36,7 +37,6 @@ const AvatarComponent: React.FC<AvatarProps> = ({ user, fullname, size  }: Avata
         /* eslint-enable no-bitwise */
         return color;
     }
-
     function stringAvatar(name: string) {
         return {
             sx: {
@@ -49,7 +49,7 @@ const AvatarComponent: React.FC<AvatarProps> = ({ user, fullname, size  }: Avata
         };
     }
     return (
-        <Avatar {...stringAvatar(user?.fullname ? user?.fullname : fullname)} src={user?.avatar} />
+        <Avatar {...stringAvatar(user?.fullname ? user?.fullname : fullname)} src={user?.avatar ? user?.avatar : avatar } />
     )
 }
 

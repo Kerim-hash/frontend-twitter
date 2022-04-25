@@ -17,13 +17,16 @@ import Picker from 'emoji-picker-react';
 import ImgList from '../imgList';
 import { selectData } from '../../store/ducks/user/selectors'
 import AvatarComponent from '../avatar';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { avatarClasses } from '@mui/material';
 
 interface AddTweetFormProps {
     maxRows?: number,
     minRows?: number,
     id: string,
     fullname: string,
-    username: string
+    username: string,
+    avatar: string
 }
 
 
@@ -32,7 +35,7 @@ export interface fileImg {
     file: File;
 }
 
-export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2, id, fullname, username }: AddTweetFormProps): React.ReactElement => {
+export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2, id, fullname, username,avatar }: AddTweetFormProps): React.ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesAddForm()
     
@@ -65,7 +68,7 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
             const { url } = await uploadImage(file)
             result.push(url)
         }
-        dispatch(fetchAddCommnetTweet({ text: Textarea, images: result, userID: userData._id, tweetID: id, author: { username: username, fullname: fullname } }))
+        dispatch(fetchAddCommnetTweet({ text: Textarea, images: result, userID: userData._id, tweetID: id, author: { username: username, fullname: fullname, avatar: avatar } }))
         images.length = 0
         setTextarea('')
     }
@@ -75,7 +78,7 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
         setShowPicker(false)
     }
 
-    console.log(addFormState)
+    const sm = useMediaQuery('(max-width:600px)');
 
     return (
         <Box >
@@ -103,9 +106,9 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
                             {showPicker && <Picker onEmojiClick={onEmojiClick} />}
 
 
-                            <IconButton color="primary" onClick={() => setShowPicker(true)}>
+                          {!sm && <IconButton color="primary" onClick={() => setShowPicker(true)}>
                                 <SentimentSatisfiedAltOutlinedIcon />
-                            </IconButton>
+                            </IconButton>}
 
 
                         </Box>

@@ -106,6 +106,8 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
         navigator.clipboard.writeText(`${window.location.href}`)
         setShareEl(null);
     }
+
+    console.log(tweetData)
     return (
         <Box style={{ width: '-webkit-fill-available', minHeight: '100vh' }}>
             <div style={{ padding: 10, display: "flex", alignItems: 'center', top: 0, backdropFilter: 'blur(9px)', position: 'sticky', zIndex: 1 }} >
@@ -193,7 +195,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                          </MenuItem>
                     } */}
                 </Menu>
-                <AddComentForm id={params.id} fullname={userData?.fullname} username={userData?.username} />
+                <AddComentForm id={params.id} fullname={userData?.fullname} username={userData?.username} avatar={userData?.avatar} />
 
             </Box>
             {tweetData.comment && tweetData.comment.map((item) => {
@@ -204,11 +206,14 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                     createdAt={item.createdAt}
                     images={item?.images}
                     username={item.username}
+                    avatar={item.avatar}
                     fullname={item.fullname}
+                    user={item.user}
                 />
             })}
         </Box>
     )
 }
+
 
 

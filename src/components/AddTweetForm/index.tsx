@@ -40,7 +40,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
     const userData = useSelector(selectData) 
     const [Textarea, setTextarea] = useState<string>("")
     const textLimitParsent = Math.round(Textarea.length / 280 * 100)
-    const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const sm = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
     const [images, setImages] = useState<fileImg[]>([] || undefined)
     
     const [showPicker, setShowPicker] = useState<boolean>(false)
@@ -97,9 +97,9 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                             {showPicker && <Picker onEmojiClick={onEmojiClick} />}
 
 
-                            <IconButton color="primary" onClick={() => setShowPicker(true)} className={classes.iconButton}>
+                            {sm && <IconButton color="primary" onClick={() => setShowPicker(true)} className={classes.iconButton}>
                                 <SentimentSatisfiedAltOutlinedIcon />
-                            </IconButton>
+                            </IconButton>}
 
 
                             <IconButton color="primary" className={classes.iconButton}>
@@ -128,10 +128,10 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                                 size="small"
                                 variant="contained"
                                 className={classes.button}
-                                disabled={textLimitParsent >= 100}
+                                disabled={textLimitParsent >= 100 || Textarea === '' }
                                 onClick={handleClickAddTweet}
                             >
-                             {matches ? 'Твитнуть' : <svg width="15" height="15" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                             {sm ? 'Твитнуть' : <svg width="15" height="15" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M3.7764 3.02957C3.97191 3.02957 4.13041 3.18806 4.13041 3.38357V5.86163H6.60846C6.80397 5.86163 6.96247 6.02012 6.96247 6.21563C6.96247 6.41115 6.80397 6.56964 6.60846 6.56964H4.13041V9.0477C4.13041 9.24321 3.97191 9.4017 3.7764 9.4017C3.58089 9.4017 3.42239 9.24321 3.42239 9.0477V6.56964H0.94434C0.748827 6.56964 0.590332 6.41115 0.590332 6.21563C0.590332 6.02012 0.748827 5.86163 0.94434 5.86163L3.42239 5.86163V3.38357C3.42239 3.18806 3.58089 3.02957 3.7764 3.02957Z" fill="white" />
                             <path d="M20.9322 0.551471C7.4254 3.25282 3.20454 16.3094 2.36037 22.4999C4.89289 13.2141 9.95792 12.3699 12.4904 12.3699C15.023 12.3699 17.5555 9.83736 15.8671 9.83736C13.275 9.83736 12.7169 8.14902 13.3346 8.14902C21.4387 6.79834 24.511 -0.164254 20.9322 0.551471Z" fill="white" />
                         </svg>

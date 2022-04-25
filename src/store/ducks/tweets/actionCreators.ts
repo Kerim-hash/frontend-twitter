@@ -49,7 +49,7 @@ export const fetchLikeToggleTweet = (payload: { id: string, userID: string, like
     payload
 })
 
-export const fetchAddCommnetTweet = (payload: { text: string, userID: string, images?: string[], tweetID: string, author: { username: string, fullname: string } }): FetchAddCommentTweetsactionInterface => ({
+export const fetchAddCommnetTweet = (payload: { text: string, userID: string, images?: string[], tweetID: string, author: { username: string, fullname: string, avatar: string} }): FetchAddCommentTweetsactionInterface => ({
     type: TweetsActionType.FETCH_ADD_COMMENT_STATE,
     payload
 })
