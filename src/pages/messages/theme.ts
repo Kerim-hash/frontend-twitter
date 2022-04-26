@@ -8,7 +8,7 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
     },
     dialog: {
         "& .MuiPaper-root": {
-            minHeight: 650
+            minHeight: 540
         }
     },
     itemConversation: {
@@ -102,4 +102,8 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
         flexDirection: 'column',
         marginLeft: 10,
     },
+    desabled: {
+        pointerEvents: 'none',
+        background: '#16181c69',
+    }
 }));

@@ -13,7 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useDebounce } from '../../hook/useDebounce';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFollow,FetchSearchUser, fetchUsers, setFollowState, SetSearchUser } from '../../store/ducks/user/actions';
-import { selectData, selectFollowState, selectSearchUser, selectUsers } from '../../store/ducks/user/selectors';
+import { selectFollowState, selectSearchUser, selectUsers } from '../../store/ducks/user/selectors';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useStylesAside } from './theme';
 import { FollowState, UserType } from '../../store/ducks/user/contracts/state';
@@ -43,16 +43,19 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
         if (search) {
             dispatch(FetchSearchUser(search))
         }
+        // eslint-disable-next-line
     }, [search])
 
     React.useEffect(() => {
         if (search) {
             dispatch(SetSearchUser([]))
         }
+        // eslint-disable-next-line
     }, [window.location.pathname, search === ''])
 
     React.useEffect(() => {
         dispatch(fetchUsers())
+        // eslint-disable-next-line
     }, [])
 
     const [focus, setFocus] = useState<boolean>(false)
@@ -88,7 +91,7 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
                 Что-то пошло не так, но не беспокойтесь — давайте попробуем еще раз.
                 </Alert>
             </Snackbar>
-            <Grid item xs={0} lg={0} sm={0} md={3.4} >
+            <Grid item lg={3.4} md={4} >
                 <div style={{ position: 'sticky', top: 0 }}>
                     <div ref={rootEl} >
                         <OutlinedInput

@@ -5,20 +5,20 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { selectData, selectProfile } from '../../../../store/ducks/user/selectors';
+import { selectProfile } from '../../../../store/ducks/user/selectors';
 import BackButton from '../../../../components/BackButton';
 import { fetchProfile } from '../../../../store/ducks/user/actions';
 import { useStylesProfile } from '../../theme';
 import ReadUser from '../../../../components/readUser';
 const ProfileFollowers = () => {
     const dispatch = useDispatch()
-    const user = useSelector(selectData)
     const profile = useSelector(selectProfile)
     const params: { id?: string } = useParams()
     const classes = useStylesProfile()
 
     React.useEffect(() => {
         dispatch(fetchProfile(params.id || ""))
+        // eslint-disable-next-line
     }, [params.id])
 
 
@@ -51,6 +51,7 @@ const ProfileFollowers = () => {
     const [value, setValue] = React.useState(0);
     const handleChange = useCallback((event, newValue) => {
         setValue(newValue);
+        // eslint-disable-next-line
       }, [value])
 
 
@@ -58,7 +59,7 @@ const ProfileFollowers = () => {
     return (
         <div>
             <Box display='flex' alignItems="center" style={{ padding: 10 }} >
-                <BackButton /><Box display="flex" flexDirection="column"> <Typography variant="body1" style={{ fontWeight: 800, fontSize: 18 }}>{profile?.fullname}</Typography> <Typography variant="caption" style={{ fontWeight: 300, fontSize: 14, lineHeight: 1 }}>@{profile.username}</Typography></Box>
+                <BackButton /><Box display="flex" flexDirection="column"> <Typography variant="body1" style={{ fontWeight: 800, fontSize: 18 }}>{profile?.fullname}</Typography> <Typography variant="caption" style={{ fontWeight: 300, fontSize: 14, lineHeight: 1 }}>@{profile?.username}</Typography></Box>
             </Box>
 
             <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
@@ -68,12 +69,12 @@ const ProfileFollowers = () => {
                 </Tabs>
             </Box>
             <TabPanel className={classes.tab} value={value} index={0}>
-                {profile.followings?.map((item => {
+                {profile && profile.followings?.map((item => {
                     return <ReadUser user={item} />
                 }))}
             </TabPanel>
             <TabPanel className={classes.tab} value={value} index={1}>
-                {profile.followers?.map((item => {
+                {profile && profile.followers?.map((item => {
                     return <ReadUser user={item} />
                 }))}
             </TabPanel>

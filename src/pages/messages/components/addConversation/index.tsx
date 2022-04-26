@@ -16,14 +16,17 @@ import { selectSearchUser } from '../../../../store/ducks/user/selectors';
 import { useDebounce } from '../../../../hook/useDebounce';
 import { FetchSearchUser } from '../../../../store/ducks/user/actions';
 import { FetchAddConversation } from '../../../../store/ducks/Messages/actions';
+import { ConversationType } from '../../../../store/ducks/Messages/contracts/state';
+import classnames from 'classnames'
 
 interface AddConversationDialogProps {
     handleClose: () => void,
     open: boolean,
-    userID: string
+    userID: string, 
+    conversations: ConversationType[]
 }
 
-const AddConversationDialog: React.FC<AddConversationDialogProps> = ({handleClose, open, userID}: AddConversationDialogProps): ReactElement => {
+const AddConversationDialog: React.FC<AddConversationDialogProps> = ({handleClose, open, userID, conversations}: AddConversationDialogProps): ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesMessages()
     const userData = useSelector(selectSearchUser)
@@ -78,8 +81,8 @@ const AddConversationDialog: React.FC<AddConversationDialogProps> = ({handleClos
             </div>
         </div>
         <div>
-            {userData !== undefined && userData?.length > 0 && userData.map((item: UserType) => {
-                return <Box className={classes.searchUser} onClick={() => addConversations(item)}>
+            {userData !== undefined && userData?.length > 0 && userData.map((item: UserType, index) => {
+                return <Box className={classnames(classes.searchUser, {[classes.desabled]: Array.isArray(conversations) && conversations[index]?.members.includes(item?._id)})} onClick={() => addConversations(item)}>
                     <AvatarComponent user={item} />
                     <Box className={classes.userinfo}>
                         <Typography variant="body1" className={classes.fullname}>{item?.fullname}</Typography>

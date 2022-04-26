@@ -30,7 +30,6 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
             draft.link = action.payload
             break
         case UserActionType.SET_FOLLOW_STATE:
-                console.log()
             if(action.payload === "LOADING"){
                 draft.followState = FollowState.LOADING
             }
@@ -43,6 +42,7 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
           
             if (action.payload.status) {
                 action.payload.followed ? draft.data.followers.push(action.payload.follower) : draft.data.followers.pop()
+                // draft.profile.followers !== undefined && action.payload.followed ? draft.profile.followers.push(action.payload.follower) : draft.profile.followers.filter((item) => item.)
             }
             break
         case UserActionType.SET_SEARCH_USER_BY_NAME:

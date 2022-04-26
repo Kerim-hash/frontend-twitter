@@ -22,8 +22,8 @@ import VideoDialog from './components/VideoDialog';
 import AddConversationDialog from './components/addConversation';
 import { FetchConversation, FetchConversationById, FetchMessage, setAddMessage } from '../../store/ducks/Messages/actions';
 import { selectConversation, selectCurrentConversation, selectMessages } from '../../store/ducks/Messages/selectors';
-import BackButton from '../../components/BackButton';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
 const Messages = () => {
     const dispatch = useDispatch()
     const classes = useStylesMessages()
@@ -161,7 +161,7 @@ const Messages = () => {
             </Grid>}
 
             <VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} name={user?.username} participantID={participantID} />
-            <AddConversationDialog open={open} handleClose={handleClose} userID={user?._id} />
+            <AddConversationDialog open={open} handleClose={handleClose} userID={user?._id} conversations={conversations} />
         </>
     )
 }

@@ -20,3 +20,18 @@ aside.emoji-picker-react {
   font-weight: 700 !important;
 }
 
+.wrapper {
+  max-width: 1220px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1200px){
+  .wrapper {
+    max-width: 1000px;
+  }
+}
+@media (max-width: 900px){
+  .wrapper {
+    max-width: 800px;
+  }
+}

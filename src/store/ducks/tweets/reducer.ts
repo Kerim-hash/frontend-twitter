@@ -54,11 +54,10 @@ export const tweetsReducer = produce((draft: Draft<TweetsState>, action: TweetsA
                 draft.addCommentState = AddCommentState.ERROR
             }
             break
-        case TweetsActionType.FETCH_ADD_COMMENT_STATE:
-            draft.addCommentState = AddCommentState.LOADING
+        case TweetsActionType.SET_ADD_COMMENT_FORM_STATE:
+            draft.addCommentState = action.payload
             break
         case TweetsActionType.FETCH_LIKE_TOGGLE:
-            console.log(draft.data)
             if (action.payload.liked) {
                 draft.items.find(obj => obj._id === action.payload.id)?.likes.pop()
                 draft.data !== undefined && draft.data?.likes.push(action.payload.userID)

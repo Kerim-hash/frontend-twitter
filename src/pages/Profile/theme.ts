@@ -5,10 +5,10 @@ export const useStylesProfile = makeStyles((theme: Theme) => ({
     profileHeader: {
         height: 200,
         background: '#CFD9DE',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
         [theme.breakpoints.down('sm')]: {
             height: 120,
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat'
           },
     },
     avatar: {

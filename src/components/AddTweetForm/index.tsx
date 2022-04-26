@@ -53,7 +53,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
 
     const handleClickAddTweet = async () => {
         dispatch(setAddFormLoadingState(AddFormState.LOADING))
-        let result = []
+        let result: string[] = []
         for (let i = 0; i < images.length; i++) {
             const file = images[i].file
             const { url } = await uploadImage(file)

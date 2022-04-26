@@ -25,7 +25,6 @@ import { BookmarksState, Comment, Tweet } from '../../store/ducks/tweets/contrac
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkRemoveOutlinedIcon from '@mui/icons-material/BookmarkRemoveOutlined';
-import { istance } from '../../core/axios';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { selectBookmarksState } from '../../store/ducks/tweets/selectors';
@@ -94,7 +93,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         dispatch(fetchDeleteTweet(_id))
     }
     const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault()
         event.stopPropagation();
         dispatch(fetchLikeToggleTweet({ id: _id, userID: userData._id, liked: likes?.includes(userData._id) }))
     }
@@ -124,7 +122,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
 
     // Handler
     const handleClicToggleModal = (event: React.MouseEvent<HTMLElement> | React.SyntheticEvent<HTMLButtonElement>, i?: number) => {
-        event.preventDefault()
         event.stopPropagation();
         setToggle(!toggle)
         i && setSIndex(i)
@@ -135,7 +132,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     }));
 
     const copyShare = (event) => {
-        event.preventDefault()
         event.stopPropagation();
         navigator.clipboard.writeText(`${window.location.href}/tweet/${_id}`)
         setShareEl(null);
@@ -146,7 +142,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     }
 
     const navigateToProfile = (event) => {
-        event.preventDefault()
         event.stopPropagation();
         navigate(`/profile/${user._id}`)
     }
@@ -268,7 +263,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                     {userData?._id === user?._id && <MenuItem onClick={(e) => deleteTweetById(e)} sx={{ color: '#EA5561' }}>
                         <DeleteOutlinedIcon sx={{ color: '#EA5561' }} />  Удалить твит
                     </MenuItem>}
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem>
                         Подробнее
                     </MenuItem>
                 </Menu>

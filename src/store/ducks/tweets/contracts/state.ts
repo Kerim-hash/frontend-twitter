@@ -25,7 +25,6 @@ export enum AddCommentState {
     ERROR = "ERROR",
     LOADING = "LOADING",
     NEVER = "NEVER",
-
 }
 export enum BookmarksState {
     BOOKMARKSED = "BOOKMARKSED",

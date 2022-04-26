@@ -13,14 +13,14 @@ export const useStylesAuth: any = makeStyles((theme: any) => ({
     blueSide: {
         background: `url(${blueSideBg})`,
         width: "53%",
-        height: "100%",
+        height: "100vh",
         backgroundSize: 'cover',
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         [theme.breakpoints.down('md')]: {
             width: "100%",
-            height: '47vh'
+            height: '50%'
         },
     },
     icon: {

@@ -6,7 +6,7 @@ import GifIcon from '@mui/icons-material/GifBoxOutlined';
 import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAddCommnetTweet, setAddFormCommnetTweet } from '../../store/ducks/tweets/actionCreators';
-import { selectAddCommentState, selectIsTweetLoading } from '../../store/ducks/tweets/selectors';
+import { selectAddCommentState } from '../../store/ducks/tweets/selectors';
 import { AddCommentState } from '../../store/ducks/tweets/contracts/state';
 import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -18,7 +18,6 @@ import ImgList from '../imgList';
 import { selectData } from '../../store/ducks/user/selectors'
 import AvatarComponent from '../avatar';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { avatarClasses } from '@mui/material';
 
 interface AddTweetFormProps {
     maxRows?: number,
@@ -38,23 +37,12 @@ export interface fileImg {
 export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2, id, fullname, username,avatar }: AddTweetFormProps): React.ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesAddForm()
-    
     const addFormState = useSelector(selectAddCommentState)
     const userData = useSelector(selectData)
-
-    const isTweetLoading = useSelector(selectIsTweetLoading)
     const [Textarea, setTextarea] = useState<string>("")
     const textLimitParsent = Math.round(Textarea.length / 280 * 100)
-
     const [images, setImages] = useState<fileImg[]>([] || undefined)
     const [showPicker, setShowPicker] = useState<boolean>(false)
-
-    const removeImg = (url: string) => {
-        setImages(prev => prev.filter(obj => obj.url !== url))
-    }
-
-
-
     const handleChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
         if (event.currentTarget) {
             setTextarea(event.currentTarget.value)
@@ -62,6 +50,7 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
     }
 
     const handleClickAddTweet = async () => {
+        dispatch(setAddFormCommnetTweet(AddCommentState.LOADING))
         let result: string[] = []
         for (let i = 0; i < images.length; i++) {
             const file = images[i].file
@@ -79,6 +68,8 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
     }
 
     const sm = useMediaQuery('(max-width:600px)');
+
+    console.log(addFormState)
 
     return (
         <Box >

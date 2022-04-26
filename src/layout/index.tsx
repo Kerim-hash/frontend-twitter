@@ -21,15 +21,17 @@ const Layout: React.FC<LayoutProps> = ({ children, messages = false }: LayoutPro
 
     React.useEffect(() => {
         dispatch(FetchGetMe())
+        // eslint-disable-next-line
     }, [])
 
 
-    return isAuthenticated() ? (<section style={{ maxWidth: '1220px', margin: '0 auto' }}>
+    return isAuthenticated() ? (
+    <section className="wrapper">
         <Grid container spacing={1} style={{justifyContent: 'space-between'}}>
-            <Grid item  sm={1} xs={1.50} md={messages ? 2.5 : 2.29} style={{ padding: `${!sm && "0 0 0 20px" }`}}>
+            <Grid item  md={1} xs={1.50} lg={messages ? 2.5 : 2.29} style={{ padding: `${!sm && "0 0 0 20px" }`}}>
                 <Sidebar user={user} />
             </Grid>
-            {!messages && <Grid item lg={6.31} md={5.61} sm={11} xs={10.50} style={{ padding: `${!sm ? "0 20px 0 28px" :  "0 0px 0 10px" }`}}>
+            {!messages && <Grid item lg={6.31} md={7} sm={10.40} xs={10.50} style={{ padding: `${!sm ? "0 20px 0 28px" :  "0 0px 0 10px" }`}}>
                 <Paper variant="outlined">
                     {children}
                 </Paper>

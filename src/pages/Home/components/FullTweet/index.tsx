@@ -3,9 +3,7 @@ import { CircularProgress } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { fetchBookmarks, fetchTweet, setTweet } from '../../../../store/ducks/tweets/actionCreators'
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import LikeIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -199,7 +197,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                 <AddComentForm id={params.id} fullname={userData?.fullname} username={userData?.username} avatar={userData?.avatar} />
 
             </Box>
-            {tweetData.comment && <TransitionGroup>{tweetData.comment.map((item) => {
+            {Array.isArray(tweetData.comment) && <TransitionGroup>{tweetData.comment.map((item) => {
                 return <Collapse key={item._id}>
                     <TweetComponent
                         _id={item._id}

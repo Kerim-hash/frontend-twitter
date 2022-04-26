@@ -1,51 +1,52 @@
 import React, { ReactElement } from 'react'
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { fetchFollow } from '../../store/ducks/user/actions';
-import { ClassNames } from '@emotion/react';
 import { useStylesReadUser } from './theme';
 import { NavLink } from 'react-router-dom';
-
+import AvatarComponent from '../avatar';
 interface ReadUserProps {
     user: {
         fullname: string,
         username: string,
-        desk?: string,
+        about?: string,
         follwers: string[],
         followings: string[],
-        _id: string
+        _id: string,
+        avatar: string;
     }
 }
-
 
 const ReadUser: React.FC<ReadUserProps> = ({ user }: ReadUserProps): ReactElement => {
     const params: { id?: string } = useParams()
     const dispatch = useDispatch()
     const classes = useStylesReadUser()
-    
-    const handleFollow = () => {
-        dispatch(fetchFollow({ id: params.id, userID: user._id, followState: 'follow' }))
+
+    const handleFollow = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault()
+        event.stopPropagation();
+        dispatch(fetchFollow({ id: user._id, userID: params.id, followState: 'follow' }))
     }
-    const handleUnFollow = () => {
-        dispatch(fetchFollow({ id: params.id, userID: user._id, followState: 'unfollow' }))
+    const handleUnFollow = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault()
+        event.stopPropagation();
+        dispatch(fetchFollow({ id: user._id, userID: params.id, followState: 'unfollow' }))
     }
 
 
     return (
         <NavLink to={`/profile/${user._id}`} className={classes.wrapper}>
             <Box display="flex">
-                <Avatar alt={user.fullname} src="/static/images/avatar/1.jpg" />
+                <AvatarComponent user={user} />
                 <Box display="flex" flexDirection="column"  style={{marginLeft: 10}}>
-                    <Typography variant="body1">{user.fullname}</Typography>
-                    <Typography variant="body2">{user.username}</Typography>
-                    <Typography variant="body2">{user?.desk}</Typography>
+                    <Typography variant="body1">{user?.fullname}</Typography>
+                    <Typography variant="body2">@{user?.username}</Typography>
+                    <Typography variant="subtitle2">{user?.about}</Typography>
                 </Box>
             </Box>
-
             {user._id !== params.id && <>
                 {!user.followings.includes(params.id) ? <Button onClick={handleFollow} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }}>Читать</Button> :
                     <Button onClick={handleUnFollow} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }}>Читаемые</Button>}

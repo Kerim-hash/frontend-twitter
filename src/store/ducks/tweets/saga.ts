@@ -36,7 +36,6 @@ export function* DeleteTweetRequest({payload: TweetId}: FetchDeleteTweerInterfac
 
 export function* FetchAddCommentTweet({payload}: FetchAddCommentTweetsactionInterface ) {
   try{
-    yield put(setAddFormCommnetTweet(AddCommentState.LOADING))
     const data = yield call(TweetsApi.AddCommnet, payload)
     yield put(setCommnetTweet(data))
   }catch(e){
@@ -60,7 +59,7 @@ export function* TweetRequest({payload: TweetId}: FetchctionInterface ) {
 
 export function* TweetBookmarksRequest({payload}: fetchBookmarksactionInterface ) {
   try{
-    const data = yield call(TweetsApi.bookmarksToggleTweet, payload)
+    yield call(TweetsApi.bookmarksToggleTweet, payload)
     yield put(setBookmarksState(BookmarksState.BOOKMARKSED))
   }catch(e){
     yield put(setBookmarksState(BookmarksState.NEVER))

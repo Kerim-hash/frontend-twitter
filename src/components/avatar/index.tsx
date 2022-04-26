@@ -7,9 +7,8 @@ interface AvatarProps {
     user?: {
         username: string;
         fullname: string;
-        avatar: string;
+        avatar?: string;
         _id: string;
-        bookmarks: string[];
     } | UserType,
     fullname?: string,
     size?: number,
