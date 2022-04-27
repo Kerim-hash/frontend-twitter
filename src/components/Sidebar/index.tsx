@@ -114,7 +114,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                        <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to={`/video`}>
+                    <div>
                             <svg width="20" height="21" className={classes.icon} viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M19.697 15.468C19.677 15.452 17.557 13.828 17.594 9.438C17.614 6.906 16.782 4.656 15.247 3.103C13.872 1.71 12.01 0.94 10.005 0.93H9.992C7.988 0.94 6.126 1.71 4.75 3.104C3.216 4.657 2.382 6.906 2.404 9.438C2.441 13.768 0.384001 15.405 0.302002 15.468C0.0420015 15.661 -0.0639986 15.998 0.0370014 16.306C0.139001 16.614 0.427002 16.821 0.749002 16.821H5.669C5.771 19.131 7.666 20.981 9.999 20.981C12.332 20.981 14.225 19.131 14.326 16.821H19.248C19.57 16.821 19.858 16.615 19.958 16.307C20.061 16 19.955 15.662 19.695 15.469L19.697 15.468ZM10 19.478C8.495 19.478 7.27 18.301 7.172 16.82H12.828C12.728 18.3 11.505 19.48 10 19.48V19.478ZM2.38 15.32C3.12 14.188 3.928 12.292 3.904 9.424C3.886 7.264 4.548 5.442 5.817 4.157C6.91 3.05 8.397 2.437 10 2.43C11.603 2.438 13.087 3.05 14.18 4.158C15.45 5.443 16.113 7.264 16.095 9.425C16.071 12.293 16.88 14.19 17.62 15.321H2.38V15.32Z" fill="#D9D9D9" />
                             </svg>
@@ -122,7 +122,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                             <Hidden lgDown>
                                 <Typography variant="h6" color="text.secondary">Уведомления</Typography>
                             </Hidden>
-                        </NavLink>
+                        </div>
                     </li>
                     <li className={classes.sidebarItem}>
                         <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to={`/messages`}>

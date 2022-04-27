@@ -83,7 +83,8 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
         transition: 'all .2s',
         marginLeft: '-15px',
         "&:hover": {
-            background: "rgba(15, 20, 25, 0.2) !important",
+            background: theme.palette.tonalOffset 
+            // background: "rgba(15, 20, 25, 0.2) !important",
         },
     },
 

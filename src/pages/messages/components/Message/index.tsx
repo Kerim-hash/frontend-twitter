@@ -4,7 +4,6 @@ import { useStylesMessages } from '../../theme'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import classNames from 'classnames';
 import format from 'date-fns/format';
-import ruLand from 'date-fns/locale/ru'
 
 interface Message {
     own?: boolean,
@@ -22,7 +21,7 @@ const Message: React.FC<Message> = ({ own, text, createdAt }: Message): ReactEle
         <Box className={classNames(classes.message, {[classes.messageOwn]: own})}>
             {text}
         </Box>
-        <span className={classes.messageDate}>{createdAt && format(new Date(createdAt), 'HH:MM', { locale: ruLand }) } <CheckOutlinedIcon sx={{fontSize: 14}}/></span>
+        <span className={classes.messageDate}>{createdAt && format(new Date(createdAt), 'HH:mm') } <CheckOutlinedIcon sx={{fontSize: 14}}/></span>
         </>
     )
 }

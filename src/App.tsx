@@ -37,8 +37,6 @@ function App() {
     }
     return children
   };
- 
-
   // theme
   const color = useSelector(selectTheme)
   const theme = React.useMemo(
@@ -180,9 +178,14 @@ function App() {
                 },
                 "&.MuiButton-outlined": {
                   color: color.theme === 'dark' ? '#fff' : '#359BF0',
+                  // background: '#fff'
                 },
                 "&.MuiButton-outlined.MuiButton-outlinedInherit": {
                   color: color.theme === 'dark' ? '#fff' : '#000',
+                },
+                "&.MuiButton-contained.MuiButton-containedInherit": {
+                  background:  color.theme === 'dark' ? '#fff' : '#000',
+                  color:  color.theme === 'dark' ? '#000' : '#fff',
                 }
               },
             },
@@ -207,7 +210,7 @@ function App() {
                 minWidth: 300
               },
               container: {
-                backgroundColor: 'rgba(91, 112, 131, 0.4) !important'
+                backgroundColor: color.theme ==='dark' && 'rgba(91, 112, 131, 0.4) !important'
               }
             }
           },
@@ -256,7 +259,6 @@ function App() {
     [color.theme],
   );
 
-  
   if (color.theme === 'dark') {
     document.body.classList.add('App-dark');
   } else {
@@ -273,7 +275,6 @@ function App() {
             <Route path="/profile/:id/*" element={<Layout children={<Profile />} />} />
             <Route path="/bookmarks/" element={<Layout children={<Bookmarks />} />} />
             <Route path="/messages/*" element={<Layout children={<Messages />} messages />} />
-          
             <Route
               path="/auth"
               element={

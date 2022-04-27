@@ -24,8 +24,6 @@ const ContextProvider = ({ children }) => {
         setStream(currentStream);
       });
 
-    // socket.on("me", (id) => setMe(id));
-
     socket.on("callUser", ({ from, signal }) => {
       setCall({ isReceivingCall: true, from, signal });
     });

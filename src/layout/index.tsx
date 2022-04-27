@@ -1,13 +1,13 @@
 import React, { ReactChild, ReactChildren } from 'react'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Sidebar from '../components/Sidebar'
 import Aside from '../components/aside'
 import { useDispatch, useSelector } from 'react-redux'
+import { Navigate } from "react-router-dom";
 import { FetchGetMe } from '../store/ducks/user/actions'
 import { selectData } from '../store/ducks/user/selectors'
-import { Navigate } from "react-router-dom";
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { isAuthenticated } from '../utils/isAuthenticated'
 
 interface LayoutProps {
