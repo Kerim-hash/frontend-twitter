@@ -9,6 +9,7 @@ import { selectData } from '../store/ducks/user/selectors'
 import { Navigate } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { isAuthenticated } from '../utils/isAuthenticated'
+
 interface LayoutProps {
     children: ReactChild | ReactChildren;
     messages: boolean

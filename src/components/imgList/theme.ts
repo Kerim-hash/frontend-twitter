@@ -21,7 +21,7 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
     },
     image: {
         width: '100%',
-        height: '140px',
+        minHeight: '140px',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         position: 'relative',
@@ -29,8 +29,12 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         backgroundPosition: 'center',
     },
     singleImage: {
+        marginTop: 20,
         maxWidth: '500px',
-        maxHeight: '280px',
+        minHeight: '480px',
+        [theme.breakpoints.down('sm')]: {
+            minHeight: '280px',
+        },
     },
     coupleImage: {
         width: 'auto',
@@ -102,25 +106,25 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         "&:nth-child(1)": {
             borderRadius: '20px 0 0 0',
             [theme.breakpoints.down('sm')]: {
-                height: '80px',
+                minHeight: '80px',
             },
         },
         "&:nth-child(3)": {
             borderRadius: '0 0 0 20px',
             [theme.breakpoints.down('sm')]: {
-                height: '80px',
+                minHeight: '80px',
             },
         },
         "&:nth-child(2)": {
             borderRadius: '0 20px 0 0',
             [theme.breakpoints.down('sm')]: {
-                height: '80px',
+                minHeight: '80px',
             },
         },
         "&:nth-child(4)": {
             borderRadius: '0 0 20px 0',
             [theme.breakpoints.down('sm')]: {
-                height: '80px',
+                minHeight: '80px',
             },
         }
     },

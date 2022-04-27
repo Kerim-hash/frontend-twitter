@@ -27,7 +27,7 @@ const ImgList: React.FC<imgListProps> = ({ edit = false, images, setImages, setT
     }));
 
     return (
-        <div className={classnames(classes.ImagesList, {[classes.ImagesListEdit]: edit})}>
+        <div className={classnames({[classes.ImagesListEdit]: edit, [classes.ImagesList]: images.length >= 2 })}>
             {images.map((obj, i) => {
                 return (
                     <div key={i} onClick={(e) => setToggle(e, i)}

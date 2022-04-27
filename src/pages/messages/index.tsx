@@ -42,7 +42,7 @@ const Messages = () => {
     const [onlineUsers, setOnlineUsers] = useState([]);
     const params = useParams()
     // socket  
-    const { socket } = useContext(SocketContext);
+    const { socket, call, callAccepted } = useContext(SocketContext);
     // useSelector
     const conversations = useSelector(selectConversation)
     const messages = useSelector(selectMessages)
@@ -97,6 +97,12 @@ const Messages = () => {
     const callMeVideo = () => {
         setOpenVideoChat(true)
     }
+
+    useEffect(() => {
+        if(call.isReceivingCall && !callAccepted) {
+            callMeVideo()
+        }
+    }, [call.isReceivingCall && !callAccepted])
     
     return (
         <>

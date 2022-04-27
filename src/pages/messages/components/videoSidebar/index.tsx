@@ -37,8 +37,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   video: {
     maxWidth: '480px',
-    borderRadius: '10px'
+    borderRadius: '10px',
+    [theme.breakpoints.down('sm')]: {
+      width: '280px',
+      height: '170px'
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: '280px',
+    }
   },
+
 }));
 
 const VideoChat = ({user, participantID, receiverId, senderID}) => {
@@ -52,11 +60,9 @@ const VideoChat = ({user, participantID, receiverId, senderID}) => {
       .then((currentStream) => {
         myVideo.current.srcObject = currentStream;
       });
-      
   }, []);
 
   const [receiverUser, setReceiverUser] = React.useState<UserType>(null)
-
   React.useEffect(() => {
       if (receiverId !== undefined) {
           const getUser = async () => {
@@ -92,6 +98,7 @@ const VideoChat = ({user, participantID, receiverId, senderID}) => {
       )}
     </Grid>
       <Paper className={classes.paper}>
+    {call.isReceivingCall && !callAccepted  &&  <Typography variant="h5">Звонит: {receiverUser?.username} </Typography>}
         <form className={classes.root} noValidate autoComplete="off">
           {callAccepted && !callEnded ? (
             <Button variant="contained" color="error" size="small" onClick={leaveCall} >
