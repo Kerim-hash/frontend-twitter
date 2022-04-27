@@ -90,6 +90,7 @@ const Messages = () => {
     }, [messages]);
     const receiverId = Array.isArray(CurrentConversation?.members) && CurrentConversation?.members?.find((member) => member !== user?._id);
     const participantID = onlineUsers?.find((item) => item.userId === receiverId)?.socketId
+    const senderID = onlineUsers?.find((item) => item.userId === user?._id)?.socketId
     // video chat
     const [openVideoChat, setOpenVideoChat] = React.useState(false);
 
@@ -160,7 +161,7 @@ const Messages = () => {
                 }
             </Grid>}
 
-            <VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} name={user?.username} participantID={participantID} />
+            <VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} user={user} participantID={participantID} receiverId={receiverId} senderID={senderID} />
             <AddConversationDialog open={open} handleClose={handleClose} userID={user?._id} conversations={conversations} />
         </>
     )

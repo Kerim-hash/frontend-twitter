@@ -5,14 +5,17 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 import VideoChat from '../videoSidebar';
+import { UserType } from '../../../../store/ducks/user/contracts/state';
 interface VideoDialogProps {
     open: boolean,
     setOpenVideoChat: (boolean) => void,
-    name: string,
-    participantID: string
+    user: UserType,
+    participantID: string,
+    receiverId: string, 
+    senderID: string,
 }
 
-const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat,name, participantID }: VideoDialogProps): ReactElement=> {
+const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat,user, participantID, receiverId, senderID }: VideoDialogProps): ReactElement=> {
     return (
         <Dialog
         fullWidth
@@ -27,7 +30,7 @@ const VideoDialog: React.FC<VideoDialogProps> = ({open, setOpenVideoChat,name, p
          </DialogTitle>
          <DialogContent>
              <DialogContentText id="alert-dialog-description">
-              <VideoChat  name={name} participantID={participantID} />
+              <VideoChat  user={user} participantID={participantID} receiverId={receiverId} senderID={senderID} />
              </DialogContentText>
          </DialogContent>
      </Dialog>

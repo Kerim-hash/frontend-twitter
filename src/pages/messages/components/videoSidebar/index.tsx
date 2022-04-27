@@ -7,6 +7,8 @@ import PhoneCallbackIcon from '@mui/icons-material/PhoneCallback';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import MicOffIcon from '@mui/icons-material/MicOff';
+import { istance } from '../../../../core/axios';
+import { UserType } from '../../../../store/ducks/user/contracts/state';
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const VideoChat = ({name, participantID}) => {
+const VideoChat = ({user, participantID, receiverId, senderID}) => {
   const { userVideo, stream, answerCall ,call, callAccepted, callEnded, leaveCall, callUser } = useContext(SocketContext);
   const classes = useStyles();
   const myVideo = useRef<HTMLVideoElement>();
@@ -50,7 +52,24 @@ const VideoChat = ({name, participantID}) => {
       .then((currentStream) => {
         myVideo.current.srcObject = currentStream;
       });
+      
   }, []);
+
+  const [receiverUser, setReceiverUser] = React.useState<UserType>(null)
+
+  React.useEffect(() => {
+      if (receiverId !== undefined) {
+          const getUser = async () => {
+              try {
+                  const res = await istance.get(`users/withoutDetails/${receiverId}`)
+                  setReceiverUser(res.data.data)
+              } catch (e) {
+                  console.log(e)
+              }
+          }
+          getUser()
+      }
+  }, [receiverId])
 
   return (
     <Container className={classes.container}>
@@ -58,7 +77,7 @@ const VideoChat = ({name, participantID}) => {
       {stream && (
         <Paper className={classes.paper}>
           <Grid item xs={6} md={6}>
-            <Typography variant="h5" gutterBottom>{name || 'Name'}</Typography>
+            <Typography variant="h5" gutterBottom>{user?.username}</Typography>
             <video playsInline muted ref={myVideo} autoPlay className={classes.video} />
           </Grid>
         </Paper>
@@ -66,7 +85,7 @@ const VideoChat = ({name, participantID}) => {
       {callAccepted && !callEnded && (
         <Paper className={classes.paper}>
           <Grid item xs={6} md={6}>
-            <Typography variant="h5" gutterBottom>{call.name || 'Name'}</Typography>
+            <Typography variant="h5" gutterBottom>{receiverUser?.username}</Typography>
             <video playsInline ref={userVideo} autoPlay className={classes.video} />
           </Grid>
         </Paper>
@@ -79,7 +98,7 @@ const VideoChat = ({name, participantID}) => {
               <CallEndIcon />
             </Button>
           ) : (
-            <Button variant="contained" color="primary" size="small" onClick={() => callUser(participantID)}>
+            <Button variant="contained" color="primary" size="small" onClick={() => callUser(participantID, senderID)}>
               Call
             </Button>
           )}

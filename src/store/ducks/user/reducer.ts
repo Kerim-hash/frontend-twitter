@@ -39,10 +39,12 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
             if(action.payload === "NEVER"){
                 draft.followState = FollowState.NEVER
             }
-          
             if (action.payload.status) {
-                action.payload.followed ? draft.data.followers.push(action.payload.follower) : draft.data.followers.pop()
-                // draft.profile.followers !== undefined && action.payload.followed ? draft.profile.followers.push(action.payload.follower) : draft.profile.followers.filter((item) => item.)
+                action.payload.followed ? draft.data.followers.push(action.payload.follower) : draft.data.followers = draft.data.followers?.filter(el => el !== action.payload.following)
+                if(draft.profile !== undefined){
+                    action.payload.followed ? draft.profile.followings?.find(el => el._id === action.payload.follower)?.followings.push(action.payload.following) : draft.profile.followings?.find(el => el._id === action.payload.following)?.followings.pop()
+                    action.payload.followed ? draft.profile.followers?.find(el => el._id === action.payload.follower)?.followings.push(action.payload.following) : draft.profile.followers?.find(el => el._id === action.payload.following)?.followings.pop()
+                }
             }
             break
         case UserActionType.SET_SEARCH_USER_BY_NAME:

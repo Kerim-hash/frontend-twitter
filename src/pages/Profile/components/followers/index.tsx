@@ -55,7 +55,6 @@ const ProfileFollowers = () => {
       }, [value])
 
 
-
     return (
         <div>
             <Box display='flex' alignItems="center" style={{ padding: 10 }} >
@@ -68,6 +67,7 @@ const ProfileFollowers = () => {
                     <Tab label="Читаемые" {...a11yProps(1)} />
                 </Tabs>
             </Box>
+            
             <TabPanel className={classes.tab} value={value} index={0}>
                 {profile && profile.followings?.map((item => {
                     return <ReadUser user={item} />

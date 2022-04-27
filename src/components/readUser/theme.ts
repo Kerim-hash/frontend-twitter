@@ -8,8 +8,8 @@ export const useStylesReadUser = makeStyles((theme: Theme) => ({
         color: 'inherit',
         textDecoration: 'none',
         padding: '15px',
-        // "& .MuiBox-root": {
-        //     padding: '15px'
-        // }
+    },
+    about: {
+        maxWidth: 450
     }
 }));

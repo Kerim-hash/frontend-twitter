@@ -49,6 +49,7 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
         color: '#586975'
     },
     messageForm: {
+        position: 'relative',
         display:"flex",
         justifyContent: 'space-between',
         alignItems: 'center',

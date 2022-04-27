@@ -15,19 +15,19 @@ export interface UserType {
     createdAt: string,
     avatar?: string,
     bgImage?: string,
-    followers?:  string[] | {
+    followers?:  {
         fullname: string,
         username: string,
         desk?: string,
-        follwers: string[],
+        followers: string[],
         followings: string[],
         _id: string
     }[] , 
-    followings?: string[] | {
+    followings?:  {
         fullname: string,
         username: string,
         desk?: string,
-        follwers: string[],
+        followers: string[],
         followings: string[],
         _id: string
     }[],

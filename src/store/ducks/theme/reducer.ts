@@ -3,7 +3,7 @@ import { ThemeActions, ThemeActionType } from './actionCreators'
 import { ThemeState, ThemeStatus } from './contracts/state'
 
 export const initialstate: ThemeState = {
-    theme: ThemeStatus.LIGHT
+    theme: ThemeStatus.DARK
 }
 
 

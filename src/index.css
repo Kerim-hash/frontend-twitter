@@ -12,6 +12,9 @@ aside.emoji-picker-react {
   top: -320px;
   right: 50px;
 }
+
+
+
 .App-dark {
   background-color: #000;
 }
@@ -19,12 +22,10 @@ aside.emoji-picker-react {
 .active h6 {
   font-weight: 700 !important;
 }
-
 .wrapper {
   max-width: 1220px;
   margin: 0 auto;
 }
-
 @media (max-width: 1200px){
   .wrapper {
     max-width: 1000px;

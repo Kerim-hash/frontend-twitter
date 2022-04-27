@@ -1,39 +1,33 @@
 import React, { createContext, useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
-import { useSelector } from "react-redux";
-import { selectData } from "./store/ducks/user/selectors";
-
 const SocketContext = createContext();
-
 // const socket = io("ws://localhost:8000");
-
 const socket = io('https://twitterchat-node-2020.herokuapp.com/');
 
 const ContextProvider = ({ children }) => {
-  // const socket = useRef(io("ws://localhost:8900"));
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
-  const [name, setName] = useState("");
   const [call, setCall] = useState({});
   const [me, setMe] = useState("");
-  const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
+
+
+  console.log(call)
 
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-        myVideo.current.srcObject = currentStream;
       });
 
-    socket.on("me", (id) => setMe(id));
+    // socket.on("me", (id) => setMe(id));
 
-    socket.on("callUser", ({ from, name: callerName, signal }) => {
-      setCall({ isReceivingCall: true, from, name: callerName, signal });
+    socket.on("callUser", ({ from, signal }) => {
+      setCall({ isReceivingCall: true, from, signal });
     });
   }, []);
 
@@ -55,14 +49,13 @@ const ContextProvider = ({ children }) => {
     connectionRef.current = peer;
   };
 
-  const callUser = (id) => {
+  const callUser = (id, me) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer.on("signal", (data) => {
       socket.emit("callUser", {
         userToCall: id,
         signalData: data,
         from: me,
-        name,
       });
     });
 
@@ -72,7 +65,6 @@ const ContextProvider = ({ children }) => {
 
     socket.on("callAccepted", (signal) => {
       setCallAccepted(true);
-
       peer.signal(signal);
     });
 
@@ -93,13 +85,9 @@ const ContextProvider = ({ children }) => {
       value={{
         call,
         callAccepted,
-        myVideo,
         userVideo,
         stream,
-        name,
-        setName,
         callEnded,
-        me,
         callUser,
         leaveCall,
         answerCall,
