@@ -5,7 +5,7 @@ import { selectData } from '../../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux'
 import { Tweet } from '../../store/ducks/tweets/contracts/state';
 import { TweetComponent } from '../../components/Tweet';
-import { useMediaQuery } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Bookmarks = () => {
     const user = useSelector(selectData)

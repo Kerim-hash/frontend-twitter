@@ -61,14 +61,6 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
             height: "50px",
             transition: "all .7s ease-out",
         },
-        [theme.breakpoints.up('sm')]: {
-            "& svg": {
-                marginRight: '20px'
-            },
-            "& img": {
-                marginRight: '20px'
-            }
-        },
     },
 
     profile: {
@@ -83,8 +75,8 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
         transition: 'all .2s',
         marginLeft: '-15px',
         "&:hover": {
-            background: theme.palette.tonalOffset 
-            // background: "rgba(15, 20, 25, 0.2) !important",
+            // background: theme.palette.tonalOffset 
+            background: "rgba(15, 20, 25, 0.2) !important",
         },
     },
 
@@ -117,6 +109,9 @@ export const useStylesSidebar = makeStyles((theme: Theme) => ({
     icon: {
         width: 20,
         height: 20,
+        [theme.breakpoints.up('sm')]: {
+        marginRight: '20px',
+        },
         "& path": {
             fill: theme.palette.icon.main
         }

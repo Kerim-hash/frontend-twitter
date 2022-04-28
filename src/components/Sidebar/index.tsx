@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Hidden from '@mui/material/Hidden';
 import Box from '@mui/material/Box';
+import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import { ModalBlock } from '../Modal';
 import { Link, NavLink } from 'react-router-dom'
@@ -25,6 +26,9 @@ import { selectIsTweetAdded } from '../../store/ducks/tweets/selectors';
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import SettingTheme from './setting';
 import { UserType } from '../../store/ducks/user/contracts/state';
+import { SocketContext } from '../../Context';
+import { setNotification } from '../../store/ducks/Notification/actions';
+import { selectNotifications } from '../../store/ducks/Notification/selectors';
 
 interface sidebarProps {
     user: UserType
@@ -33,11 +37,19 @@ interface sidebarProps {
 const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesSidebar()
+    const { socket } = useContext(SocketContext);
+    const notifications = useSelector(selectNotifications)
+    useEffect(() => {
+        socket.on("getNotification", (data) => {
+            dispatch(setNotification(data))
+        });
+    }, [socket]);
+    useEffect(() => {
+        socket.emit("addUser", user?._id);
+        // eslint-disable-next-line
+    }, [user?._id]);
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
-
-
     const stateForm = useSelector(selectIsTweetAdded)
-
     const [visibleAddTweetModal, setVisibleAddTweetModal] = useState<boolean>(false)
     const handleToggleClick = () => {
         setVisibleAddTweetModal(!visibleAddTweetModal)
@@ -47,8 +59,6 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
         setVisibleSettingTheme(!visibleSettingTheme)
         visibleSettingTheme === true && setMoreEl(false)
     }
-
-
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const open = Boolean(anchorEl);
@@ -78,6 +88,9 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
         }
     }, [stateForm])
 
+    function isCall(element) {
+        return element === 3;
+    }
     return (
         <>
             <div className={classes.wrapper}>
@@ -91,7 +104,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                     </li>
                     <li className={classes.sidebarItem}>
                         <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to="/home">
-                            <svg  className={classes.icon}  width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg className={classes.icon} width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M23.3317 6.20084L12.3868 0.291256C12.1452 0.161256 11.8559 0.161256 11.6143 0.291256L0.671596 6.20084C0.277263 6.41426 0.12993 6.90717 0.343346 7.30259C0.489597 7.57342 0.77018 7.72834 1.05835 7.72834C1.18835 7.72834 1.3216 7.69584 1.44401 7.63084L2.32693 7.15417L4.09168 19.6266C4.32351 20.9428 5.50868 21.8604 6.97118 21.8604H17.0267C18.4913 21.8604 19.6754 20.9418 19.9116 19.5995L21.6731 7.15201L22.5593 7.63084C22.9536 7.83992 23.4476 7.69584 23.661 7.30151C23.8733 6.90826 23.726 6.41534 23.3317 6.20084ZM18.3072 19.3449C18.1913 20.0014 17.5456 20.2354 17.0288 20.2354H6.97335C6.45335 20.2354 5.80876 20.0014 5.69718 19.3709L3.85335 6.33084L12 1.93034L20.1488 6.32867L18.3072 19.3449Z" fill="black" />
                                 <path d="M7.90503 11.1993C7.90503 13.457 9.74128 15.2943 12 15.2943C14.2588 15.2943 16.095 13.457 16.095 11.1993C16.095 8.94167 14.2588 7.10434 12 7.10434C9.74128 7.10434 7.90503 8.94167 7.90503 11.1993ZM14.47 11.1993C14.47 12.5622 13.3629 13.6693 12 13.6693C10.6372 13.6693 9.53003 12.5622 9.53003 11.1993C9.53003 9.83651 10.6372 8.72934 12 8.72934C13.3629 8.72934 14.47 9.83651 14.47 11.1993Z" fill="black" />
                             </svg>
@@ -114,21 +127,26 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                         </div>
                     </li>
                     <li className={classes.sidebarItem}>
-                    <div>
-                            <svg width="20" height="21" className={classes.icon} viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19.697 15.468C19.677 15.452 17.557 13.828 17.594 9.438C17.614 6.906 16.782 4.656 15.247 3.103C13.872 1.71 12.01 0.94 10.005 0.93H9.992C7.988 0.94 6.126 1.71 4.75 3.104C3.216 4.657 2.382 6.906 2.404 9.438C2.441 13.768 0.384001 15.405 0.302002 15.468C0.0420015 15.661 -0.0639986 15.998 0.0370014 16.306C0.139001 16.614 0.427002 16.821 0.749002 16.821H5.669C5.771 19.131 7.666 20.981 9.999 20.981C12.332 20.981 14.225 19.131 14.326 16.821H19.248C19.57 16.821 19.858 16.615 19.958 16.307C20.061 16 19.955 15.662 19.695 15.469L19.697 15.468ZM10 19.478C8.495 19.478 7.27 18.301 7.172 16.82H12.828C12.728 18.3 11.505 19.48 10 19.48V19.478ZM2.38 15.32C3.12 14.188 3.928 12.292 3.904 9.424C3.886 7.264 4.548 5.442 5.817 4.157C6.91 3.05 8.397 2.437 10 2.43C11.603 2.438 13.087 3.05 14.18 4.158C15.45 5.443 16.113 7.264 16.095 9.425C16.071 12.293 16.88 14.19 17.62 15.321H2.38V15.32Z" fill="#D9D9D9" />
-                            </svg>
+                        <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to={`/notifications`}>
+
+                            <Badge badgeContent={notifications.length} color="primary" className={classes.icon} >
+                                <svg width="20" height="20" className={classes.icon} style={{ marginRight: '0px' }} viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19.697 15.468C19.677 15.452 17.557 13.828 17.594 9.438C17.614 6.906 16.782 4.656 15.247 3.103C13.872 1.71 12.01 0.94 10.005 0.93H9.992C7.988 0.94 6.126 1.71 4.75 3.104C3.216 4.657 2.382 6.906 2.404 9.438C2.441 13.768 0.384001 15.405 0.302002 15.468C0.0420015 15.661 -0.0639986 15.998 0.0370014 16.306C0.139001 16.614 0.427002 16.821 0.749002 16.821H5.669C5.771 19.131 7.666 20.981 9.999 20.981C12.332 20.981 14.225 19.131 14.326 16.821H19.248C19.57 16.821 19.858 16.615 19.958 16.307C20.061 16 19.955 15.662 19.695 15.469L19.697 15.468ZM10 19.478C8.495 19.478 7.27 18.301 7.172 16.82H12.828C12.728 18.3 11.505 19.48 10 19.48V19.478ZM2.38 15.32C3.12 14.188 3.928 12.292 3.904 9.424C3.886 7.264 4.548 5.442 5.817 4.157C6.91 3.05 8.397 2.437 10 2.43C11.603 2.438 13.087 3.05 14.18 4.158C15.45 5.443 16.113 7.264 16.095 9.425C16.071 12.293 16.88 14.19 17.62 15.321H2.38V15.32Z" fill="#D9D9D9" />
+                                </svg>
+                            </Badge>
 
                             <Hidden lgDown>
                                 <Typography variant="h6" color="text.secondary">Уведомления</Typography>
                             </Hidden>
-                        </div>
+                        </NavLink>
                     </li>
                     <li className={classes.sidebarItem}>
                         <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to={`/messages`}>
-                            <svg width="20" height="19" className={classes.icon} viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.25 0.0180016H2.75C1.233 0.0180016 0 1.252 0 2.77V15.265C0 16.783 1.233 18.018 2.75 18.018H17.25C18.767 18.018 20 16.783 20 15.265V2.77C20 1.252 18.767 0.0180016 17.25 0.0180016ZM2.75 1.518H17.25C17.94 1.518 18.5 2.078 18.5 2.768V3.482L10.45 8.849C10.177 9.029 9.824 9.031 9.55 8.847L1.5 3.482V2.768C1.5 2.078 2.06 1.518 2.75 1.518ZM17.25 16.516H2.75C2.06 16.516 1.5 15.956 1.5 15.266V5.24L8.74 10.07C9.123 10.326 9.562 10.454 10 10.454C10.44 10.454 10.877 10.326 11.26 10.071L18.5 5.241V15.263C18.5 15.953 17.94 16.513 17.25 16.513V16.516Z" fill="#D9D9D9" />
-                            </svg>
+                            <Badge badgeContent={Number(notifications.some(element => isCall(element.type)))} color="primary" className={classes.icon} >
+                                <svg width="20" height="19" className={classes.icon} style={{ marginRight: '0px' }} viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.25 0.0180016H2.75C1.233 0.0180016 0 1.252 0 2.77V15.265C0 16.783 1.233 18.018 2.75 18.018H17.25C18.767 18.018 20 16.783 20 15.265V2.77C20 1.252 18.767 0.0180016 17.25 0.0180016ZM2.75 1.518H17.25C17.94 1.518 18.5 2.078 18.5 2.768V3.482L10.45 8.849C10.177 9.029 9.824 9.031 9.55 8.847L1.5 3.482V2.768C1.5 2.078 2.06 1.518 2.75 1.518ZM17.25 16.516H2.75C2.06 16.516 1.5 15.956 1.5 15.266V5.24L8.74 10.07C9.123 10.326 9.562 10.454 10 10.454C10.44 10.454 10.877 10.326 11.26 10.071L18.5 5.241V15.263C18.5 15.953 17.94 16.513 17.25 16.513V16.516Z" fill="#D9D9D9" />
+                                </svg>
+                            </Badge>
                             <Hidden lgDown>
                                 <Typography variant="h6" color="text.secondary">Сообщения</Typography>
                             </Hidden>
@@ -209,7 +227,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
                     {user && <Box display="flex" alignItems="center">
                         <AvatarComponent size={34} user={user} />
                         {matches && <div className={classes.profileInfo}>
-                            <Typography variant="body1" color="text.secondary" style={{ fontSize: 14, fontWeight: 500 }}>{user.fullname}</Typography>
+                            <Typography variant="body1" color="text.secondary" style={{ fontSize: 14, fontWeight: 500, overflow: 'hidden', width: 80, textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.fullname}</Typography>
                             <Typography variant="body2" className={classes.tweetUserName} >@{user.username}</Typography>
                         </div>}
                     </Box>}

@@ -2,21 +2,16 @@ import React, { createContext, useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
 const SocketContext = createContext();
-// const socket = io("ws://localhost:8000");
-const socket = io('https://twitterchat-node-2020.herokuapp.com/');
+const socket = io("ws://localhost:8000");
+// const socket = io('https://twitterchat-node-2020.herokuapp.com/');
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
   const [call, setCall] = useState({});
-  const [me, setMe] = useState("");
   const userVideo = useRef();
   const connectionRef = useRef();
-
-
-  console.log(call)
-
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
@@ -47,7 +42,7 @@ const ContextProvider = ({ children }) => {
     connectionRef.current = peer;
   };
 
-  const callUser = (id, me) => {
+  const callUser = (senderName, avatar, id, me) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer.on("signal", (data) => {
       socket.emit("callUser", {
@@ -55,6 +50,12 @@ const ContextProvider = ({ children }) => {
         signalData: data,
         from: me,
       });
+      me !== id && socket.emit("sendNotification", {
+        senderName,
+        receiverID: id,
+        type: 3,
+        avatar: avatar,
+    });
     });
 
     peer.on("stream", (currentStream) => {

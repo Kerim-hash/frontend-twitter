@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { CircularProgress } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
@@ -31,8 +31,10 @@ import AvatarComponent from '../../../../components/avatar'
 import BackButton from '../../../../components/BackButton'
 import { TransitionGroup } from 'react-transition-group'
 import Collapse from '@mui/material/Collapse';
+import { SocketContext } from '../../../../Context'
 export const FullTweet: React.FC = (): React.ReactElement | null => {
     const dispatch = useDispatch()
+    const { socket } = useContext(SocketContext);
     const params: { id?: string } = useParams()
     const userData = useSelector(selectData)
     const [shareEl, setShareEl] = React.useState<null | HTMLElement>(null);
@@ -66,6 +68,13 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
         event.preventDefault()
         event.stopPropagation();
         dispatch(fetchLikeToggleTweet({ id: tweetData?._id, userID: userData?._id, liked: !tweetData.likes.includes(userData?._id) }))
+        tweetData.likes?.includes(userData._id) || tweetData.user._id !==  userData._id && socket.emit("sendNotification", {
+            senderName: userData.username,
+            receiverID: tweetData.user._id,
+            type: 1,
+            tweetId: tweetData._id,
+            avatar: userData.avatar
+        });
     }
 
     const imagesList = tweetData.images.map((obj: any) => ({
@@ -106,7 +115,6 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
         setShareEl(null);
     }
 
-    console.log(tweetData)
     return (
         <Box style={{ width: '-webkit-fill-available', minHeight: '100vh' }}>
             <div style={{ padding: 10, display: "flex", alignItems: 'center', top: 0, backdropFilter: 'blur(9px)', position: 'sticky', zIndex: 1 }} >
@@ -183,7 +191,6 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                     <MenuItem onClick={copyShare}>
                         <ContentCopyIcon style={{ marginRight: 10, fontSize: 16 }} />  Копировать ссылку на твит
                     </MenuItem>
-
                     {/* {bookmarksState.join() === 'false' ?
                         <MenuItem onClick={bookmarksRemove}>
                             <BookmarkRemoveOutlinedIcon style={{ marginRight: 10, fontSize: 20 }} />  Удалить твит из закладок
@@ -194,11 +201,11 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                          </MenuItem>
                     } */}
                 </Menu>
-                <AddComentForm id={params.id} fullname={userData?.fullname} username={userData?.username} avatar={userData?.avatar} />
+                <AddComentForm id={params.id} fullname={userData?.fullname} username={userData?.username} avatar={userData?.avatar} socket={socket} receiverID={tweetData.user._id}/>
 
             </Box>
-            {Array.isArray(tweetData.comment) && <TransitionGroup>{tweetData.comment.map((item) => {
-                return <Collapse key={item._id}>
+            {Array.isArray(tweetData.comment) && <TransitionGroup style={{display: 'flex', flexDirection: 'column-reverse'}}>{tweetData.comment.map((item) => {
+                return <Collapse key={item._id} >
                     <TweetComponent
                         _id={item._id}
                         text={item.text}

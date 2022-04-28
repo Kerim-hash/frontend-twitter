@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -30,6 +30,7 @@ import Alert from '@mui/material/Alert';
 import { selectBookmarksState } from '../../store/ducks/tweets/selectors';
 import AvatarComponent from '../avatar';
 import { UserType } from '../../store/ducks/user/contracts/state';
+import { SocketContext } from '../../Context';
 
 interface TweetProps {
     user?: UserType | {
@@ -55,7 +56,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const classes = TweetStyle()
     const dispatch = useDispatch()
     let navigate = useNavigate();
-    
+    const { socket } = useContext(SocketContext);
     const userData = useSelector(selectData)
     const bookmarksStateData = useSelector(selectBookmarksState)
 
@@ -95,6 +96,13 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation();
         dispatch(fetchLikeToggleTweet({ id: _id, userID: userData._id, liked: likes?.includes(userData._id) }))
+        likes?.includes(userData._id) || user._id !==  userData._id && socket.emit("sendNotification", {
+            senderName: userData.username,
+            receiverID: user._id,
+            type: 1,
+            tweetId: _id,
+            avatar: userData.avatar
+        });
     }
 
     const [toggle, setToggle] = React.useState<boolean>(false);
@@ -157,6 +165,8 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         dispatch(fetchBookmarks({ userID: user?._id, tweetID: _id }))
     }
 
+
+
     return (
         <div onClick={() => navigateToTweet()} >
             <Snackbar open={bookmarksStateData === BookmarksState.BOOKMARKSED || bookmarksStateData === BookmarksState.UNBOOKMARKSED} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
@@ -164,7 +174,7 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                     {snackbarState?.text}
                 </Alert>
             </Snackbar>
-            <Paper color="action.main"  variant="outlined" className={classNames(classes.tweet)}>
+            <Paper color="action.main" variant="outlined" className={classNames(classes.tweet)}>
                 <AvatarComponent fullname={fullname} user={user} avatar={avatar} />
                 <Box className={classes.itemContent}>
                     <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1" className={classes.tweetfullName}>{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" color="text.grey.light" className={classes?.tweetUserName}>@{user?.username ? user?.username : username}</Typography><span>·</span><Typography variant="caption" color="text.grey.light" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>

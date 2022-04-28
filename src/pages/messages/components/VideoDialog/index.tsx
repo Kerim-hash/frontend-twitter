@@ -15,7 +15,6 @@ interface VideoDialogProps {
     open: boolean,
     setOpenVideoChat: (boolean) => void,
     user: UserType,
-    participantID: string,
     receiverId: string,
     senderID: string,
 }
@@ -29,7 +28,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-const VideoDialog: React.FC<VideoDialogProps> = ({ open, setOpenVideoChat, user, participantID, receiverId, senderID }: VideoDialogProps): ReactElement => {
+const VideoDialog: React.FC<VideoDialogProps> = ({ open, setOpenVideoChat, user,receiverId, senderID }: VideoDialogProps): ReactElement => {
     const sm = useMediaQuery('(max-width:600px)');
     return (
         <Dialog
@@ -50,7 +49,7 @@ const VideoDialog: React.FC<VideoDialogProps> = ({ open, setOpenVideoChat, user,
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    <VideoChat user={user} participantID={participantID} receiverId={receiverId} senderID={senderID} />
+                    <VideoChat user={user} receiverId={receiverId} senderID={senderID} />
                 </DialogContentText>
             </DialogContent>
         </Dialog>

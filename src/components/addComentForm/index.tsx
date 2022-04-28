@@ -25,7 +25,9 @@ interface AddTweetFormProps {
     id: string,
     fullname: string,
     username: string,
-    avatar: string
+    avatar: string,
+    socket: any,
+    receiverID: string
 }
 
 
@@ -34,7 +36,7 @@ export interface fileImg {
     file: File;
 }
 
-export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2, id, fullname, username,avatar }: AddTweetFormProps): React.ReactElement => {
+export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2, id, fullname, username,avatar, socket, receiverID}: AddTweetFormProps): React.ReactElement => {
     const dispatch = useDispatch()
     const classes = useStylesAddForm()
     const addFormState = useSelector(selectAddCommentState)
@@ -58,6 +60,14 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
             result.push(url)
         }
         dispatch(fetchAddCommnetTweet({ text: Textarea, images: result, userID: userData._id, tweetID: id, author: { username: username, fullname: fullname, avatar: avatar } }))
+        receiverID !== userData._id && socket.emit("sendNotification", {
+            senderName: userData.username,
+            receiverID: receiverID,
+            type: 2,
+            tweetId: id,
+            avatar: avatar
+        });
+
         images.length = 0
         setTextarea('')
     }
@@ -68,9 +78,6 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
     }
 
     const sm = useMediaQuery('(max-width:600px)');
-
-    console.log(addFormState)
-
     return (
         <Box >
             <Box className={classes.addTweetForm}>
@@ -108,7 +115,7 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
                                 loading={addFormState === AddCommentState.LOADING}
                                 size="small" variant="contained"
                                 style={{ marginLeft: 20, height: 35 }}
-                                disabled={textLimitParsent >= 100}
+                                disabled={textLimitParsent >= 100 || Textarea === ''}
                                 onClick={handleClickAddTweet}
                             >
                                 Ответить

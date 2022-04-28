@@ -19,6 +19,7 @@ const Profile = lazy(() => import("./pages/Profile").then((module) => ({ default
 const Bookmarks = lazy(() => import("./pages/Bookmarks").then((module) => ({ default: module.default, })));
 const Auth = lazy(() => import("./pages/Auth").then((module) => ({ default: module.default, })));
 const Messages = lazy(() => import("./pages/messages").then((module) => ({ default: module.default, })));
+const Notifications = lazy(() => import("./pages/Notification").then((module) => ({ default: module.default, })));
 
 function App() {
   let navigate = useNavigate();
@@ -275,6 +276,7 @@ function App() {
             <Route path="/profile/:id/*" element={<Layout children={<Profile />} />} />
             <Route path="/bookmarks/" element={<Layout children={<Bookmarks />} />} />
             <Route path="/messages/*" element={<Layout children={<Messages />} messages />} />
+            <Route path="/notifications/" element={<Layout children={<Notifications />}  />} />
             <Route
               path="/auth"
               element={
