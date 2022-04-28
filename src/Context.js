@@ -2,8 +2,8 @@ import React, { createContext, useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
 const SocketContext = createContext();
-const socket = io("ws://localhost:8000");
-// const socket = io('https://twitterchat-node-2020.herokuapp.com/');
+// const socket = io("ws://localhost:8000");
+const socket = io('https://twitterchat-node-2020.herokuapp.com/');
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
