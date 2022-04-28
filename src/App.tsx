@@ -38,7 +38,6 @@ function App() {
     }
     return children
   };
-  // theme
   const color = useSelector(selectTheme)
   const theme = React.useMemo(
     () =>

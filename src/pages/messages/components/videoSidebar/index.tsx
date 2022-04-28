@@ -105,7 +105,7 @@ const VideoChat = ({user, participantID, receiverId, senderID}) => {
               <CallEndIcon />
             </Button>
           ) : (
-            <Button variant="contained" color="primary" size="small" onClick={() => callUser(user.username, user.avatar,  receiverId, senderID)}>
+            !call.isReceivingCal && <Button variant="contained" color="primary" size="small" onClick={() => callUser(user.username, user.avatar,  receiverId, senderID)}>
               Call
             </Button>
           )}

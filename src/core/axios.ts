@@ -5,7 +5,8 @@ const get_token = () => {
 }
 
 export const istance = axios.create({
-    baseURL: `https://server-twitter-2020.herokuapp.com`,
+    baseURL: `https://backend-twitter.vercel.app`,
+    // baseURL: `https://server-twitter-2020.herokuapp.com`,
     // baseURL: `http://localhost:5000`,
     headers: {
         Accept: "application/json",
