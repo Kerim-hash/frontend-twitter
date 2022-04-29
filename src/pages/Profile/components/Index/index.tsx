@@ -95,7 +95,6 @@ const Index = () => {
             </Box>
             <div className={classes.profileHeader} style={{backgroundImage: `url(${profile?.bgImage})`}}></div>
             <Box display='flex' justifyContent="space-between" style={{ padding: '0 15px', position: 'relative' }}>
-                {console.log(profile)}
                {profile !== undefined &&  <Box className={classes.profileInfo}>
                     <Avatar className={classes.avatar} src={profile.avatar} />
                     <Typography variant="body1" style={{ fontWeight: 800, fontSize: 20, marginTop: 25 }}>{profile?.fullname}</Typography>

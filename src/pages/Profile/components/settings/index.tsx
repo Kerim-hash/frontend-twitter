@@ -26,7 +26,6 @@ interface SettingsProps {
     params: string,
 }
 
-
 const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElement => {
     const classes = useStylesProfile()
     const dispatch = useDispatch()
@@ -103,7 +102,6 @@ const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElem
 
     const user = useSelector(selectData)
 
-    console.log(loading)
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={classes.settingsWrapper}>

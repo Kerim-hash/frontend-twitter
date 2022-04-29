@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -28,8 +28,9 @@ import SettingTheme from './setting';
 import { UserType } from '../../store/ducks/user/contracts/state';
 import { SocketContext } from '../../Context';
 import { setNotification } from '../../store/ducks/Notification/actions';
-import { selectNotifications } from '../../store/ducks/Notification/selectors';
-
+import { selectNotifications} from '../../store/ducks/Notification/selectors';
+import NotificationMp3 from '../../assets/notification.mp3'
+import useSound from 'use-sound';
 interface sidebarProps {
     user: UserType
 }
@@ -91,6 +92,19 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
     function isCall(element) {
         return element === 3;
     }
+
+    const [playActive] = useSound(
+        NotificationMp3,
+        { volume: 0.75 }
+    );
+
+    useEffect(() => {
+        if(notifications.length >= 1){
+            playActive()
+        }
+    }, [notifications])
+
+
     return (
         <>
             <div className={classes.wrapper}>

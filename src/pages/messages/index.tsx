@@ -78,6 +78,7 @@ const Messages = () => {
             dispatch(setAddMessage(arrivalMessage));
         // eslint-disable-next-line
     }, [arrivalMessage, CurrentConversation]);
+
     useEffect(() => {
         dispatch(FetchMessage(CurrentConversation?._id))
         // eslint-disable-next-line
@@ -100,7 +101,6 @@ const Messages = () => {
             callMeVideo()
         }
     }, [call.isReceivingCall && !callAccepted])
-    
     return (
         <>
             {(md ? !CurrentConversation : true) && <Grid item xs={10.20} md={3.75} >
@@ -164,7 +164,7 @@ const Messages = () => {
                 }
             </Grid>}
 
-            <VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} user={user} receiverId={receiverId} senderID={user?._id} />
+            <VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} user={user} receiverId={receiverId} />
             <AddConversationDialog open={open} handleClose={handleClose} userID={user?._id} conversations={conversations} />
         </>
     )

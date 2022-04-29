@@ -49,7 +49,7 @@ export const tweetsReducer = produce((draft: Draft<TweetsState>, action: TweetsA
         case TweetsActionType.SET_COMMENT_TWEET:
             if (action.payload.comment) {
                 draft.addCommentState = AddCommentState.NEVER
-                draft.data.comment.unshift(action.payload.comment)
+                draft.data.comment.push(action.payload.comment)
             } else {
                 draft.addCommentState = AddCommentState.ERROR
             }

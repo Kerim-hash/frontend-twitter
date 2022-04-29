@@ -10,7 +10,7 @@ import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSati
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import Picker from 'emoji-picker-react';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SocketContext } from '../../../../Context';
 import { sendMessage } from '../../../../store/ducks/Messages/actions';
 import { UserType } from '../../../../store/ducks/user/contracts/state';
@@ -22,7 +22,7 @@ interface MessageFormProps {
     CurrentConversation?: string
 }
 
-const MessageForm: React.FC<MessageFormProps> = ({callMeVideo, user, receiverId, CurrentConversation}: MessageFormProps): ReactElement => {
+const MessageForm: React.FC<MessageFormProps> = ({ callMeVideo, user, receiverId, CurrentConversation }: MessageFormProps): ReactElement => {
     const classes = useStylesMessages()
     const dispatch = useDispatch()
     const { socket } = useContext(SocketContext);
@@ -39,7 +39,6 @@ const MessageForm: React.FC<MessageFormProps> = ({callMeVideo, user, receiverId,
             setNewMessage(event.currentTarget.value)
         }
     }
-
 
     const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();

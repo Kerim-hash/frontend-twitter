@@ -34,7 +34,7 @@ const Notification = () => {
                                 <AvatarComponent avatar={item?.avatar} />
                                 <Box display="flex" mt={1} mb={1}>
                                     <Typography variant="body1">@{item?.senderName}</Typography>
-                                    <Typography variant="body1" ml={1}>{item.type === 1 ? 'нравится ваш твит' : item.type === 1  ? ' прокомментировал ваш пост': "Звонит"}</Typography>
+                                    <Typography variant="body1" ml={1}>{item.type === 1 ? 'нравится ваш твит' : item.type === 2  ? ' прокомментировал ваш пост': "Звонит"}</Typography>
                                 </Box>
                             </Box>
                         </NavLink>

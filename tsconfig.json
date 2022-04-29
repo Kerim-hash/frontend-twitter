@@ -20,5 +20,9 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["./src/index.d.ts"]
+  "include": ["./src/index.d.ts"],
+  "typeRoots": [
+    "node_modules/@types",
+    "custom_typings/"
+  ] 
 }

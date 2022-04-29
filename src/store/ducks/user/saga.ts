@@ -95,7 +95,7 @@ export function* FetchUserUpdate({ payload }: FetchUserUpdateActionInterface) {
   try {
     const data = yield call(UserApi.fetchUserUpdate, payload)
     yield put(setUserData(data))
-    console.log(data)
+    yield put(setUserLoadingState(LoadingState.UPLOADED))
   } catch (e) {
     // console.log('oops')
   }

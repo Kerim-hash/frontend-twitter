@@ -11,20 +11,20 @@ const ContextProvider = ({ children }) => {
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
   const [call, setCall] = useState({});
+  const [receiver, setReceiver] = useState({})
   const userVideo = useRef();
   const connectionRef = useRef();
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-      });
-
-    socket.on("callUser", ({ from, signal }) => {
+    socket.on("callUser", ({ from, signal, senderName, avatar }) => {
       setCall({ isReceivingCall: true, from, signal });
+      setReceiver({senderName, avatar})
+    });
+    socket.on("getCallBack", ({ CallBack }) => {
+      if (CallBack) {
+        setCallEnded(true);
+      }
     });
   }, []);
-
   const answerCall = () => {
     setCallAccepted(true);
 
@@ -50,13 +50,16 @@ const ContextProvider = ({ children }) => {
         userToCall: id,
         signalData: data,
         from: me,
-      });
-      me !== id && socket.emit("sendNotification", {
         senderName,
-        receiverID: id,
-        type: 3,
-        avatar: avatar,
-    });
+        avatar
+      });
+      me !== id &&
+        socket.emit("sendNotification", {
+          senderName,
+          receiverID: id,
+          type: 3,
+          avatar: avatar,
+        });
     });
 
     peer.on("stream", (currentStream) => {
@@ -71,13 +74,12 @@ const ContextProvider = ({ children }) => {
     connectionRef.current = peer;
   };
 
-  const leaveCall = () => {
+  const leaveCall = async (receiverId) => {
     setCallEnded(true);
-
-    connectionRef.current.destroy();
-
-    window.location.href = "/messages";
-
+    setCallAccepted(false)
+    setCall({})
+    await socket.emit("callBack", { receiverId });
+    // connectionRef.current.destroy();
   };
 
   return (
@@ -92,6 +94,11 @@ const ContextProvider = ({ children }) => {
         leaveCall,
         answerCall,
         socket,
+        setStream,
+        setCallEnded, 
+        setCallAccepted, 
+        setCall,
+        receiver
       }}
     >
       {children}
