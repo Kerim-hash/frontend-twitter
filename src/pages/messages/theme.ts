@@ -106,5 +106,50 @@ export const useStylesMessages = makeStyles((theme: Theme) => ({
     desabled: {
         pointerEvents: 'none',
         background: '#16181c69',
-    }
+    },
+
+    root: {
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      gridContainer: {
+        width: '100%',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('xs')]: {
+          flexDirection: 'column',
+        },
+      },
+      container: {
+        padding: 0,
+        [theme.breakpoints.down('xs')]: {
+          width: '80%',
+        },
+      },
+      element: {
+        padding: '10px 20px',
+        border: '2px solid #359BF0',
+        borderRadius: '25px',
+        height: '370px',
+        [theme.breakpoints.down('sm')]: {
+          height: '270px'
+        },
+        [theme.breakpoints.down('md')]: {
+          marginBottom: '20px'
+        },
+      },
+      padding: {
+        padding: 20,
+      },
+      paper: {
+        padding: '10px 20px',
+        border: '2px solid #359BF0',
+        borderRadius: '25px',
+        display: 'block',
+        width: '100%'
+      },
+      video: {
+        width: '100%',
+        height: '80%',
+        borderRadius: '10px',
+      },
 }));

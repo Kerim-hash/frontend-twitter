@@ -95,7 +95,6 @@ const Messages = () => {
     const callMeVideo = () => {
         setOpenVideoChat(true)
     }
-
     useEffect(() => {
         if(call.isReceivingCall && !callAccepted) {
             callMeVideo()
@@ -138,7 +137,6 @@ const Messages = () => {
                     </Box>
                 </Box>
             </Grid>}
-
             {(md ? CurrentConversation && params["*"] : true) && <Grid item xs={10.20} md={5.75} className={classes.itemMessage} >
                 {!CurrentConversation ?
                     <Box style={{ padding: 15, height: '100vh', display: "flex", justifyContent: "center", flexDirection: 'column', alignItems: 'center', }}>
@@ -163,13 +161,11 @@ const Messages = () => {
                     </Box>
                 }
             </Grid>}
-
             <VideoDialog open={openVideoChat} setOpenVideoChat={setOpenVideoChat} user={user} receiverId={receiverId} />
             <AddConversationDialog open={open} handleClose={handleClose} userID={user?._id} conversations={conversations} />
         </>
     )
 }
-
 export default Messages
 
 

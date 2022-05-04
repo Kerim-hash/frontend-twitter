@@ -84,7 +84,7 @@ const MessageForm: React.FC<MessageFormProps> = ({ callMeVideo, user, receiverId
             <IconButton onClick={(e) => handleSubmit(e)} disabled={newMessage === ''}>
                 <SendOutlinedIcon color="primary" />
             </IconButton>
-            <IconButton onClick={callMeVideo}>
+            <IconButton onClick={() => callMeVideo()}>
                 <CallOutlinedIcon color="primary" />
             </IconButton>
         </Box>
