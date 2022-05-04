@@ -81,7 +81,6 @@ export const AddComentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 
     return (
         <Box >
             <Box className={classes.addTweetForm}>
-
             <AvatarComponent user={userData}  />
                 <div className={classes.tweetHeaderForm}>
                     <TextareaAutosize

@@ -155,5 +155,12 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         height: '30px',
         left: '10px',
         background: 'rgb(143 143 143 / 81%) !important'
+    },
+    changeIcon: {
+        position: 'absolute',
+        bottom: 5,
+        height: '30px',
+        right: '10px',
+        background: 'rgb(143 143 143 / 81%) !important' 
     }
 }));

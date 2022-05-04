@@ -41,7 +41,7 @@ const UploadImage: React.FC<UploadImageProps> = ({ setImages , images}: UploadIm
             <IconButton color="primary" onClick={() => handleClickImage()} disabled={images?.length >= 4 }>
                 <CollectionsIcon />
             </IconButton>
-            <input ref={inputRef} type="file" hidden />
+            <input ref={inputRef} type="file" hidden accept="image/*" />
         </div>
     )
 }
