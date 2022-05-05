@@ -29,7 +29,7 @@ export const useStylesImgList = makeStyles((theme: Theme) => ({
         backgroundPosition: 'center',
     },
     singleImage: {
-        marginTop: 20,
+        marginTop: 10,
         maxWidth: '500px',
         minHeight: '480px',
         [theme.breakpoints.down('sm')]: {

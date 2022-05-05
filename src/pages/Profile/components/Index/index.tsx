@@ -173,6 +173,7 @@ const Index = () => {
 
 
             <ModalBlock title="Изменить профиль" visible={open} onClose={handleClose}>
+                   
                 <div style={{ width: 540 }}>
                     <Settings params={params.id} />
                 </div>

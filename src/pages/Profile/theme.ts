@@ -81,7 +81,9 @@ export const useStylesProfile = makeStyles((theme: Theme) => ({
         margin:'-30px',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
     },
     avatarSettings: {
         marginTop: -30,

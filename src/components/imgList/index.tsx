@@ -19,7 +19,6 @@ interface imgListProps {
 const ImgList: React.FC<imgListProps> = ({ edit = false, images, setImages, setToggle }: imgListProps): ReactElement | null => {
     const classes = useStylesImgList()
     const [crop, setCrop] = useState(false)
-    // const [CroppedImageFor, setCroppedImageFor] = useState(null);
     const [selectedImage, setSelectedImage] = useState<{ image: string, id: number }>({ image: '', id: null });
     const removeImg = (url: string) => {
         setImages(prev => prev.filter(obj => obj.url !== url))
@@ -28,9 +27,6 @@ const ImgList: React.FC<imgListProps> = ({ edit = false, images, setImages, setT
     if (images && images.length === 0) {
         return null
     }
-    // const imagesList = images.map((obj) => ({
-    //     src: obj.url ? obj.url : obj
-    // }));
 
     const selectedIMageCrop = (image, i) => {
         setSelectedImage({ image, id: i });
@@ -45,13 +41,10 @@ const ImgList: React.FC<imgListProps> = ({ edit = false, images, setImages, setT
         const arr: fileImg = images[selectedImage.id]
         arr.url = CroppedImageFor
         arr.file = file
-        console.log(file instanceof File)
         setSelectedImage(null);
         setCrop(false)
     };
 
-
-    console.log(images)
     return (
         <div className={classnames({ [classes.ImagesListEdit]: edit, [classes.ImagesList]: images.length >= 2 })}>
             {images.map((obj, i) => {
@@ -67,7 +60,7 @@ const ImgList: React.FC<imgListProps> = ({ edit = false, images, setImages, setT
                     </div>
                 )
             })}
-            <ModalBlock title="Обрезать медиафайл" visible={crop} onClose={() => setCrop(false)}><Crop image={selectedImage?.image} setCroppedImage={setCroppedImage} /></ModalBlock>
+            <Crop image={selectedImage?.image} setCroppedImage={setCroppedImage} setOpen={setCrop} open={crop}/>
         </div>
     )
 }

@@ -12,7 +12,11 @@ aside.emoji-picker-react {
   top: -320px;
   right: 50px;
 }
-
+/* 
+.MuiDialogTitle-root{
+  background-color: rgb(0, 0, 0);
+  z-index: 1;
+} */
 
 
 .App-dark {

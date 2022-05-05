@@ -83,7 +83,7 @@ function App() {
           },
           button: {
             textTransform: "none"
-          }
+          },
         },
         palette: {
           mode: color.theme,
@@ -202,7 +202,6 @@ function App() {
               },
             }
           },
-         
           MuiDialog: {
             styleOverrides: {
               paper: {
@@ -226,34 +225,24 @@ function App() {
               },
 
             },
-          }
-        },
-        overrides: {
-          MuiFormControl: {
-            root: {
-              width: "100%",
-              borderRadius: 8,
-              "& .MuiOutlinedInput-input": {
-                borderRadius: 30,
-                boxShadow: "0px 1px 0px #E2E8F0",
-              },
+          },
+          MuiDialogTitle: {
+            styleOverrides: {
+              root: {
+                backgroundColor: color.theme === 'dark'? '#000' : "#fff",
+                zIndex: 1
+              }
             }
           },
-          MuiFilledInput: {
-            root: {
-              border: "1px solid #e2e2e1",
-              overflow: "hidden",
-              borderRadius: 4,
-              backgroundColor: "#fcfcfb",
-              "&:hover": {
-                backgroundColor: "#fff"
-              },
-              "&$focused": {
-                backgroundColor: "#fff",
+          MuiDialogActions: {
+            styleOverrides: {
+              root: {
+                backgroundColor: color.theme === 'dark'? '#000' : "#fff",
+                zIndex: 1
               }
             }
           }
-        }
+        },
       }),
 
     [color.theme],

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState, useEffect, useCallback, useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useStylesProfile } from '../../theme';
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LoadingState, UserType } from '../../../../store/ducks/user/contracts/state';
 import { selectData } from '../../../../store/ducks/user/selectors';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Crop from '../../../../components/Crop';
 
 export interface SettingsFormProps {
     avatar: string
@@ -29,12 +30,13 @@ interface SettingsProps {
 const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElement => {
     const classes = useStylesProfile()
     const dispatch = useDispatch()
+    const [crop, setCrop] = useState<boolean>(false)
     const loading = useSelector(selectLoadingState)
-    const [images, setImages] = React.useState<fileImg[]>([] || undefined)
-    const [bg, setBg] = React.useState<fileImg[]>([] || undefined)
+    const [images, setImages] = useState<fileImg[]>([] || undefined)
+    const [bg, setBg] = useState<fileImg>(undefined)
 
-    const inputRef = React.useRef<HTMLInputElement>(null)
-    const inputBgRef = React.useRef<HTMLInputElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const inputBgRef = useRef<HTMLInputElement>(null)
 
     const handleClickImage = () => {
         if (inputRef.current) {
@@ -47,7 +49,7 @@ const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElem
         }
     }
 
-    const handleChangeFileInput = React.useCallback(async (event: Event) => {
+    const handleChangeFileInput = useCallback(async (event: Event) => {
         if (event.target) {
             const target = (event.target as HTMLInputElement)
             const file = target.files[0]
@@ -60,21 +62,19 @@ const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElem
             }
         }
     }, [])
-    const handleChangeFileInputBg = React.useCallback(async (event: Event) => {
+    const handleChangeFileInputBg = useCallback(async (event: Event) => {
         if (event.target) {
             const target = (event.target as HTMLInputElement)
             const file = target.files[0]
             if (file) {
                 const fileObj = new Blob([file])
-                setBg((prev) => [...prev, {
-                    url: URL.createObjectURL(fileObj),
-                    file
-                }])
+                setBg({url: URL.createObjectURL(fileObj), file })
+                setCrop(true)
             }
         }
     }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         inputRef.current.addEventListener('change', handleChangeFileInput)
         inputBgRef.current.addEventListener('change', handleChangeFileInputBg)
         return () => {
@@ -88,7 +88,7 @@ const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElem
     const onSubmit = async (data: SettingsFormProps) => {
         dispatch(setUserLoadingState(LoadingState.LOADING))
         const { url } = images.length >= 1 && await uploadImage(images[0]?.file)
-        const { url: urlBg } = bg.length >= 1 && await uploadImage(bg[0]?.file)
+        const { url: urlBg } = bg && await uploadImage(bg.file)
         const obj = { fullname: data?.fullname, about: data?.about, location: data?.location, website: data?.website, id: params, avatar: url, bgImage: urlBg }
         const res = obj && Object.keys(obj).reduce((acc, key) => {
             const _acc = acc;
@@ -102,10 +102,19 @@ const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElem
 
     const user = useSelector(selectData)
 
+    const setCroppedImage = async (CroppedImageFor) => {
+        let blob = await fetch(CroppedImageFor).then(r => r.blob());
+        const file = new File([blob], "https://bit.ly/3vsUaOe", {
+            type: blob.type,
+        });
+        bg.url = CroppedImageFor
+        bg.file = file
+        setCrop(false)
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={classes.settingsWrapper}>
-            <div className={classes.backgroundPhoto} onClick={() => handleClickBgImage()} style={{ backgroundImage: `url(${bg[0] ? bg[0]?.url : user?.bgImage})` }}>
+            <div className={classes.backgroundPhoto} onClick={() => handleClickBgImage()} style={{ backgroundImage: `url(${bg ? bg?.url : user?.bgImage})` }}>
                 <IconButton>
                     <AddAPhotoIcon />
                 </IconButton>
@@ -126,17 +135,15 @@ const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElem
             />
             <TextField id="outlined-basic" label="Местоположение" variant="outlined" className={classes.TextFieldSettings} defaultValue={user?.location}  {...register("location")} />
             <TextField id="outlined-basic" label="Веб-сайт" variant="outlined" className={classes.TextFieldSettings} defaultValue={user?.website}   {...register("website")} />
-
-            {/* <Button color="inherit" variant="contained" type="submit" > Сохранить </Button> */}
             <LoadingButton
                 loading={loading === LoadingState.LOADING}
-                color={loading === LoadingState.LOADING ?  'secondary' : 'inherit'}
-                 variant="contained" 
-                 type="submit"
+                color={loading === LoadingState.LOADING ? 'secondary' : 'inherit'}
+                variant="contained"
+                type="submit"
             >
                 Сохранить
-                              </LoadingButton>
-           
+           </LoadingButton>
+            <Crop image={bg?.url} setCroppedImage={setCroppedImage} setOpen={setCrop} open={crop} aspectSize={3} />
         </form>
     )
 }
