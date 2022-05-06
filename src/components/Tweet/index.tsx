@@ -16,18 +16,13 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { TweetStyle } from './style';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchBookmarks, fetchDeleteTweet, fetchLikeToggleTweet, setBookmarksState } from '../../store/ducks/tweets/actionCreators';
+import { fetchDeleteTweet, fetchLikeToggleTweet } from '../../store/ducks/tweets/actionCreators';
 import { selectData } from '../../store/ducks/user/selectors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ImgList from '../imgList';
 import Carousel, { Modal, ModalGateway } from 'react-images'
-import { BookmarksState, Comment, Tweet } from '../../store/ducks/tweets/contracts/state';
+import { Comment, Tweet } from '../../store/ducks/tweets/contracts/state';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAddOutlined';
-import BookmarkRemoveOutlinedIcon from '@mui/icons-material/BookmarkRemoveOutlined';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-import { selectBookmarksState } from '../../store/ducks/tweets/selectors';
 import AvatarComponent from '../avatar';
 import { UserType } from '../../store/ducks/user/contracts/state';
 import { SocketContext } from '../../Context';
@@ -58,7 +53,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     let navigate = useNavigate();
     const { socket } = useContext(SocketContext);
     const userData = useSelector(selectData)
-    const bookmarksStateData = useSelector(selectBookmarksState)
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -108,26 +102,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
     const [toggle, setToggle] = React.useState<boolean>(false);
     const [sIndex, setSIndex] = React.useState<number>(0);
 
-    // alert
-    const [snackbarState, setSnackbarState] = React.useState<{ text: string, type: 'error' | 'info' }>()
-
-
-    React.useEffect(() => {
-        if (bookmarksStateData === BookmarksState.BOOKMARKSED) {
-            setSnackbarState({ text: 'Твит добавлен в закладки', type: 'info' })
-        }
-        else if (bookmarksStateData === BookmarksState.UNBOOKMARKSED) {
-            setSnackbarState({ text: 'Твит удален из закладок', type: 'info' })
-        }
-
-    }, [bookmarksStateData])
-
-    const handleCloseAlert = (event) => {
-        event.preventDefault()
-        event.stopPropagation();
-        // dispatch(setBookmarksState(BookmarksState.NEVER))
-    }
-
     // Handler
     const handleClicToggleModal = (event: React.MouseEvent<HTMLElement> | React.SyntheticEvent<HTMLButtonElement>, i?: number) => {
         event.stopPropagation();
@@ -154,30 +128,15 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
         navigate(`/profile/${user._id}`)
     }
 
-    const bookmarksAdd = (event) => {
-        event.preventDefault()
-        event.stopPropagation();
-        dispatch(fetchBookmarks({ userID: user?._id, tweetID: _id }))
-    }
-    const bookmarksRemove = (event) => {
-        event.preventDefault()
-        event.stopPropagation();
-        dispatch(fetchBookmarks({ userID: user?._id, tweetID: _id }))
-    }
-
 
 
     return (
         <div onClick={() => navigateToTweet()} >
-            <Snackbar open={bookmarksStateData === BookmarksState.BOOKMARKSED || bookmarksStateData === BookmarksState.UNBOOKMARKSED} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-                <Alert onClose={handleCloseAlert} severity={snackbarState?.type} sx={{ width: '100%' }}>
-                    {snackbarState?.text}
-                </Alert>
-            </Snackbar>
+          
             <Paper color="action.main" variant="outlined" className={classNames(classes.tweet)}>
                 <AvatarComponent fullname={fullname} user={user} avatar={avatar} />
                 <Box className={classes.itemContent}>
-                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1" className={classes.tweetfullName}>{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" color="text.grey.light" className={classes?.tweetUserName}>@{user?.username ? user?.username : username}</Typography><span>·</span><Typography variant="caption" color="text.grey.light" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
+                    <div onClick={navigateToProfile} className={classes.tweetsHeaderLink}><Typography variant="body1" className={classes.tweetfullname}>{user?.fullname ? user?.fullname : fullname} </Typography><Typography variant="body2" color="text.grey.light" className={classes?.tweetUserName}>@{user?.username ? user?.username : username}</Typography><span>·</span><Typography variant="caption" color="text.grey.light" className={classes.tweettimeUploded}>{formaDate(new Date(createdAt))}</Typography></div>
                     <Typography variant="body2" color="text.primary" style={{ marginTop: 5, wordBreak: 'break-word' }}>
                         {text}
                     </Typography>
@@ -238,16 +197,6 @@ export const TweetComponent: React.FC<TweetProps> = ({ text, user, _id, createdA
                     <MenuItem onClick={copyShare}>
                         <ContentCopyIcon style={{ marginRight: 10, fontSize: 16 }} />  Копировать ссылку на твит
                     </MenuItem>
-
-                    {/* {bookmarksState.join() === 'false' ?
-                        <MenuItem onClick={bookmarksRemove}>
-                            <BookmarkRemoveOutlinedIcon style={{ marginRight: 10, fontSize: 20 }} />  Удалить твит из закладок
-                        </MenuItem>
-                        :
-                        <MenuItem onClick={bookmarksAdd}>
-                            <BookmarkAddIcon style={{ marginRight: 10, fontSize: 20 }} />  Закладка
-                         </MenuItem>
-                    } */}
                 </Menu>
 
                 <IconButton

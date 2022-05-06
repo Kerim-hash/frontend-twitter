@@ -6,7 +6,6 @@ import { useStylesImgList } from './theme';
 import { fileImg } from '../AddTweetForm';
 import classnames from 'classnames'
 import Crop from '../Crop';
-import { ModalBlock } from '../Modal'
 
 interface imgListProps {
     edit?: boolean,

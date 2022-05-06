@@ -39,7 +39,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
     const addFormState = useSelector(selectAddFormState)
     const userData = useSelector(selectData) 
     const [Textarea, setTextarea] = useState<string>("")
-    const textLimitParsent = Math.round(Textarea.length / 280 * 100)
+    const textLimitParent = Math.round(Textarea.length / 280 * 100)
     const sm = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
     const [images, setImages] = useState<fileImg[]>([] || undefined)
     
@@ -112,8 +112,8 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                                     variant="determinate"
                                     size={22}
                                     thickness={4}
-                                    value={textLimitParsent >= 100 ? 100 : textLimitParsent}
-                                    style={{ color: textLimitParsent >= 100 ? 'red' : undefined }}
+                                    value={textLimitParent >= 100 ? 100 : textLimitParent}
+                                    style={{ color: textLimitParent >= 100 ? 'red' : undefined }}
                                 />
                                 <CircularProgress
                                     variant="determinate"
@@ -128,7 +128,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                                 size="small"
                                 variant="contained"
                                 className={classes.button}
-                                disabled={textLimitParsent >= 100 || Textarea === '' }
+                                disabled={textLimitParent >= 100 || Textarea === '' }
                                 onClick={handleClickAddTweet}
                             >
                              {sm ? 'Твитнуть' : <svg width="15" height="15" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -141,7 +141,6 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows = 2
                     </Box>
                 </div>
             </Box>
-
 
             {addFormState === AddFormState.ERROR && <Alert severity="error" sx={{ marginTop: '10px' }}>Что-то пошло не так, но не беспокойтесь — давайте попробуем еще раз.</Alert>}
         </Box>

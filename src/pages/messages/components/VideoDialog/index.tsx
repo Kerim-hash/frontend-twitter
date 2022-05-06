@@ -37,7 +37,7 @@ const Transition = React.forwardRef(function Transition(
 const VideoDialog: React.FC<VideoDialogProps> = ({ open, setOpenVideoChat, user, receiverId }: VideoDialogProps): ReactElement => {
     const sm = useMediaQuery('(max-width:600px)');
     const classes = useStylesMessages()
-    const { userVideo,answerCall, call, callAccepted, callEnded, leaveCall, callUser, setStream, setCallAccepted, setCallEnded, setCall, receiver } = useContext(SocketContext);
+    const { answerCall, call, callAccepted, callEnded, leaveCall, callUser, receiver } = useContext(SocketContext);
     return (
         <Dialog
             fullScreen={sm ? true : false}
@@ -60,9 +60,9 @@ const VideoDialog: React.FC<VideoDialogProps> = ({ open, setOpenVideoChat, user,
                     <VideoChat user={user} receiverId={receiverId} setOpenVideoChat={setOpenVideoChat} />
                 </DialogContentText>
             </DialogContent>
-            <DialogActions style={{disply: 'block'}}>
+            <DialogActions >
                 <Paper className={classes.paper}>
-                    {call.isReceivingCall && !callAccepted && <Typography variant="h5">Звонит: {receiver?.senderName ? receiver?.senderName : receiverUser?.username} </Typography>}
+                    {call.isReceivingCall && !callAccepted && <Typography variant="h5">Звонит: {receiver?.senderName} </Typography>}
                     <form className={classes.root} noValidate autoComplete="off">
                         {callAccepted && !callEnded ?
                             <Button variant="contained" color="error" size="small" onClick={() => leaveCall(receiverId)} >

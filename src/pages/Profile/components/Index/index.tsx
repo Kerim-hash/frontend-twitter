@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { fetchFollow, fetchProfile } from '../../../../store/ducks/user/actions';
 import { selectData, selectFollowState, selectProfile } from '../../../../store/ducks/user/selectors';
 import { fetchTweets } from '../../../../store/ducks/tweets/actionCreators';
@@ -79,7 +79,7 @@ const Index = () => {
 
     const handleChange = useCallback((event, newValue) => {
         setValue(newValue);
-    }, [value])
+    }, [])
 
     const handleFollow = () => {
         dispatch(fetchFollow({ id: params.id, userID: user?._id, followState: 'follow' }))

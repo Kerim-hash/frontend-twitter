@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import React from 'react'
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -10,10 +11,10 @@ interface ModalProps {
     children: React.ReactNode,
     visible?: boolean,
     onClose?: () => void, 
-    dialogcontent?: boolean
+    dialogContent?: boolean
 }
 
-export const ModalBlock: React.FC<ModalProps> = ({ title, children, visible = false, onClose, dialogcontent = false  }): React.ReactElement | null => {
+export const ModalBlock: React.FC<ModalProps> = ({ title, children, visible = false, onClose, dialogContent = false  }): React.ReactElement | null => {
     {
         if (!visible) {
             return null;
@@ -26,7 +27,7 @@ export const ModalBlock: React.FC<ModalProps> = ({ title, children, visible = fa
                     </IconButton>
                     {title}
                 </DialogTitle>
-                {!dialogcontent ?   
+                {!dialogContent ?   
                 <DialogContent dividers={true}>
                     {children}
                 </DialogContent> :  children}

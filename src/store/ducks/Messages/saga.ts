@@ -6,7 +6,7 @@ import { LoadingState } from './contracts/state'
 
 export function* FetchConversation({payload}: FetchConversationActionInterface) {
   try {
-    const data = yield call(ConversationApi.fetchConvertsation, payload)
+    const data = yield call(ConversationApi.fetchConversation, payload)
     yield put(setConversation(data))
   }
   catch (e) {
@@ -15,7 +15,7 @@ export function* FetchConversation({payload}: FetchConversationActionInterface) 
 }
 export function* FetchConversationById({payload}: FetchConversationByIdActionInterface) {
   try {
-    const data = yield call(ConversationApi.fetchConvertsationById, payload)
+    const data = yield call(ConversationApi.fetchConversationById, payload)
     yield put(setConversationCurrent(data))
   }
   catch (e) {
@@ -26,7 +26,7 @@ export function* FetchConversationById({payload}: FetchConversationByIdActionInt
 export function* FetchAddConversation({payload}: FetchAddConversationActionInterface) {
   try {
     yield put(setMessageLoadingState(LoadingState.LOADING))
-    const data = yield call(ConversationApi.fetchAddConvertsation, payload)
+    const data = yield call(ConversationApi.fetchAddConversation, payload)
     yield put(setAddConversation([data]))
     yield put(setMessageLoadingState(LoadingState.NEVER))
   }
@@ -38,7 +38,7 @@ export function* FetchAddConversation({payload}: FetchAddConversationActionInter
 export function* FetchDeleteConversation({payload}: FetchDeleteConversationActionInterface) {
   try {
     yield put(setMessageLoadingState(LoadingState.LOADING))
-    yield call(ConversationApi.fetchdeleteConvertsation, payload)
+    yield call(ConversationApi.fetchdeleteConversation, payload)
     yield put(setMessageLoadingState(LoadingState.NEVER))
   }
   catch (e) {

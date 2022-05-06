@@ -1,10 +1,12 @@
-import {istance} from '../../core/axios'
+import {instance} from '../../core/axios'
 
 export const MessageApi = {
-    fetchMessage(payload): Promise<Response>{
-        return istance.get(`/message/${payload}` ).then(({data}) => data.data)
+    async fetchMessage(payload): Promise<Response>{
+        const { data } = await instance.get(`/message/${payload}`)
+        return data.data
     },
-    sendMessage(payload): Promise<Response>{
-        return istance.post(`/message/`, payload ).then(({data}) => data.data)
+    async sendMessage(payload): Promise<Response>{
+        const { data } = await instance.post(`/message/`, payload)
+        return data.data
     }
 }

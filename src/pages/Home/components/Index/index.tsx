@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -34,7 +34,7 @@ const Index = () => {
                 dispatch(setAddFormLoadingState(AddFormState.NEVER))
             }, 3000)
         }
-    }, [isDeleted])
+    }, [dispatch, isDeleted])
 
     const handleClose = () => {
         dispatch(setAddFormLoadingState(AddFormState.NEVER))

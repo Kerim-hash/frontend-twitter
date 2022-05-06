@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { UserApi } from '../../../services/api/userApi'
 import { FetchSignInActionInterface, FetchSignUpActionInterface, setProfile, setUserData, setUserLoadingState, UserActionType , FetchProfileActionInterface, setLink, setFollowState, FetchFollowActionInterface, FetchSearchUserActionInterface, SetSearchUser, FetchUserUpdateActionInterface, setUsers} from './actions'
 import { FollowState, LoadingState } from './contracts/state'
-import {istance} from '../../../core/axios'
+import {instance} from '../../../core/axios'
 
 export function* GetMeRequest() {
   try {
@@ -29,7 +29,7 @@ export function* LoginRequest({ payload }: FetchSignInActionInterface) {
     yield put(setUserLoadingState(LoadingState.LOADING))
     const data = yield call(UserApi.fetchLogin, payload)
     window.localStorage.setItem('token', data.token)
-    istance.defaults.headers.common['token'] = `${data.token}`;
+    instance.defaults.headers.common['token'] = `${data.token}`;
     yield put(setUserData(data))
     yield put(setUserLoadingState(LoadingState.SUCCESS))
     window.location.href = '/home'

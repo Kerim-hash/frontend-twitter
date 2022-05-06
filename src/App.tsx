@@ -26,6 +26,7 @@ function App() {
 
   React.useEffect(() => {
     if (window.location.pathname === '/') navigate("/home");
+   // eslint-disable-next-line
   }, [])
   // private route
   const ProtectedRoute = ({
@@ -167,8 +168,8 @@ function App() {
                 fontWeight: 700,
                 color: '#fff',
                 "&.MuiButton-contained.MuiButton-containedInherit": {
-                  background: '#000',
-                  color: '#fff',
+                  background:  color.theme === 'dark' ? '#fff' : '#000',
+                  color:  color.theme === 'dark' ? '#000' : '#fff',
                 },
                 "&.MuiButton-outlined.MuiButton-outlinedSizeSmall": {
                   height: 35,
@@ -183,10 +184,6 @@ function App() {
                 "&.MuiButton-outlined.MuiButton-outlinedInherit": {
                   color: color.theme === 'dark' ? '#fff' : '#000',
                 },
-                "&.MuiButton-contained.MuiButton-containedInherit": {
-                  background:  color.theme === 'dark' ? '#fff' : '#000',
-                  color:  color.theme === 'dark' ? '#000' : '#fff',
-                }
               },
             },
           },
@@ -291,7 +288,5 @@ function App() {
 
 export default App
 
-
-// @ts-nocheck
 
 

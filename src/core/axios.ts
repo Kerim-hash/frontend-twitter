@@ -4,10 +4,10 @@ const get_token = () => {
     return window.localStorage.getItem('token')
 }
 
-export const istance = axios.create({
+export const instance = axios.create({
     // baseURL: `https://backend-twitter.vercel.app`,
-    baseURL: `https://server-twitter-2020.herokuapp.com`,
-    // baseURL: `http://localhost:5000`,
+    baseURL: `http://localhost:5000`,
+    // baseURL: `https://server-twitter-2020.herokuapp.com`,
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json; charset=UTF-8",

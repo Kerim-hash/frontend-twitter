@@ -2,19 +2,16 @@ import { useState } from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { ModalBlock } from '../../components/Modal';
-import Signin from '../../components/auth/Signin';
+import Signing from '../../components/auth/Signing';
 import SignUp from '../../components/auth/SignUp';
 import { useStylesAuth } from './theme'
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Auth: React.FC = () => {
     const classes = useStylesAuth()
-    const sm = useMediaQuery('(max-width:600px)');
-    const [open, setOpen] = useState<"signin" | "signup">();
+    const [open, setOpen] = useState<"signing" | "signup">();
 
     const handleClickOpenSignIn = () => {
-        setOpen('signin');
+        setOpen('signing');
     };
     const handleClickOpenSignUp = () => {
         setOpen('signup');
@@ -36,7 +33,7 @@ const Auth: React.FC = () => {
                 <div className={classes.buttons}>
                     <Button onClick={handleClickOpenSignUp} style={{ marginBottom: 20 }} variant="contained" color="primary">Зарегистрироваться</Button>
                     <Button onClick={handleClickOpenSignIn} variant="outlined">Войти</Button>
-                    <Signin open={open === 'signin'} onClose={handleClose} />
+                    <Signing open={open === 'signing'} onClose={handleClose} />
                     <SignUp open={open === 'signup'} onClose={handleClose} />
                 </div>
             </div>

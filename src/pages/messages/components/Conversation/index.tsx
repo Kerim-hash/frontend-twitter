@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useStylesMessageUser } from './theme'
-import { istance } from '../../../../core/axios';
+import { instance } from '../../../../core/axios';
 import { UserType } from '../../../../store/ducks/user/contracts/state';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectData } from '../../../../store/ducks/user/selectors';
@@ -25,12 +25,10 @@ interface conversationProps {
         updatedAt: string,
     },
     currentUser?: string,
-    setCurrentChat?: any,
-    index: number,
     onlineUsers: any[],
 }
 
-const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversations, onlineUsers, index}: conversationProps): ReactElement => {
+const Conversation: React.FC<conversationProps> = ({  conversations, onlineUsers}: conversationProps): ReactElement => {
     const dispatch = useDispatch()
     const navigate= useNavigate()
     const classes = useStylesMessageUser()
@@ -57,7 +55,7 @@ const Conversation: React.FC<conversationProps> = ({ setCurrentChat, conversatio
         const friendId = conversations && conversations.members?.find(m => m !== userData._id)
         const getUser = async () => {
             try {
-                const res = await istance.get(`users/withoutDetails/${friendId}`)
+                const res = await instance.get(`users/withoutDetails/${friendId}`)
                 setUser(res.data.data)
             } catch (e) {
                 console.log(e)

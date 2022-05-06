@@ -69,7 +69,9 @@ const Messages = () => {
                 users
             );
         });
-        dispatch(FetchConversation(user?._id))
+        if(user?._id){
+            dispatch(FetchConversation(user?._id))
+        }
         // eslint-disable-next-line
     }, [user?._id]);
     useEffect(() => {
@@ -80,9 +82,10 @@ const Messages = () => {
     }, [arrivalMessage, CurrentConversation]);
 
     useEffect(() => {
-        dispatch(FetchMessage(CurrentConversation?._id))
-        // eslint-disable-next-line
-    }, [CurrentConversation]);
+        if(CurrentConversation?._id){
+            dispatch(FetchMessage(CurrentConversation?._id))
+        }
+    }, [CurrentConversation, dispatch]);
 
 
     useEffect(() => {
@@ -99,7 +102,7 @@ const Messages = () => {
         if(call.isReceivingCall && !callAccepted) {
             callMeVideo()
         }
-    }, [call.isReceivingCall && !callAccepted])
+    }, [call.isReceivingCall, callAccepted])
     return (
         <>
             {(md ? !CurrentConversation : true) && <Grid item xs={10.20} md={3.75} >
@@ -128,9 +131,9 @@ const Messages = () => {
                     </div>
 
                     <Box className={classes.messageUsers}>
-                        {conversations && conversations?.map((item, index) => {
+                        {conversations && conversations?.map((item) => {
                             return <div key={item._id}>
-                                <Conversation conversations={item} currentUser={user._id} index={index} onlineUsers={onlineUsers} />
+                                <Conversation conversations={item} currentUser={user._id} onlineUsers={onlineUsers} />
                             </div>
                         })
                         }

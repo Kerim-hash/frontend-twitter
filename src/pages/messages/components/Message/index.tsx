@@ -14,16 +14,16 @@ interface Message {
     createdAt: string
 }
 
-const Message: React.FC<Message> = ({ own, text, createdAt }: Message): ReactElement => {
-    const classes = useStylesMessages()
+function Message({ own, text, createdAt }: Message): ReactElement {
+    const classes = useStylesMessages();
     return (
         <>
-        <Box className={classNames(classes.message, {[classes.messageOwn]: own})}>
-            {text}
-        </Box>
-        <span className={classes.messageDate}>{createdAt && format(new Date(createdAt), 'HH:mm') } <CheckOutlinedIcon sx={{fontSize: 14}}/></span>
+            <Box className={classNames(classes.message, { [classes.messageOwn]: own })}>
+                {text}
+            </Box>
+            <span className={classes.messageDate}>{createdAt && format(new Date(createdAt), 'HH:mm')} <CheckOutlinedIcon sx={{ fontSize: 14 }} /></span>
         </>
-    )
+    );
 }
 
-export default  React.memo(Message)  
+export default React.memo(Message)  

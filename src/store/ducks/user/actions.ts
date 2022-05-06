@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { LoginFormProps } from "../../../components/auth/Signin";
+import { LoginFormProps } from "../../../components/auth/Signing";
 import { RegisterFormProps } from "../../../components/auth/SignUp";
 import { FollowState, LoadingState, UserType } from "./contracts/state";
 

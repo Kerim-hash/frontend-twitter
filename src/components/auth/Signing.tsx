@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
-import { ModalBlock } from '../../components/Modal';
+import { ModalBlock } from '../Modal';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -10,10 +10,10 @@ import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { FetchSignIn, setUserLoadingState } from '../../store/ducks/user/actions';
-import { selectData, selectLoadingState } from '../../store/ducks/user/selectors';
+import { selectLoadingState } from '../../store/ducks/user/selectors';
 import { LoadingState } from '../../store/ducks/user/contracts/state';
 
-interface SigninProps {
+interface SigningProps {
     open: boolean;
     onClose: () => void;
 }
@@ -29,7 +29,7 @@ const LoginFormSchema = yup.object({
     password: yup.string().min(8).required("пароль должен быть не менее 8 символов"),
 }).required();
 
-const Signin = ({ open, onClose }: SigninProps) => {
+const Signing = ({ open, onClose }: SigningProps) => {
     const dispatch = useDispatch()
     const loadingData = useSelector(selectLoadingState)
 
@@ -112,4 +112,4 @@ const Signin = ({ open, onClose }: SigninProps) => {
     )
 }
 
-export default Signin
+export default Signing

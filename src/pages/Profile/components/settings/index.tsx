@@ -10,7 +10,7 @@ import { uploadImage } from '../../../../utils/uploadImage';
 import { FetchUserUpdate, setUserLoadingState } from '../../../../store/ducks/user/actions';
 import { selectLoadingState } from '../../../../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoadingState, UserType } from '../../../../store/ducks/user/contracts/state';
+import { LoadingState } from '../../../../store/ducks/user/contracts/state';
 import { selectData } from '../../../../store/ducks/user/selectors';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Crop from '../../../../components/Crop';
@@ -81,9 +81,9 @@ const Settings: React.FC<SettingsProps> = ({ params }: SettingsProps): ReactElem
             inputRef.current.removeEventListener('change', handleChangeFileInput)
             inputBgRef.current.removeEventListener('change', handleChangeFileInputBg)
         }
-    }, [])
+    }, [handleChangeFileInput, handleChangeFileInputBg])
 
-    const { register, handleSubmit, formState: { errors } } = useForm<SettingsFormProps>();
+    const { register, handleSubmit} = useForm<SettingsFormProps>();
 
     const onSubmit = async (data: SettingsFormProps) => {
         dispatch(setUserLoadingState(LoadingState.LOADING))

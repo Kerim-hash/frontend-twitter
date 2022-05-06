@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -44,7 +44,8 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
         socket.on("getNotification", (data) => {
             dispatch(setNotification(data))
         });
-    }, [socket]);
+    }, [dispatch, socket]);
+
     useEffect(() => {
         socket.emit("addUser", user?._id);
         // eslint-disable-next-line
@@ -102,7 +103,7 @@ const Sidebar: React.FC<sidebarProps> = ({ user }: sidebarProps): React.ReactEle
         if(notifications.length >= 1){
             playActive()
         }
-    }, [notifications])
+    }, [notifications, playActive])
 
 
     return (

@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { istance } from '../../../../core/axios';
+import { instance } from '../../../../core/axios';
 import { UserType } from '../../../../store/ducks/user/contracts/state';
 import AvatarComponent from '../../../../components/avatar';
 import { useDispatch } from 'react-redux';
@@ -35,7 +35,7 @@ const VideoChat = ({ user, receiverId, setOpenVideoChat }) => {
     if (receiverId !== undefined) {
       const getUser = async () => {
         try {
-          const res = await istance.get(`users/withoutDetails/${receiverId}`)
+          const res = await instance.get(`users/withoutDetails/${receiverId}`)
           setReceiverUser(res.data.data)
         } catch (e) {
           console.log(e)

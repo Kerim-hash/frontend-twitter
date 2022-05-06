@@ -74,7 +74,7 @@ export const TweetStyle = makeStyles((theme: Theme) => ({
             background: theme.palette.tonalOffset
         },
     },
-    tweetfullName: {
+    tweetfullname: {
         [theme.breakpoints.down('sm')]: {
             whiteSpace: 'nowrap',
             overflow: 'hidden',

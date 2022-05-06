@@ -12,11 +12,10 @@ interface ReadUserProps {
     user: {
         fullname: string;
         username: string;
-        about?: string;
-        follwers: string[];
+        desk?: string;
+        followers: string[];
         followings: string[];
         _id: string;
-        avatar: string;
     }
 }
 
@@ -41,14 +40,14 @@ const ReadUser: React.FC<ReadUserProps> = ({ user }: ReadUserProps): ReactElemen
         <NavLink to={`/profile/${user._id}`} className={classes.wrapper}>
             <Box display="flex">
                 <AvatarComponent user={user} />
-                <Box display="flex" flexDirection="column"  style={{marginLeft: 10}}>
+                <Box display="flex" flexDirection="column" style={{ marginLeft: 10 }}>
                     <Typography variant="body1">{user?.fullname}</Typography>
                     <Typography variant="body2">@{user?.username}</Typography>
                     <Typography variant="subtitle2" className={classes.about}>{user?.about}</Typography>
                 </Box>
             </Box>
             {user._id !== params.id && <>
-                {user.followings.includes(params.id) ? <Button onClick={handleUnFollow} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }}>Читаемые</Button>:  <Button onClick={handleFollow} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }}>Читать</Button> }
+                {user.followings.includes(params.id) ? <Button onClick={handleUnFollow} color="inherit" size="small" variant="outlined" style={{ marginTop: 10 }}>Читаемые</Button> : <Button onClick={handleFollow} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }}>Читать</Button>}
             </>}
 
         </NavLink>

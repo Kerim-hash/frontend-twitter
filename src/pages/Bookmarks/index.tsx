@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { selectData } from '../../store/ducks/user/selectors';
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Tweet } from '../../store/ducks/tweets/contracts/state';
 import { TweetComponent } from '../../components/Tweet';
 import useMediaQuery from '@mui/material/useMediaQuery';

@@ -27,12 +27,12 @@ export interface SetTweetActionInterface extends Action<TweetsActionType>{
     payload?: Tweet
 }  
 
-export interface SetTweetLoadinfStateActionInterface extends Action<TweetsActionType>{
+export interface SetTweetLoadingStateActionInterface extends Action<TweetsActionType>{
     type: TweetsActionType.SET_LOADING_STATE,
     payload: LoadingState
 }  
 
-export interface FetchctionInterface extends Action<TweetsActionType>{
+export interface FetchTweetActionInterface extends Action<TweetsActionType>{
     type: TweetsActionType.FETCH_TWEET,
     payload: string
 }  
@@ -52,59 +52,59 @@ export interface AddTweetActionInterface extends Action<TweetsActionType> {
     payload: Tweet
 }
 
-export interface SetTweetsLoadinfStateActionInterface extends Action<TweetsActionType> {
+export interface SetTweetsLoadingStateActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.SET_LOADING_STATE,
     payload: LoadingState
 }
 
-export interface SetAddFormLoadinfStateActionInterface extends Action<TweetsActionType> {
+export interface SetAddFormLoadingStateActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.SET_ADD_FORM_STATE,
     payload: AddFormState
 }
 
 
 
-export interface DeleteTweerInterface extends Action<TweetsActionType> {
+export interface DeleteTweetInterface extends Action<TweetsActionType> {
     type: TweetsActionType.DELETE_TWEET,
     payload: string
 }
 
-export interface FetchDeleteTweerInterface extends Action<TweetsActionType> {
+export interface FetchDeleteTweetInterface extends Action<TweetsActionType> {
     type: TweetsActionType.FETCH_DELETE_TWEET,
     payload: string
 }
 
 
-export interface FetchactionInterface extends Action<TweetsActionType> {
+export interface FetchTweetsActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.FETCH_TWEETS,
     payload?: string
 }
 
-export interface FetchLikeTweetsactionInterface extends Action<TweetsActionType> {
+export interface FetchLikeTweetsActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.FETCH_LIKE_TOGGLE,
     payload?: {id: string, userID: string, liked: boolean}
 }
 
-export interface FetchAddCommentTweetsactionInterface extends Action<TweetsActionType> {
+export interface FetchAddCommentTweetsActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.FETCH_ADD_COMMENT_STATE,
     payload?: {text: string, userID: string, images?: string[],tweetID: string, author: {username: string, fullname: string} }
 }
 
-export interface SetAddFormCommentTweetsactionInterface extends Action<TweetsActionType> {
+export interface SetAddFormCommentTweetsActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.SET_ADD_COMMENT_FORM_STATE,
     payload: AddCommentState
 }
 
-export interface SetCommentTweetsactionInterface extends Action<TweetsActionType> {
+export interface SetCommentTweetsActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.SET_COMMENT_TWEET,
     payload: any
 }
 
-export interface fetchBookmarksactionInterface extends Action<TweetsActionType> {
+export interface fetchBookmarksActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.FETCH_BOOKMARKS,
     payload: {userID: string, tweetID: string}
 }
-export interface SetBookmarksactionInterface extends Action<TweetsActionType> {
+export interface SetBookmarksActionInterface extends Action<TweetsActionType> {
     type: TweetsActionType.SET_BOOKMARKS_STATE,
     payload: BookmarksState
 }

@@ -76,7 +76,7 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
         event.stopPropagation();
         dispatch(fetchFollow({ id: id, userID: user._id, followState: 'unfollow' }))
     }
-    const navigateToprofile = (id) => {
+    const navigateToProfile = (id) => {
         navigate(`/profile/${id}`)
     }
 
@@ -125,7 +125,7 @@ const Aside: React.FC<asideProps> = ({user}: asideProps): ReactElement => {
                     <Paper elevation={3} className={classes.listUsersFooter}>
                         <Typography variant="h5" ml={2}>Кого читать</Typography>
                         {users !== undefined && users?.map((item) => {
-                            return <Card key={item._id}  className={classes.card} onClick={() => navigateToprofile(item._id)}>
+                            return <Card key={item._id}  className={classes.card} onClick={() => navigateToProfile(item._id)}>
                                 <CardHeader
                                     avatar={<AvatarComponent user={item} />}
                                     action={!user?.followers?.includes(item._id) ? <Button disabled={followState === FollowState.LOADING} onClick={(e) => handleFollow(e, item._id)} color="inherit" size="small" variant="contained" style={{ marginTop: 10 }}>Читать</Button> :

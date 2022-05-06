@@ -2,7 +2,7 @@ import produce, { Draft } from 'immer'
 import { UserActions, UserActionType } from './actions'
 import { FollowState, LoadingState, User } from './contracts/state'
 
-export const initialstate: User = {
+export const initialState: User = {
     loadingState: LoadingState.NEVER,
     data: undefined,
     profile: undefined,
@@ -57,4 +57,4 @@ export const userReducer = produce((draft: Draft<User>, action: UserActions) => 
             break
     
     }
-}, initialstate)
+}, initialState)

@@ -17,7 +17,6 @@ export const useStylesHome = makeStyles((theme: Theme) => ({
     addTweetForm: {
         display: 'flex',
     },
-
     Progress: {
         position: 'relative',
         "& span:nth-child(1)": {

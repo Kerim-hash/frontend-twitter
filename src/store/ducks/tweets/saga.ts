@@ -1,10 +1,10 @@
 import {  call, put, takeLatest } from 'redux-saga/effects'
-import { setTweetLoadingState, setTweets, AddTweet, setAddFormLoadingState, deleteTweet, setAddFormCommnetTweet, setCommnetTweet, setTweet, setBookmarksState } from './actionCreators'
+import { setTweetLoadingState, setTweets, AddTweet, setAddFormLoadingState, deleteTweet, setTweet, setBookmarksState, setCommentTweet, setAddFormCommentTweet } from './actionCreators'
 import { TweetsApi } from '../../../services/api/tweetApi'
 import { AddCommentState, AddFormState, BookmarksState, LoadingState, Tweet, TweetsState } from './contracts/state'
-import { FetchactionInterface, FetchAddCommentTweetsactionInterface, fetchAddTweetActionInterface, fetchBookmarksactionInterface, FetchctionInterface, FetchDeleteTweerInterface, FetchLikeTweetsactionInterface, TweetsActionType } from './contracts/actionTypes'
+import { FetchAddCommentTweetsActionInterface, fetchAddTweetActionInterface, fetchBookmarksActionInterface,  FetchLikeTweetsActionInterface, TweetsActionType, FetchDeleteTweetInterface,  FetchTweetsActionInterface, FetchTweetActionInterface } from './contracts/actionTypes'
 
-export function* TweetsRequest({payload}: FetchactionInterface) {
+export function* TweetsRequest({payload}: FetchTweetsActionInterface) {
   try{
     const items: TweetsState['items'] = yield call(TweetsApi.fetchTweets, payload)
     yield put(setTweets(items))
@@ -24,7 +24,7 @@ export function* FetchAddTweetRequest({payload}: fetchAddTweetActionInterface) {
   }
 }
 
-export function* DeleteTweetRequest({payload: TweetId}: FetchDeleteTweerInterface ) {
+export function* DeleteTweetRequest({payload: TweetId}: FetchDeleteTweetInterface ) {
   try{
     yield call(TweetsApi.deleteTweet, TweetId)
     yield put(deleteTweet(TweetId))
@@ -34,20 +34,20 @@ export function* DeleteTweetRequest({payload: TweetId}: FetchDeleteTweerInterfac
   }
 }
 
-export function* FetchAddCommentTweet({payload}: FetchAddCommentTweetsactionInterface ) {
+export function* FetchAddCommentTweet({payload}: FetchAddCommentTweetsActionInterface ) {
   try{
-    const data = yield call(TweetsApi.AddCommnet, payload)
-    yield put(setCommnetTweet(data))
+    const data = yield call(TweetsApi.AddComment, payload)
+    yield put(setCommentTweet(data))
   }catch(e){
-    yield put(setAddFormCommnetTweet(AddCommentState.ERROR))
+    yield put(setAddFormCommentTweet(AddCommentState.ERROR))
   }
 }
 
-export function* LikeToggleRequest({payload}: FetchLikeTweetsactionInterface ) {
+export function* LikeToggleRequest({payload}: FetchLikeTweetsActionInterface ) {
      yield call(TweetsApi.likeToggleTweet, payload)
 }
 
-export function* TweetRequest({payload: TweetId}: FetchctionInterface ) {
+export function* TweetRequest({payload: TweetId}: FetchTweetActionInterface ) {
   try{
     const data: Tweet = yield call(TweetsApi.fetchTweet, TweetId)
     yield put(setTweet(data))
@@ -57,7 +57,7 @@ export function* TweetRequest({payload: TweetId}: FetchctionInterface ) {
   }
 }
 
-export function* TweetBookmarksRequest({payload}: fetchBookmarksactionInterface ) {
+export function* TweetBookmarksRequest({payload}: fetchBookmarksActionInterface ) {
   try{
     yield call(TweetsApi.bookmarksToggleTweet, payload)
     yield put(setBookmarksState(BookmarksState.BOOKMARKSED))

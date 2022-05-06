@@ -1,6 +1,4 @@
-import { imageListClasses } from "@mui/material"
-import { istance } from "../core/axios"
-
+import { instance } from "../core/axios"
 
 interface UploadImageReturnProps {
     height: number,
@@ -12,6 +10,6 @@ export const uploadImage = async (image: any): Promise<UploadImageReturnProps> =
     const formData = new FormData()
     formData.append('image', image)
 
-    const { data } = await istance.post('/uploud', formData)
+    const { data } = await instance.post('/upload', formData)
     return data
 }

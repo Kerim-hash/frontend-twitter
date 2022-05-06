@@ -18,7 +18,7 @@ const Notification = () => {
         return () => {
             dispatch(ResetNotification())
         }
-    }, [])
+    }, [dispatch])
     return (
         <div>
             <Typography variant="body1" style={{ fontWeight: 800, fontSize: 19, padding: '15px 20px' }}>Уведомления</Typography>

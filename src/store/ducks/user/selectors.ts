@@ -18,6 +18,4 @@ export const selectSearchUser = (state: RootState) => selectUser(state).searchUs
 
 export const selectFollowState = (state: RootState) => selectUser(state).followState
 
-
-
 export const isAuthenticated = () => window.localStorage.getItem('token' || '')

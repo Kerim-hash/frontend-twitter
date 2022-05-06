@@ -27,20 +27,20 @@ const Layout: React.FC<LayoutProps> = ({ children, messages = false }: LayoutPro
 
 
     return isAuthenticated() ? (
-    <section className="wrapper">
-        <Grid container spacing={1} style={{justifyContent: 'space-between'}}>
-            <Grid item  md={1} xs={1.50} lg={messages ? 2.5 : 2.29} style={{ padding: `${!sm && "0 0 0 20px" }`}}>
-                <Sidebar user={user} />
+        <section className="wrapper">
+            <Grid container spacing={1} style={{ justifyContent: 'space-between' }}>
+                <Grid item md={1} xs={1.50} lg={messages ? 2.5 : 2.29} style={{ padding: `${!sm && "0 0 0 20px"}` }}>
+                    <Sidebar user={user} />
+                </Grid>
+                {!messages && <Grid item lg={6.31} md={7} sm={10.40} xs={10.50} style={{ padding: `${!sm ? "0 20px 0 28px" : "0 0px 0 10px"}` }}>
+                    <Paper variant="outlined">
+                        {children}
+                    </Paper>
+                </Grid>}
+                {messages && children}
+                {!messages && <Aside user={user} />}
             </Grid>
-            {!messages && <Grid item lg={6.31} md={7} sm={10.40} xs={10.50} style={{ padding: `${!sm ? "0 20px 0 28px" :  "0 0px 0 10px" }`}}>
-                <Paper variant="outlined">
-                    {children}
-                </Paper>
-            </Grid>}
-            {messages && children}
-            {!messages && <Aside user={user} />}
-        </Grid>
-    </section>) : (
+        </section>) : (
         <Navigate to="/auth" replace />
     )
 }

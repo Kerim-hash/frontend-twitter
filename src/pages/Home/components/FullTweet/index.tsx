@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { CircularProgress } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
-import { fetchBookmarks, fetchTweet, setTweet } from '../../../../store/ducks/tweets/actionCreators'
+import { fetchTweet, setTweet } from '../../../../store/ducks/tweets/actionCreators'
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
@@ -19,19 +19,18 @@ import { selectIsTweetLoaded, selectTweetData } from '../../../../store/ducks/tw
 import { fetchLikeToggleTweet } from '../../../../store/ducks/tweets/actionCreators'
 import { selectData } from '../../../../store/ducks/user/selectors'
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { AddComentForm } from '../../../../components/addComentForm'
+import { AddCommentForm } from '../../../../components/addCommentForm'
 import { TweetComponent } from '../../../../components/Tweet'
 import { Link } from 'react-router-dom'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAddOutlined';
-import BookmarkRemoveOutlinedIcon from '@mui/icons-material/BookmarkRemoveOutlined';
 import AvatarComponent from '../../../../components/avatar'
 import BackButton from '../../../../components/BackButton'
 import { TransitionGroup } from 'react-transition-group'
 import Collapse from '@mui/material/Collapse';
 import { SocketContext } from '../../../../Context'
+
 export const FullTweet: React.FC = (): React.ReactElement | null => {
     const dispatch = useDispatch()
     const { socket } = useContext(SocketContext);
@@ -68,7 +67,7 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
         event.preventDefault()
         event.stopPropagation();
         dispatch(fetchLikeToggleTweet({ id: tweetData?._id, userID: userData?._id, liked: !tweetData.likes.includes(userData?._id) }))
-        tweetData.likes?.includes(userData._id) || tweetData.user._id !==  userData._id && socket.emit("sendNotification", {
+        tweetData.likes?.includes(userData._id) || tweetData.user._id !== userData._id && socket.emit("sendNotification", {
             senderName: userData.username,
             receiverID: tweetData.user._id,
             type: 1,
@@ -95,18 +94,6 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
         event.stopPropagation();
         setShareEl(null);
     };
-    const bookmarksAdd = (event) => {
-        event.preventDefault()
-        event.stopPropagation();
-        dispatch(fetchBookmarks({ userID: userData?._id, tweetID: tweetData._id }))
-    }
-    const bookmarksRemove = (event) => {
-        event.preventDefault()
-        event.stopPropagation();
-        dispatch(fetchBookmarks({ userID: userData?._id, tweetID: tweetData._id }))
-    }
-
-    // const bookmarksState = userData.bookmarks.map((item: any) => item._id.includes(tweetData.bookmarks?.join()))
 
     const copyShare = (event) => {
         event.preventDefault()
@@ -191,20 +178,12 @@ export const FullTweet: React.FC = (): React.ReactElement | null => {
                     <MenuItem onClick={copyShare}>
                         <ContentCopyIcon style={{ marginRight: 10, fontSize: 16 }} />  Копировать ссылку на твит
                     </MenuItem>
-                    {/* {bookmarksState.join() === 'false' ?
-                        <MenuItem onClick={bookmarksRemove}>
-                            <BookmarkRemoveOutlinedIcon style={{ marginRight: 10, fontSize: 20 }} />  Удалить твит из закладок
-                        </MenuItem>
-                        :
-                        <MenuItem onClick={bookmarksAdd}>
-                            <BookmarkAddIcon style={{ marginRight: 10, fontSize: 20 }} />  Закладка
-                         </MenuItem>
-                    } */}
+
                 </Menu>
-                <AddComentForm id={params.id} fullname={userData?.fullname} username={userData?.username} avatar={userData?.avatar} socket={socket} receiverID={tweetData.user._id}/>
+                <AddCommentForm id={params.id} fullname={userData?.fullname} username={userData?.username} avatar={userData?.avatar} socket={socket} receiverID={tweetData.user._id} />
 
             </Box>
-            {Array.isArray(tweetData.comment) && <TransitionGroup style={{display: 'flex', flexDirection: 'column-reverse'}}>{tweetData.comment.map((item) => {
+            {Array.isArray(tweetData.comment) && <TransitionGroup style={{ display: 'flex', flexDirection: 'column-reverse' }}>{tweetData.comment.map((item) => {
                 return <Collapse key={item._id} >
                     <TweetComponent
                         _id={item._id}

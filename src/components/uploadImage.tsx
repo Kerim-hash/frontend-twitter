@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement } from 'react'
 import IconButton from '@mui/material/IconButton';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import {fileImg} from './AddTweetForm/index'
@@ -27,14 +27,14 @@ const UploadImage: React.FC<UploadImageProps> = ({ setImages , images}: UploadIm
                 }])
             }
         }
-    }, [])
+    }, [setImages])
 
     React.useEffect(() => {
         inputRef.current.addEventListener('change', handleChangeFileInput)
         return () => {
             inputRef.current.removeEventListener('change', handleChangeFileInput)
         }
-    }, [])
+    }, [handleChangeFileInput])
 
     return (
         <div>
