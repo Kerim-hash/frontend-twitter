@@ -22,8 +22,7 @@ const Layout: React.FC<LayoutProps> = ({ children, messages = false }: LayoutPro
 
     React.useEffect(() => {
         dispatch(FetchGetMe())
-        // eslint-disable-next-line
-    }, [])
+    }, [dispatch])
 
 
     return isAuthenticated() ? (

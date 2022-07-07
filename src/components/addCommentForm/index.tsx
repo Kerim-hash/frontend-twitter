@@ -78,6 +78,8 @@ export const AddCommentForm: React.FC<AddTweetFormProps> = ({ maxRows, minRows =
     }
 
     const sm = useMediaQuery('(max-width:600px)');
+
+
     return (
         <Box >
             <Box className={classes.addTweetForm}>
